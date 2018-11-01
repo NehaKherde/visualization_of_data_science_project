@@ -5,13 +5,17 @@
 	<title>Global Health Analysis</title>
 	<link rel="stylesheet" href="../public/css/style.css"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://d3js.org/d3.v5.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.js"></script>
+	<script src="https://d3js.org/d3-geo-projection.v2.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script type="application/javascript" src="../public/js/script.js"></script>
+  	<script src="../public/js/script.js"></script>
+  	<script src="../public/js/map.js"></script>
 </head>
 <body>
 <div class="jumbotron text-center" style="margin-bottom:0">
-	<h1>World Map</h1>
+	<h1>Global Health Analysis</h1>
 </div>
 <nav class="navbar navbar-inverse">
     <div class="collapse navbar-collapse" id="myNavbar">
@@ -20,7 +24,7 @@
         	<a href="../index.html">Home</a>
         </li>
         <li class="active">
-        	<a href="#">World Map</a>
+        	<a href="">World Map</a>
         </li>
         <li>
         	<a href="treeMap.html">Causes of death</a>
@@ -29,5 +33,32 @@
     </div>
   </div>
 </nav>
+
+<div class="bg-3 text-center">
+	<h3>World Map</h3>
+	<hr>
+	<div class="container-fluid text-center">  
+		<div class="row content">
+			<div class="col-sm-9">
+				<div class="well">
+		    		<p>Nav Bar</p>
+		    	</div>
+			</div>
+			<div class="col-sm-3">
+		    	<div class="well">
+		    		<p>Select Factor</p>
+		    	</div>
+		    </div>
+			<div class="col-sm-12">
+				<h1>Parallel Chart</h1>
+				<hr>
+			</div> 
+			<div class = "col-sm-12">
+				<h1>World Chart</h1>
+				<hr>
+			</div>
+		</div>
+	</div>
+</div>
 </body>
 </html>
