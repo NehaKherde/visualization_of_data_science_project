@@ -33,9 +33,9 @@ class Map {
      */
     constructor(data, updateCountry) {
         // ******* TODO: PART I *******
-        this.projection = d3.geoWinkel3().scale(140).translate([365, 225]);
-        this.nameArray = data.population.map(d => d.geo.toUpperCase());
-        this.populationData = data.population;
+        this.projection = d3.geoEquirectangular().scale(150).translate([480, 325]);
+        //this.nameArray = data.population.map(d => d.geo.toUpperCase());
+        //this.populationData = data.population;
         this.updateCountry = updateCountry;
     }
 
@@ -64,28 +64,30 @@ class Map {
 
         //TODO - Your code goes here - 
 
+        // Converted topoJSON to geoJson
+        let countries = topojson.feature(world, world.objects.countries);
+        // projection converts the coordinates onto the screen coordinates. 
+        // using geoPath(), convert the polygons to the svg path 
+        let path = d3.geoPath().projection(this.projection);
+        let svgContainer = d3.select("#map-chart").append("svg");
+        let path_element = svgContainer.selectAll("path")
+                .data(countries.features)
+                .enter()
+                .append("path")
+                .attr("id", (d, i) => countries.features[i].id)
+                .attr("d", path);
 
-        let geojson = topojson.feature(world, world.objects.countries);
-        // console.log(geojson.features);
-        // console.log(this.populationData);
-        //console.log(this.nameArray);
-        let countryData = geojson.features.map(country => {
-
-            let index = this.nameArray.indexOf(country.id);
-            let region = 'countries';
-
-            if (index > -1) {
-                //  console.log(this.populationData[index].geo, country.id);
-                region = this.populationData[index].region;
-                return new CountryData(country.type, country.id, country.properties, country.geometry, region);
-            } else {
-                console.log('not found');
-
-            }
-
-        });
-
-        console.log(countryData);
+        let graticule = d3.geoGraticule();
+        let graticule_added = svgContainer.append('path')
+                    .datum(graticule)
+                    .attr('class', "graticule")
+                    .attr('d', path)
+                    .attr('fill', 'none');
+        
+        let graticule_border = svgContainer.append("path")
+                    .datum(graticule.outline)
+                    .attr("class", "stroke")
+                    .attr("d", path);
 
 
 

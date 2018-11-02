@@ -1,8 +1,17 @@
 loadData().then(data => {
 
+	// For no country selected by default
+	this.activeCountry = null;
+	this.activeYear = '2000';
+    let that = this;
+
+    function updateCountry(countryID) {
+        that.activeCountry = countryID;
+    }
+
     const worldMap = new Map(data, updateCountry);
 
-    d3.json('data/world.json').then(mapData => {
+    d3.json('../data/world.json').then(mapData => {
         worldMap.drawMap(mapData);
     });
 });
