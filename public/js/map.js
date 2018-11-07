@@ -36,6 +36,7 @@ class Map {
         this.projection = d3.geoEquirectangular().scale(150).translate([480, 325]);
         //this.nameArray = data.population.map(d => d.geo.toUpperCase());
         //this.populationData = data.population;
+        this.childMortality = data["child-mortality"]
         this.updateCountry = updateCountry;
     }
 
@@ -88,9 +89,10 @@ class Map {
                     .datum(graticule.outline)
                     .attr("class", "stroke")
                     .attr("d", path);
+    }
 
-
-
+    updateMap(active_year, health_factor) {
+        console.log(health_factor)
     }
 
     /**

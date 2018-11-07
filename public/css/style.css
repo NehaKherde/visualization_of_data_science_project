@@ -41,3 +41,9 @@
     stroke: #000;
     stroke-width: 2px;
 }
+
+.legend_view {
+display: inline-block;
+    width: 80%;
+    position: relative;
+}
