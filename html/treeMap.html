@@ -4,13 +4,21 @@
 	<meta charset="utf-8">
 	<title>Global Health Analysis</title>
 	<link rel="stylesheet" href="../public/css/style.css"/>
+  <script src="https://d3js.org/d3.v5.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="application/javascript" src="../public/js/TreeMap.js"></script>
+  <script>
+    window.onload = function() {
+      let treeMap = new TreeMap();
+      treeMap.update();
+    };
+  </script>
 </head>
 <body>
 <div class="jumbotron text-center" style="margin-bottom:0">
-	<h1>Global Health Analysis</h1>
+	<h1>Causes of death</h1>
 </div>
 <nav class="navbar navbar-inverse">
     <div class="collapse navbar-collapse" id="myNavbar">
@@ -27,9 +35,16 @@
       </ul>
     </div>
 </nav>
+        
+<!-- tree Map -->
+<div id = "treeMap"></div>
 
-<div id = "treeMap" class = "view">
-        <h2>Causes of death</h2>
-</div>
+<!-- line chart -->
+<div id = "lineChart"></div>
+
+<!-- bar chart -->
+<div id = "barChart"></div>
+
+<script src="https://d3js.org/d3-queue.v1.min.js"></script>
 </body>
 </html>

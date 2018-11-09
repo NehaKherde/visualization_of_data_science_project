@@ -1,2 +1,2 @@
-let treeMap = new treeMap();
+let treeMap = new TreeMap();
 treeMap.update();
