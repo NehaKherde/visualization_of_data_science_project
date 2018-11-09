@@ -2,7 +2,7 @@ loadData().then(data => {
 
 	// For no country selected by default
 	this.activeCountry = null;
-	this.activeYear = '2000';
+	this.activeYear = ["2000", "2000"]
     let that = this;
 
     function updateCountry(countryID) {
@@ -15,7 +15,9 @@ loadData().then(data => {
         worldMap.drawMap(mapData);
     });
 
+    worldMap.yearslider()
     worldMap.updateMap(this.activeYear, 'child-mortality');
+
 });
 
 // ******* DATA LOADING *******

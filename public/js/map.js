@@ -159,4 +159,72 @@ class Map {
 
 
     }
+
+    yearslider() {
+
+        let margin = {top: 200, right: 40, bottom: 200, left: 40},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+        var x = d3.scaleLinear()
+            .domain([1990, 2015])
+            .rangeRound([0, width]);
+
+        let svg = d3.select("#nav_bar").append("svg")
+            .attr("width", 923)
+            .attr("height", 50)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + ", 0)");
+
+        svg.append("g")
+            .attr("class", "axis axis--grid")
+            .attr("transform", "translate(0,30)")
+            .call(d3.axisBottom(x)
+                .ticks(20)
+                .tickSize(-20)
+                .tickFormat(function() { return null; }));
+                
+        svg.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform",  "translate(0,30)")
+            .call(d3.axisBottom(x)
+            .ticks(20)
+            .tickFormat(d3.format("d"))
+            .tickPadding(0))
+            .attr("text-anchor", null)
+            .selectAll("text")
+            .attr("x", 6);
+
+        svg.append("g")
+            .attr("class", "brush")
+            .attr("id", "brush_div")
+            .call(d3.brushX()
+                .extent([[0, 0], [width, 30]])
+                .on("end", brushended));
+
+        function brushended() {
+            d1 = []
+            if (!d3.event) { // add brush by default
+                d1[0] = 2000
+                d1[1] = 2001
+            }
+            else if (!d3.event.sourceEvent) return; // Only transition after input.
+            else if (!d3.event.selection) { // if empty selection then choose the block
+                // Selected block:
+                let clicked_location = x.invert(d3.event.sourceEvent.x)
+                //console.log(clicked_location)
+                d1[0] = Math.round(clicked_location)-5
+                d1[1] = Math.round(clicked_location)-5+1
+            }
+            else{
+                var d0 = d3.event.selection.map(x.invert),
+                d1 = d0.map(Math.round);
+            }
+            d3.select(this).transition().call(d3.event.target.move, d1.map(x));
+        }
+
+        // TODO: try to trigger a default event
+        //brush.event(context.select('g.x.brush'));
+        //document.getElementById('brush_div').click();
+    }
 }

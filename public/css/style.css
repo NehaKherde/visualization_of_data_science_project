@@ -30,10 +30,6 @@
 #map-chart svg {
     margin: auto;
 }
-/*.bootstrap_jumbotron_h1 {
-	margin-top: -5px !important;
-}*/
-
 .graticule {
     fill: none;
     stroke: #777;
@@ -51,4 +47,17 @@
 display: inline-block;
     width: 80%;
     position: relative;
+}
+.axis--grid .domain {
+  fill: #ddd;
+  stroke: none;
+}
+
+.axis--x .domain,
+.axis--grid .tick line {
+  stroke: #fff;
+}
+
+.axis--grid .tick--minor line {
+  stroke-opacity: .5;
 }
