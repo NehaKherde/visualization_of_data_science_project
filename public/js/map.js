@@ -36,9 +36,11 @@ class Map {
         this.projection = d3.geoEquirectangular().scale(150).translate([480, 325]);
         //this.nameArray = data.population.map(d => d.geo.toUpperCase());
         //this.populationData = data.population;
-        this.childMortality = data["child-mortality"]
+        this.complete_data = data
         this.updateCountry = updateCountry;
     }
+
+
 
     /**
      * Renders the map
@@ -66,11 +68,18 @@ class Map {
         //TODO - Your code goes here - 
 
         // Converted topoJSON to geoJson
+
+        let domain = [0, 1, 5, 10, 20, 30, 50];
+        let range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
+        let colorScale = d3.scaleQuantile()
+            .domain(domain)
+            .range(range);
+
         let countries = topojson.feature(world, world.objects.countries);
         // projection converts the coordinates onto the screen coordinates. 
         // using geoPath(), convert the polygons to the svg path 
         let path = d3.geoPath().projection(this.projection);
-        let svgContainer = d3.select("#map-chart").append("svg");
+        let svgContainer = d3.select("#map-chart").append("svg").attr('id', 'map_chart_svg');
         let path_element = svgContainer.selectAll("path")
                 .data(countries.features)
                 .enter()
@@ -89,10 +98,33 @@ class Map {
                     .datum(graticule.outline)
                     .attr("class", "stroke")
                     .attr("d", path);
+
+        
+        // Fetch the data related to the default health factor and year
+        let data = this.fetchYearAndFactorRelatedData("2000", 'child-mortality')
+
+        let new_path_element = d3.select("#map_chart_svg").selectAll("path")
+        let add_region_clas = new_path_element.attr("fill", function(d, i) {
+                                                            let id = data[d["id"]]
+                                                            if(id == undefined)
+                                                                return "#eee"
+                                                            return colorScale(data[d["id"]][1])
+                                                        })
+    }
+
+    fetchYearAndFactorRelatedData(active_year, health_factor) {
+        let factor_data = this.complete_data[health_factor]
+        let year_specific_data = []
+        let data = {}
+        factor_data.forEach(function(item) {
+            
+            data[item["ID"]] = [item["Country"], item[active_year]]
+        })
+        return data;
     }
 
     updateMap(active_year, health_factor) {
-        console.log(health_factor)
+        console.log()
     }
 
     /**
