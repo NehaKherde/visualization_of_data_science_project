@@ -17,7 +17,7 @@ class TreeMap {
         this.deathType = {"Dementia": "NC","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"NC","Liver disease":"NC","Diabetes, blood and endocrine disease":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's disease":"NC","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"C","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"NC","Alcohol disorder":"NC","Natural disasters":"A","Diarrheal diseases":"NC","Heat-related deaths (hot or cold exposure)":"NC","Nutritional deficiencies":"NC","Suicide":"CR","Execution (deaths)":"CR","Meningitis (deaths)":"C","Lower respiratory infections (deaths)":"NC","Intestinal infectious diseases (deaths)":"NC","Protein-energy malnutrition (deaths)":"NC","Conflict (deaths)":"CR","Terrorism (deaths)":"CR"};
         this.treeMapWidth = 800;
         this.treeMapHeight = 400;
-        this.selectedYears = [2006, 2007, 2008, 2009];
+        this.selectedYears = [2006, 2007, 2008, 2009, 2010];
         this.selectedCountries = ["AFG", "ALB", "NOR", "OMN", "SWE", "SGP"];
         
         // d3.select("#charts")
@@ -66,6 +66,11 @@ class TreeMap {
         var xAxis = d3.axisBottom(x).ticks(5);
         var yAxis = d3.axisLeft(y).ticks(5);
 
+        
+        let domain = [d3.min(barChartData, function(d) { return d.CauseValue; })-dataBuffer, d3.max(barChartData, function(d) { return d.CauseValue; })+dataBuffer];
+        let range = ["#83677B", "#2E1114"];
+        let colorScale = d3.scaleQuantile().domain(domain).range(range);
+
         let svgContainer = d3.select("#barChart").select("svg");
         svgContainer.selectAll("g").remove();
         svgContainer = svgContainer.append("g").attr("transform", "translate(" + padding + "," + padding + ")");
@@ -77,7 +82,8 @@ class TreeMap {
             .attr("width", 25)
             .transition().duration(4000)
             .attr("y", function(d) { return y(d.CauseValue); })
-            .attr("height", function(d) { return (that.lineAndBarSvgWidth - (2*padding) - y(d.CauseValue)); });
+            .attr("height", function(d) { return (that.lineAndBarSvgWidth - (2*padding) - y(d.CauseValue)); })
+            .attr("fill", function(d){return colorScale(d.CauseValue);});
       
         svgContainer.append("g")
             .attr("transform", "translate(0," + (this.lineAndBarSvgWidth - (2*padding) ) + ")")
@@ -88,7 +94,7 @@ class TreeMap {
     }
     
     displayLineChart(cause){  
-        this.selectedCause = cause;//harshi
+        this.selectedCause = cause;
         let that = this;
         let dataBuffer = 1000;
         let yearBuffer = 1;
@@ -122,18 +128,35 @@ class TreeMap {
 
         svgContainer.append("path")
             .attr("d", valueline(lineChartData))
-            .attr("stroke", "red")
+            .attr("stroke", "#2E1114")
             .attr("stroke-width", 2)
             .attr("fill", " none");   
 
-        svgContainer.selectAll("dot")
+        let div = d3.select("body").append("div")				
+            .style("opacity", 0);
+
+        svgContainer.selectAll("circle")
             .data(lineChartData)
             .enter().append("circle")
-            .attr("r", 3.5)
+            .attr("r", 5)
             .attr("cx", function(d) { return x(d.Year); })
             .attr("cy", function(d) { return y(d.causeSum); })
             .attr("id",  function(d) { return d.Year; })
-            .on("click", function() { that.displayBarChart(this.id); });
+            .attr("fill", "#ADADAD")
+            .attr("stroke", "#644856")
+            .attr("stroke-width", 2)
+            .on("click", function() { that.displayBarChart(this.id); })
+            .on("mouseover", function(d) {		
+                div.transition()		
+                    .duration(200)		
+                    .style("opacity", .9);		
+                div	.html(d.Year + "<br/>"  + d.causeSum);
+                })					
+            .on("mouseout", function(d) {		
+                div.transition()		
+                    .duration(500)		
+                    .style("opacity", 0);	
+            });;
             
         svgContainer.append("g")
             .attr("transform", "translate(0," + (this.lineAndBarSvgWidth - (2*padding) ) + ")")
@@ -143,6 +166,11 @@ class TreeMap {
             .call(yAxis);
     }
     createTreeMap(causesOfDeathData){
+        
+        let domain = [d3.min(causesOfDeathData, function(d) { return d.sum; }), d3.max(causesOfDeathData, function(d) { return d.sum; })];
+        let range = ["#83677B", "#2E1114"];
+        let colorScale = d3.scaleQuantile().domain(domain).range(range);
+
         let that = this;           
         let color = d3.scaleOrdinal(d3["schemeCategory20c"]);
         let svgContainer = d3.select("#treeMap").select("svg");
@@ -165,15 +193,13 @@ class TreeMap {
             .attr("transform", d => "translate(" + d.x0 + "," + d.y0 + ")");
 
         let rectBars = cell.append("rect") 
-            // .transition() 
+            // .transition() //harshi
             // .duration(4000)
             .attr("id", d => d.id)
             .attr("width", d => d.x1 - d.x0)
             .attr("height", d => d.y1 - d.y0)
             .attr("fill",  function(d, i) { return color(d.id); })
-            .on("click", function() {
-                that.displayLineChart(this.id);
-              });            
+            .on("click", function() { that.displayLineChart(this.id);});            
 
         cell.append("title")    
             .text(d =>  d.id + "\n" + d.value)
