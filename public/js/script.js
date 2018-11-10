@@ -3,20 +3,21 @@ loadData().then(data => {
 	// For no country selected by default
 	this.activeCountry = null;
 	this.activeYear = ["2000", "2000"]
+    this.selected_health_factor = 'child-mortality';
     let that = this;
 
     function updateCountry(countryID) {
         that.activeCountry = countryID;
     }
 
-    const worldMap = new Map(data, updateCountry);
+    const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor);
 
     d3.json('../data/world.json').then(mapData => {
         worldMap.drawMap(mapData);
     });
 
     worldMap.yearslider()
-    worldMap.updateMap(this.activeYear, 'child-mortality');
+//    worldMap.updateMap(this.activeYear, this.selected_health_factor);
 
 });
 

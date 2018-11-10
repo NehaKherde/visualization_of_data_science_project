@@ -31,15 +31,16 @@ class Map {
      * @param updateCountry a callback function used to notify other parts of the program when the selected
      * country was updated (clicked)
      */
-    constructor(data, updateCountry) {
+    constructor(data, activeYear, updateCountry, selected_health_factor) {
         // ******* TODO: PART I *******
         this.projection = d3.geoEquirectangular().scale(150).translate([480, 325]);
         //this.nameArray = data.population.map(d => d.geo.toUpperCase());
         //this.populationData = data.population;
         this.complete_data = data
+        this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
+        this.activeYear = activeYear;
     }
-
 
 
     /**
@@ -112,6 +113,21 @@ class Map {
                                                         })
     }
 
+    getDomainAndRangeForColorScale(health_factor, value) {
+        let domain = [0, 1, 5, 10, 20, 30, 50];
+        let range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
+        let colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+        switch(health_factor) {
+            case "child-mortality":
+                domain = [0, 1, 5, 10, 20, 30, 50];
+                range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
+                return colorScale(value)
+            // Need to add other factor values
+        }
+    }
+
     fetchYearAndFactorRelatedData(active_year, health_factor) {
         let factor_data = this.complete_data[health_factor]
         let year_specific_data = []
@@ -124,7 +140,21 @@ class Map {
     }
 
     updateMap(active_year, health_factor) {
-        console.log()
+        
+        // check if the active year is only one year
+        if(active_year[0] == active_year[1]) {
+            let _that = this
+            let data = this.fetchYearAndFactorRelatedData(active_year[0], health_factor)
+            //let domain_range = this.getDomainAndRangeForColorScale(health_factor)
+            let new_path_element = d3.select("#map_chart_svg").selectAll("path")
+            let add_region_clas = new_path_element.attr("fill", function(d, i) {
+                                                            let id = data[d["id"]]
+                                                            if(id == undefined)
+                                                                return "#eee"
+                                                            return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1])
+                                                            //return colorScale(data[d["id"]][1])
+                                                        })
+        }
     }
 
     /**
@@ -161,6 +191,7 @@ class Map {
     }
 
     yearslider() {
+        let that = this;
 
         let margin = {top: 200, right: 40, bottom: 200, left: 40},
         width = 960 - margin.left - margin.right,
@@ -221,6 +252,9 @@ class Map {
                 d1 = d0.map(Math.round);
             }
             d3.select(this).transition().call(d3.event.target.move, d1.map(x));
+            that.activeYear = [d1[0], d1[1]-1]
+            that.updateMap(that.activeYear, that.selected_health_factor)
+            
         }
 
         // TODO: try to trigger a default event
