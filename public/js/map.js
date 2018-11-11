@@ -111,18 +111,20 @@ class Map {
                                                                 return "#eee"
                                                             return colorScale(data[d["id"]][1])
                                                         })
+        let tooltip = new_path_element.append("svg:title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
     }
 
     getDomainAndRangeForColorScale(health_factor, value) {
-        let domain = [0, 1, 5, 10, 20, 30, 50];
-        let range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
-        let colorScale = d3.scaleQuantile()
-                            .domain(domain)
-                            .range(range);
+        let domain = []
+        let range = [];
+        
         switch(health_factor) {
             case "child-mortality":
                 domain = [0, 1, 5, 10, 20, 30, 50];
                 range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
+                let colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
                 return colorScale(value)
             // Need to add other factor values
         }
@@ -152,8 +154,9 @@ class Map {
                                                             if(id == undefined)
                                                                 return "#eee"
                                                             return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1])
-                                                            //return colorScale(data[d["id"]][1])
                                                         })
+            // Update the tooltip
+            new_path_element.select("title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
         }
     }
 
@@ -260,5 +263,26 @@ class Map {
         // TODO: try to trigger a default event
         //brush.event(context.select('g.x.brush'));
         //document.getElementById('brush_div').click();
+    }
+
+    tooltipRender(data, d, health_factor) {
+
+        let country_data = data[d["id"]]
+        let text;
+        let html_text;
+        let val;
+        switch(health_factor) {
+            case 'child-mortality':
+                if(country_data == undefined) {
+                    html_text = "No Data"
+                }
+                else {
+                    val = Math.round(parseFloat(country_data[1]) * 10)/10;
+                    // TODO: add horizontal line and change the way tooltip is displayed
+                    html_text = "<h2><b>"+ country_data[0] +"</b></h2><hr>"+"<h2>" + val + "% of children that die before they are 5 years old" + "</h2>";
+                }
+                break;
+        }
+        return html_text;
     }
 }
