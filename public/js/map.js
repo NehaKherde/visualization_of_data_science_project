@@ -147,7 +147,6 @@ class Map {
         if(active_year[0] == active_year[1]) {
             let _that = this
             let data = this.fetchYearAndFactorRelatedData(active_year[0], health_factor)
-            //let domain_range = this.getDomainAndRangeForColorScale(health_factor)
             let new_path_element = d3.select("#map_chart_svg").selectAll("path")
             let add_region_clas = new_path_element.attr("fill", function(d, i) {
                                                             let id = data[d["id"]]
@@ -164,16 +163,10 @@ class Map {
      * Highlights the selected conutry and region on mouse click
      * @param activeCountry the country ID of the country to be rendered as selected/highlighted
      */
-    updateHighlightClick(activeCountry) {
-        // ******* TODO: PART 3*******
-        // Assign selected class to the target country and corresponding region
-        // Hint: If you followed our suggestion of using classes to style
-        // the colors and markers for countries/regions, you can use
-        // d3 selection and .classed to set these classes on here.
-        //
-
-        //TODO - Your code goes here - 
-
+    addHighlight(activeCountry) {
+        let country_id = "#"+activeCountry;
+        let selected_country = d3.select("#map-chart").select("svg").select(country_id);
+        selected_country.classed("selected-country", true);
     }
 
     /**
@@ -187,8 +180,7 @@ class Map {
         // Hint: If you followed our suggestion of using classes to style
         // the colors and markers for hosts/teams/winners, you can use
         // d3 selection and .classed to set these classes off here.
-
-        //TODO - Your code goes here - 
+        let selector = d3.select("#map-chart").select("svg").selectAll("path").classed("selected-country",false);
 
 
     }

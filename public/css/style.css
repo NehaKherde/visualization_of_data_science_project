@@ -61,3 +61,7 @@ display: inline-block;
 .axis--grid .tick--minor line {
   stroke-opacity: .5;
 }
+.selected-country {
+    stroke: #FF0000 !important;
+    stroke-width: 1px !important;
+}

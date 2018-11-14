@@ -8,6 +8,8 @@ loadData().then(data => {
 
     function updateCountry(countryID) {
         that.activeCountry = countryID;
+        worldMap.clearHighlight()
+        worldMap.addHighlight(countryID)
     }
 
     const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor);
@@ -17,7 +19,15 @@ loadData().then(data => {
     });
 
     worldMap.yearslider()
-//    worldMap.updateMap(this.activeYear, this.selected_health_factor);
+
+    document.addEventListener("click", function(e) {
+        e.stopPropagation();
+        // Update country if you click on any of the countries in the world map
+        worldMap.clearHighlight()
+        if ((e.path[1].id) == "map_chart_svg") {
+             updateCountry(e.path[0].id);
+        }
+    });
 
 });
 
