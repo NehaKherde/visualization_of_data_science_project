@@ -37,15 +37,19 @@ class TreeMap {
         let padding = 50;
         that.selectedFeaturesData.forEach(function(element){
             if (element["Year"] == that.selectedYear){
-                barChartData.push({"country":element["Entity"], "conCode": element["Code"], "CauseValue": element[that.selectedCause]});
+                if (element[that.selectedCause]!= undefined){
+                    barChartData.push({"country":element["Entity"], "conCode": element["Code"], "CauseValue": element[that.selectedCause]});
+                }else{
+                    barChartData.push({"country":element["Entity"], "conCode": element["Code"], "CauseValue": 0});
+                }
             }
         });
-
-        let x = d3.scaleBand().domain(barChartData.map(function(d) { return d.country; })).range([0, this.lineAndBarSvgWidth - (2*padding)]); 
-        let y = d3.scaleLinear().domain([d3.min(barChartData, function(d) { return d.CauseValue; })-dataBuffer, d3.max(barChartData, function(d) { return d.CauseValue; })+dataBuffer]).range([this.lineAndBarSvgHeight - (2*padding), 0]);
-
-        var xAxis = d3.axisBottom(x).ticks(5);
-        var yAxis = d3.axisLeft(y).ticks(5);
+        console.log(barChartData);
+        let x = d3.scaleLinear().domain([d3.min(barChartData, function(d) { return d.CauseValue; })-dataBuffer, d3.max(barChartData, function(d) { return d.CauseValue; })+dataBuffer]).range([0, this.lineAndBarSvgHeight - (2*padding)]);
+        let y = d3.scaleBand().domain(barChartData.map(function(d) { return d.country; })).range([0, this.lineAndBarSvgWidth - (2*padding)]); 
+        
+        let xAxis = d3.axisBottom(x).ticks(5);
+        let yAxis = d3.axisLeft(y).ticks(5);
         
         let domain = [d3.min(barChartData, function(d) { return d.CauseValue; })-dataBuffer, d3.max(barChartData, function(d) { return d.CauseValue; })+dataBuffer];
         let range = ["#83677B", "#2E1114"];
@@ -54,15 +58,15 @@ class TreeMap {
         let svgContainer = d3.select("#barChart").select("svg");
         svgContainer.selectAll("g").remove();
         svgContainer = svgContainer.append("g").attr("transform", "translate(" + padding + "," + padding + ")");
-        // append the rectangles for the bar chart
+        
         svgContainer.selectAll("rect")
             .data(barChartData)
             .enter().append("rect")
-            .attr("x", function(d) { return x(d.country)+10; })
-            .attr("width", 25)
-            .attr("y", function(d) { return y(d.CauseValue); })
+            .attr("x", 0)
+            .attr("height", 25)
+            .attr("y", function(d) {return y(d.country)+10; })
             .transition().duration(4000)
-            .attr("height", function(d) { return (that.lineAndBarSvgWidth - (2*padding) - y(d.CauseValue)); })
+            .attr("width", function(d) { return x(d.CauseValue); })
             .attr("fill", function(d){return colorScale(d.CauseValue);});
       
         svgContainer.append("g")
@@ -103,8 +107,8 @@ class TreeMap {
         let x = d3.scaleLinear().domain([Math.min.apply(null, this.selectedYears) - yearBuffer, Math.max.apply(null, this.selectedYears)+ yearBuffer]).range([0, this.lineAndBarSvgWidth - 2*padding]); 
         let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.causeSum; })-dataBuffer, d3.max(lineChartData, function(d) { return d.causeSum; })+dataBuffer]).range([this.lineAndBarSvgHeight - 2*padding, 0]);
 
-        var xAxis = d3.axisBottom(x).ticks(5);
-        var yAxis = d3.axisLeft(y).ticks(5);
+        let xAxis = d3.axisBottom(x).ticks(5);
+        let yAxis = d3.axisLeft(y).ticks(5);
 
         let valueline = d3.line()
             .x(function(d) { return x(d.Year); })
@@ -169,7 +173,6 @@ class TreeMap {
             .attr("width", d => d.x1 - d.x0)
             .attr("fill",  d=> {
                 let a = d.ancestors();
-                console.log(colorScale(a[a.length - 2].id)); 
                 return colorScale(a[a.length - 2].id); })
             .on("click", function() { that.displayLineChart(this.id);});
 
