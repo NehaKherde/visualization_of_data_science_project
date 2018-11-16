@@ -5,12 +5,12 @@ class TreeMap {
         this.selectedFeaturesData =[]
         this.selectedCause = ""
         this.selectedYear = 0
-        this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes, blood and endocrine disease": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson\'s disease": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat-related deaths (hot or cold exposure)": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution (deaths)": 0 ,"Meningitis (deaths)": 0 ,"Lower respiratory infections (deaths)": 0 ,"Intestinal infectious diseases (deaths)": 0 ,"Protein-energy malnutrition (deaths)": 0 ,"Conflict (deaths)": 0 ,"Terrorism (deaths)":0}
+        this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson's": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat or cold exposure": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution": 0 ,"Meningitis": 0 ,"Respiratory infections": 0 ,"Intestinal infectious": 0 ,"Protein-energy malnutrition": 0 ,"Conflict": 0 ,"Terrorism":0}
         let svgWidth = 900;
         let svgHeight = 700;
         this.lineAndBarSvgWidth = 350;
         this.lineAndBarSvgHeight = 350;
-        this.deathType = {"Dementia": "NC","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"NC","Liver disease":"NC","Diabetes, blood and endocrine disease":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's disease":"NC","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"C","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"NC","Alcohol disorder":"NC","Natural disasters":"A","Diarrheal diseases":"NC","Heat-related deaths (hot or cold exposure)":"NC","Nutritional deficiencies":"NC","Suicide":"CR","Execution (deaths)":"CR","Meningitis (deaths)":"C","Lower respiratory infections (deaths)":"NC","Intestinal infectious diseases (deaths)":"NC","Protein-energy malnutrition (deaths)":"NC","Conflict (deaths)":"CR","Terrorism (deaths)":"CR"};
+        this.deathType = {"Dementia": "NC","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"NC","Liver disease":"NC","Diabetes":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's":"NC","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"C","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"NC","Alcohol disorder":"NC","Natural disasters":"A","Diarrheal diseases":"NC","Heat or cold exposure":"NC","Nutritional deficiencies":"NC","Suicide":"CR","Execution":"CR","Meningitis":"C","Respiratory infections":"NC","Intestinal infectious":"NC","Protein-energy malnutrition":"NC","Conflict":"CR","Terrorism":"CR"};
         this.treeMapWidth = 800;
         this.treeMapHeight = 500;
         this.selectedYears = [2006, 2007, 2008, 2009, 2010];
@@ -18,9 +18,6 @@ class TreeMap {
         this.padding = 50;
         this.width = this.lineAndBarSvgWidth - 2*this.padding;
         this.height = this.lineAndBarSvgHeight - 2*this.padding;
-        // d3.select("#charts")
-        //     .attr("width", svgWidth)
-        //     .attr("height", svgHeight);
         d3.select("#treeMap").append("svg")
             .attr("width", svgWidth)
             .attr("height", svgHeight);
@@ -72,14 +69,12 @@ class TreeMap {
             .attr("fill", function(d){return colorScale(d.CauseValue);});
       
         svgContainer.append("g").attr("transform", "translate(0," + (this.lineAndBarSvgWidth - (2*this.padding) ) + ")").call(xAxis);
-
         svgContainer.append("g").call(yAxis);
         
         svgContainer.append("text")             
             .attr("transform","translate(" + (this.width/2) + " ," + (this.height + 40) + ")")
             .style("text-anchor", "middle")
             .text("Death Toll");
-        
         svgContainer.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -70)
@@ -109,29 +104,31 @@ class TreeMap {
         
         let svgContainer = d3.select("#barChart").select("svg");
         svgContainer.selectAll("g").remove();
-
         svgContainer = d3.select("#lineChart").select("svg");
         svgContainer.selectAll("g").remove();
 
         svgContainer = svgContainer.append("g").attr("transform", "translate(" + this.padding + "," + this.padding + ")");
         let x = d3.scaleLinear().domain([Math.min.apply(null, this.selectedYears) - yearBuffer, Math.max.apply(null, this.selectedYears)+ yearBuffer]).range([0, this.width]); 
         let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.causeSum; })-dataBuffer, d3.max(lineChartData, function(d) { return d.causeSum; })+dataBuffer]).range([this.height, 0]);
-
         let xAxis = d3.axisBottom(x).ticks(5);
         let yAxis = d3.axisLeft(y).ticks(5);
 
         let valueline = d3.line()
             .x(function(d) { return x(d.Year); })
             .y(function(d) { return y(d.causeSum); });
-
-        svgContainer.append("path")
+        let pathValue = svgContainer.append("path")
             .attr("d", valueline(lineChartData))
             .attr("stroke", "#2E1114")
             .attr("stroke-width", 2)
-            .attr("fill", " none");   
+            .attr("fill", " none");
+        let totalLength = pathValue.node().getTotalLength();
 
-        let div = d3.select("body").append("div")				
-            .style("opacity", 0);
+        pathValue
+        .attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition()
+            .duration(2000)
+            .attr("stroke-dashoffset", 0);
 
         svgContainer.selectAll("circle")
             .data(lineChartData)
@@ -146,14 +143,12 @@ class TreeMap {
             .on("click", function() { that.displayBarChart(this.id); });
             
         svgContainer.append("g").attr("transform", "translate(0," + (this.width) + ")").call(xAxis);
-
         svgContainer.append("g").call(yAxis);
         
         svgContainer.append("text")             
             .attr("transform","translate(" + (this.width/2) + " ," + (this.height + 40) + ")")
             .style("text-anchor", "middle")
             .text("Year");
-        
         svgContainer.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", -70)
@@ -165,7 +160,7 @@ class TreeMap {
     createTreeMap(causesOfDeathData){
         let domain = [d3.min(causesOfDeathData, function(d) { return d.sum; }), d3.max(causesOfDeathData, function(d) { return d.sum; })];
         let range = ["#83677B", "#2E1114"];
-
+        console.log(causesOfDeathData);
         let that = this;           
         let colorScale = d3.scaleOrdinal(d3.schemePaired);
         let svgContainer = d3.select("#treeMap").select("svg");
@@ -186,16 +181,15 @@ class TreeMap {
             .data(root.leaves())
             .enter().append("a")
             .attr("transform", d => "translate(" + d.x0 + "," + d.y0 + ")");
-
-        let rectBars = cell.append("rect")
+        cell.append("rect")
             .attr("id", d => d.id)
-            .attr("height", d => d.y1 - d.y0) 
+            .attr("height", d => d.y1 - d.y0)
+            .transition().duration(4000) 
             .attr("width", d => d.x1 - d.x0)
             .attr("fill",  d=> {
                 let a = d.ancestors();
-                return colorScale(a[a.length - 2].id); })
-            .on("click", function() { that.displayLineChart(this.id);});
-
+                return colorScale(a[a.length - 2].id); });
+        cell.selectAll("rect").on("click", function() { that.displayLineChart(this.id);});
         cell.append("title")    
             .text(d =>  d.id + "\n" + d.value)
             .style('fill', "white"); //harshi
@@ -230,8 +224,8 @@ class TreeMap {
                             that.causesOfDeathSumValues[ "Liver disease"] += parseInt(ele["Liver disease"]);
                             dataDict["Liver disease"] = parseInt(ele["Liver disease"]);
                         }if(ele["Diabetes, blood and endocrine disease"] != ""){
-                            that.causesOfDeathSumValues[ "Diabetes, blood and endocrine disease"] += parseInt(ele["Diabetes, blood and endocrine disease"]);
-                            dataDict["Diabetes, blood and endocrine disease"] = parseInt(ele["Diabetes, blood and endocrine disease"]);
+                            that.causesOfDeathSumValues[ "Diabetes"] += parseInt(ele["Diabetes, blood and endocrine disease"]);
+                            dataDict["Diabetes"] = parseInt(ele["Diabetes, blood and endocrine disease"]);
                         }if(ele["Digestive disease"] != ""){
                             that.causesOfDeathSumValues[ "Digestive disease"] += parseInt(ele["Digestive disease"]);
                             dataDict["Digestive disease"] = parseInt(ele["Digestive disease"]);
@@ -242,8 +236,8 @@ class TreeMap {
                             that.causesOfDeathSumValues[ "Cancers"] += parseInt(ele["Cancers"]);
                             dataDict["Cancers"] = parseInt(ele["Cancers"]);
                         }if(ele["Parkinson's disease"] != ""){
-                            that.causesOfDeathSumValues[ "Parkinson's disease"] += parseInt(ele["Parkinson's disease"]);
-                            dataDict["Parkinson's disease"] = parseInt(ele["Parkinson's disease"]);
+                            that.causesOfDeathSumValues[ "Parkinson's"] += parseInt(ele["Parkinson's disease"]);
+                            dataDict["Parkinson's"] = parseInt(ele["Parkinson's disease"]);
                         }if(ele["Fire"] != ""){
                             that.causesOfDeathSumValues[ "Fire"] += parseInt(ele["Fire"]);
                             dataDict["Fire"] = parseInt(ele["Fire"]);
@@ -281,8 +275,8 @@ class TreeMap {
                             that.causesOfDeathSumValues[ "Natural disasters"] += parseInt(ele["Natural disasters"]);
                             dataDict["Natural disasters"] = parseInt(ele["Natural disasters"]);
                         }if(ele["Heat-related deaths (hot or cold exposure)"] != ""){
-                            that.causesOfDeathSumValues[ "Heat-related deaths (hot or cold exposure)"] += parseInt(ele["Heat-related deaths (hot or cold exposure)"]);
-                            dataDict["Heat-related deaths (hot or cold exposure)"] = parseInt(ele["Heat-related deaths (hot or cold exposure)"]);
+                            that.causesOfDeathSumValues[ "Heat or cold exposure"] += parseInt(ele["Heat-related deaths (hot or cold exposure)"]);
+                            dataDict["Heat or cold exposure"] = parseInt(ele["Heat-related deaths (hot or cold exposure)"]);
                         }if(ele["Nutritional deficiencies"] != ""){
                             that.causesOfDeathSumValues[ "Nutritional deficiencies"] += parseInt(ele["Nutritional deficiencies"]);
                             dataDict["Nutritional deficiencies"] = parseInt(ele["Nutritional deficiencies"]);
@@ -290,26 +284,26 @@ class TreeMap {
                             that.causesOfDeathSumValues[ "Suicide"] += parseInt(ele["Suicide"]);
                             dataDict["Suicide"] = parseInt(ele["Suicide"]);
                         }if(ele["Execution (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Execution (deaths)"] += parseInt(ele["Execution (deaths)"]);
-                            dataDict["Execution (deaths)"] = parseInt(ele["Execution (deaths)"]);
+                            that.causesOfDeathSumValues[ "Execution"] += parseInt(ele["Execution (deaths)"]);
+                            dataDict["Execution"] = parseInt(ele["Execution (deaths)"]);
                         }if(ele["Meningitis (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Meningitis (deaths)"] += parseInt(ele["Meningitis (deaths)"]);
-                            dataDict["Meningitis (deaths)"] = parseInt(ele["Meningitis (deaths)"]);
+                            that.causesOfDeathSumValues[ "Meningitis"] += parseInt(ele["Meningitis (deaths)"]);
+                            dataDict["Meningitis"] = parseInt(ele["Meningitis (deaths)"]);
                         }if(ele["Lower respiratory infections (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Lower respiratory infections (deaths)"] += parseInt(ele["Lower respiratory infections (deaths)"]);
-                            dataDict["Lower respiratory infections (deaths)"] = parseInt(ele["Lower respiratory infections (deaths)"]);
+                            that.causesOfDeathSumValues[ "Respiratory infections"] += parseInt(ele["Lower respiratory infections (deaths)"]);
+                            dataDict["Respiratory infections"] = parseInt(ele["Lower respiratory infections (deaths)"]);
                         }if(ele["Intestinal infectious diseases (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Intestinal infectious diseases (deaths)"] += parseInt(ele["Intestinal infectious diseases (deaths)"]);
-                            dataDict["Intestinal infectious diseases (deaths)"] = parseInt(ele["Intestinal infectious diseases (deaths)"]);
+                            that.causesOfDeathSumValues[ "Intestinal infectious"] += parseInt(ele["Intestinal infectious diseases (deaths)"]);
+                            dataDict["Intestinal infectious"] = parseInt(ele["Intestinal infectious diseases (deaths)"]);
                         }if(ele["Protein-energy malnutrition (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Protein-energy malnutrition (deaths)"] += parseInt(ele["Protein-energy malnutrition (deaths)"]);
-                            dataDict["Protein-energy malnutrition (deaths)"] = parseInt(ele["Protein-energy malnutrition (deaths)"]);
+                            that.causesOfDeathSumValues[ "Protein-energy malnutrition"] += parseInt(ele["Protein-energy malnutrition (deaths)"]);
+                            dataDict["Protein-energy malnutrition"] = parseInt(ele["Protein-energy malnutrition (deaths)"]);
                         }if(ele["Conflict (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Conflict (deaths)"] += parseInt(ele["Conflict (deaths)"]);
-                            dataDict["Conflict (deaths)"] = parseInt(ele["Conflict (deaths)"]);
+                            that.causesOfDeathSumValues[ "Conflict"] += parseInt(ele["Conflict (deaths)"]);
+                            dataDict["Conflict"] = parseInt(ele["Conflict (deaths)"]);
                         }if(ele["Terrorism (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Terrorism (deaths)"] += parseInt(ele["Terrorism (deaths)"]);
-                            dataDict["Terrorism (deaths)"] = parseInt(ele["Terrorism (deaths)"]);
+                            that.causesOfDeathSumValues[ "Terrorism"] += parseInt(ele["Terrorism (deaths)"]);
+                            dataDict["Terrorism"] = parseInt(ele["Terrorism (deaths)"]);
                         }
                        that.selectedFeaturesData.push(dataDict); 
                     }
