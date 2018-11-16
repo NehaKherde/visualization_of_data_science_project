@@ -51,6 +51,8 @@ class TreeMap {
         this.treeMapHeight = 500;
         this.selectedYears = [2006, 2007, 2008, 2009, 2010];
         this.selectedCountries = ["AFG", "ALB", "NOR", "OMN", "SWE", "SGP"];
+        this.allContries = false
+        this.allYears = false
         this.padding = 50;
         this.width = this.lineAndBarSvgWidth - 2*this.padding - 50;
         this.height = this.lineAndBarSvgHeight - 2*this.padding;
@@ -104,15 +106,16 @@ class TreeMap {
             .attr("height", 25)
             .attr("y", function(d) {return y(d.country)+10; })
             .attr("transform", "translate(" +textPadding+ ",0)")
-            .transition().duration(4000)
+            .transition().duration(3000)
             .attr("width", function(d) { return x(d.CauseValue); })
             .attr("fill", function(d){return colorScale(d.CauseValue);});
         svgContainer.selectAll("text")
             .data(barChartData)
             .enter()
             .append("text")
-            .attr("x", function(d) { return x(d.CauseValue)+80; })
             .attr("y", function(d) {return y(d.country)+25; })
+            .transition().duration(3000)    
+            .attr("x", function(d) { return x(d.CauseValue)+80; })
             .text(function(d){return d.CauseValue });
         svgContainer.append("g").attr("transform", "translate("+textPadding+"," + (this.lineAndBarSvgWidth -(2*this.padding) -50 ) + ")").call(xAxis);
         svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",0)").call(yAxis);
@@ -233,7 +236,7 @@ class TreeMap {
             .text("Year");
         svgContainer.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", 5)
+            .attr("y", 0)
             .attr("x",0 - (this.height / 2))
             .attr("dy", "1em")
             .style("text-anchor", "middle")
@@ -289,7 +292,7 @@ class TreeMap {
             .attr("x", 15)
             .attr("y", 40)
             .text(function(d){
-                if(d.x1 - d.x0 > 50){
+                if(d.x1 - d.x0 > 50 && d.y1 - d.y0 >50){
                     return d.value;
                 }else{
                     return ""
@@ -312,7 +315,7 @@ class TreeMap {
         function treeMapData(){
             that.causesOfDeathData.forEach(function(element){
                 element.forEach(function(ele){
-                    if (that.selectedYears.includes(parseInt(ele["Year"])) && that.selectedCountries.includes(ele["Code"])){   
+                    if (that.selectedYears.includes(parseInt(ele["Year"])) && (that.allContries || that.selectedCountries.includes(ele["Code"]))){   
                         let dataDict = {};
                         dataDict["Entity"] = ele["Entity"];
                         dataDict["Code"] = ele["Code"];
