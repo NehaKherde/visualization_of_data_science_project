@@ -15,6 +15,9 @@ class TreeMap {
         this.treeMapHeight = 500;
         this.selectedYears = [2006, 2007, 2008, 2009, 2010];
         this.selectedCountries = ["AFG", "ALB", "NOR", "OMN", "SWE", "SGP"];
+        this.padding = 50;
+        this.width = this.lineAndBarSvgWidth - 2*this.padding;
+        this.height = this.lineAndBarSvgHeight - 2*this.padding;
         // d3.select("#charts")
         //     .attr("width", svgWidth)
         //     .attr("height", svgHeight);
@@ -34,7 +37,6 @@ class TreeMap {
         let that = this;
         let barChartData = [];
         let dataBuffer = 2000;
-        let padding = 50;
         that.selectedFeaturesData.forEach(function(element){
             if (element["Year"] == that.selectedYear){
                 if (element[that.selectedCause]!= undefined){
@@ -44,9 +46,9 @@ class TreeMap {
                 }
             }
         });
-        console.log(barChartData);
-        let x = d3.scaleLinear().domain([d3.min(barChartData, function(d) { return d.CauseValue; })-dataBuffer, d3.max(barChartData, function(d) { return d.CauseValue; })+dataBuffer]).range([0, this.lineAndBarSvgHeight - (2*padding)]);
-        let y = d3.scaleBand().domain(barChartData.map(function(d) { return d.country; })).range([0, this.lineAndBarSvgWidth - (2*padding)]); 
+
+        let x = d3.scaleLinear().domain([d3.min(barChartData, function(d) { return d.CauseValue; })-dataBuffer, d3.max(barChartData, function(d) { return d.CauseValue; })+dataBuffer]).range([0, this.height]);
+        let y = d3.scaleBand().domain(barChartData.map(function(d) { return d.country; })).range([0, this.width]); 
         
         let xAxis = d3.axisBottom(x).ticks(5);
         let yAxis = d3.axisLeft(y).ticks(5);
@@ -57,7 +59,7 @@ class TreeMap {
 
         let svgContainer = d3.select("#barChart").select("svg");
         svgContainer.selectAll("g").remove();
-        svgContainer = svgContainer.append("g").attr("transform", "translate(" + padding + "," + padding + ")");
+        svgContainer = svgContainer.append("g").attr("transform", "translate(" + this.padding + "," + this.padding + ")");
         
         svgContainer.selectAll("rect")
             .data(barChartData)
@@ -69,12 +71,22 @@ class TreeMap {
             .attr("width", function(d) { return x(d.CauseValue); })
             .attr("fill", function(d){return colorScale(d.CauseValue);});
       
-        svgContainer.append("g")
-            .attr("transform", "translate(0," + (this.lineAndBarSvgWidth - (2*padding) ) + ")")
-            .call(xAxis);
+        svgContainer.append("g").attr("transform", "translate(0," + (this.lineAndBarSvgWidth - (2*this.padding) ) + ")").call(xAxis);
 
-        svgContainer.append("g")
-            .call(yAxis);
+        svgContainer.append("g").call(yAxis);
+        
+        svgContainer.append("text")             
+            .attr("transform","translate(" + (this.width/2) + " ," + (this.height + 40) + ")")
+            .style("text-anchor", "middle")
+            .text("Death Toll");
+        
+        svgContainer.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -70)
+            .attr("x",0 - (this.height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Countries");
     }
     
     displayLineChart(cause){  
@@ -82,7 +94,6 @@ class TreeMap {
         let that = this;
         let dataBuffer = 1000;
         let yearBuffer = 1;
-        let padding = 50;
         let lineChartData = [];
         this.selectedYears.forEach(function(year){
             let yearCauseSum = 0;
@@ -95,7 +106,6 @@ class TreeMap {
             });
             lineChartData.push({"Year":year, "causeSum":yearCauseSum});
         });
-        console.log(lineChartData);
         
         let svgContainer = d3.select("#barChart").select("svg");
         svgContainer.selectAll("g").remove();
@@ -103,9 +113,9 @@ class TreeMap {
         svgContainer = d3.select("#lineChart").select("svg");
         svgContainer.selectAll("g").remove();
 
-        svgContainer = svgContainer.append("g").attr("transform", "translate(" + padding + "," + padding + ")");
-        let x = d3.scaleLinear().domain([Math.min.apply(null, this.selectedYears) - yearBuffer, Math.max.apply(null, this.selectedYears)+ yearBuffer]).range([0, this.lineAndBarSvgWidth - 2*padding]); 
-        let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.causeSum; })-dataBuffer, d3.max(lineChartData, function(d) { return d.causeSum; })+dataBuffer]).range([this.lineAndBarSvgHeight - 2*padding, 0]);
+        svgContainer = svgContainer.append("g").attr("transform", "translate(" + this.padding + "," + this.padding + ")");
+        let x = d3.scaleLinear().domain([Math.min.apply(null, this.selectedYears) - yearBuffer, Math.max.apply(null, this.selectedYears)+ yearBuffer]).range([0, this.width]); 
+        let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.causeSum; })-dataBuffer, d3.max(lineChartData, function(d) { return d.causeSum; })+dataBuffer]).range([this.height, 0]);
 
         let xAxis = d3.axisBottom(x).ticks(5);
         let yAxis = d3.axisLeft(y).ticks(5);
@@ -135,12 +145,22 @@ class TreeMap {
             .attr("stroke-width", 2)
             .on("click", function() { that.displayBarChart(this.id); });
             
-        svgContainer.append("g")
-            .attr("transform", "translate(0," + (this.lineAndBarSvgWidth - (2*padding) ) + ")")
-            .call(xAxis);
+        svgContainer.append("g").attr("transform", "translate(0," + (this.width) + ")").call(xAxis);
 
-        svgContainer.append("g")
-            .call(yAxis);
+        svgContainer.append("g").call(yAxis);
+        
+        svgContainer.append("text")             
+            .attr("transform","translate(" + (this.width/2) + " ," + (this.height + 40) + ")")
+            .style("text-anchor", "middle")
+            .text("Year");
+        
+        svgContainer.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -70)
+            .attr("x",0 - (this.height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Death Toll");
     }
     createTreeMap(causesOfDeathData){
         let domain = [d3.min(causesOfDeathData, function(d) { return d.sum; }), d3.max(causesOfDeathData, function(d) { return d.sum; })];
