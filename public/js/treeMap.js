@@ -5,9 +5,12 @@ class TreeMap {
         this.selectedFeaturesData =[]
         this.selectedCause = ""
         this.selectedYear = 0
+        this.causesOfDeathName = {"Dementia": "Dementia","Cardiovascular diseases":"Cardiovascular \n diseases","Kidney disease":"Kidney \ndisease","Respiratory disease":"Respiratory \ndisease","Liver disease":"Liver \ndisease","Diabetes":"Diabetes","Digestive disease":"Digestive \ndisease","Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson's":"Parkinson's","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV/AIDS":"HIV/AIDS","Drug disorder":"Drug \ndisorder","Tuberculosis":"Tuberculosis","Road incidents":"Road incidents","Maternal deaths":"Maternal deaths","Neonatal deaths":"Neonatal \ndeaths","Alcohol disorder":"Alcohol","Natural disasters":"Natural disasters","Diarrheal diseases":"Diarrheal \ndiseases","Heat or cold exposure":"Heat or \ncold exposure","Nutritional deficiencies":"Nutritional \ndeficiencies","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory infections":"Respiratory \ninfections","Intestinal infectious":"Intestinal \ninfectious","Protein-energy malnutrition":"Protein-energy \nmalnutrition","Conflict":"Conflict","Terrorism":"Terrorism"};
+        this.causesOfDeathDetails= {
+            "Dementia": "Not a specific disease, dementia is a group of conditions characterized by impairment of at least two brain functions, such as memory loss and judgment. \n\nSymptoms include forgetfulness, limited social skills, and thinking abilities so impaired that it interferes with daily functioning. \n \n Medications and therapies may help manage symptoms. Some causes are reversible.","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"NC","Liver disease":"NC","Diabetes":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's":"NC","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"C","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"NC","Alcohol disorder":"NC","Natural disasters":"A","Diarrheal diseases":"NC","Heat or cold exposure":"NC","Nutritional deficiencies":"NC","Suicide":"CR","Execution":"CR","Meningitis":"C","Respiratory infections":"NC","Intestinal infectious":"NC","Protein-energy malnutrition":"NC","Conflict":"CR","Terrorism":"CR"};
         this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson's": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat or cold exposure": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution": 0 ,"Meningitis": 0 ,"Respiratory infections": 0 ,"Intestinal infectious": 0 ,"Protein-energy malnutrition": 0 ,"Conflict": 0 ,"Terrorism":0}
         let svgWidth = 900;
-        let svgHeight = 700;
+        let svgHeight = 500;
         this.lineAndBarSvgWidth = 400;
         this.lineAndBarSvgHeight = 350;
         this.deathType = {"Dementia": "NC","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"NC","Liver disease":"NC","Diabetes":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's":"NC","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"C","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"NC","Alcohol disorder":"NC","Natural disasters":"A","Diarrheal diseases":"NC","Heat or cold exposure":"NC","Nutritional deficiencies":"NC","Suicide":"CR","Execution":"CR","Meningitis":"C","Respiratory infections":"NC","Intestinal infectious":"NC","Protein-energy malnutrition":"NC","Conflict":"CR","Terrorism":"CR"};
@@ -21,11 +24,14 @@ class TreeMap {
         d3.select("#treeMap").append("svg")
             .attr("width", svgWidth)
             .attr("height", svgHeight);
+        d3.select("#infoBox").append("svg")
+            .attr("width", this.lineAndBarSvgWidth + 100)
+            .attr("height", this.lineAndBarSvgHeight);
         d3.select("#lineChart").append("svg")
-            .attr("width", this.lineAndBarSvgWidth)
+            .attr("width", this.lineAndBarSvgWidth + 100)
             .attr("height", this.lineAndBarSvgHeight);
         d3.select("#barChart").append("svg")
-            .attr("width", this.lineAndBarSvgWidth)
+            .attr("width", this.lineAndBarSvgWidth + 100)
             .attr("height", this.lineAndBarSvgHeight);
     };
     
@@ -43,7 +49,7 @@ class TreeMap {
                 }
             }
         });
-
+        let textPadding = 70;
         let x = d3.scaleLinear().domain([d3.min(barChartData, function(d) { return d.CauseValue; })-dataBuffer, d3.max(barChartData, function(d) { return d.CauseValue; })+dataBuffer]).range([0, this.height]);
         let y = d3.scaleBand().domain(barChartData.map(function(d) { return d.country; })).range([0, this.width]); 
         
@@ -64,26 +70,49 @@ class TreeMap {
             .attr("x", 0)
             .attr("height", 25)
             .attr("y", function(d) {return y(d.country)+10; })
+            .attr("transform", "translate(" +textPadding+ ",0)")
             .transition().duration(4000)
             .attr("width", function(d) { return x(d.CauseValue); })
             .attr("fill", function(d){return colorScale(d.CauseValue);});
-      
-        svgContainer.append("g").attr("transform", "translate(0," + (this.lineAndBarSvgWidth - (2*this.padding) ) + ")").call(xAxis);
-        svgContainer.append("g").call(yAxis);
+        svgContainer.selectAll("text")
+            .data(barChartData)
+            .enter()
+            .append("text")
+            .attr("x", function(d) { return x(d.CauseValue)+80; })
+            .attr("y", function(d) {return y(d.country)+25; })
+            .text(function(d){return d.CauseValue });
+        svgContainer.append("g").attr("transform", "translate("+textPadding+"," + (this.lineAndBarSvgWidth -(2*this.padding) -50 ) + ")").call(xAxis);
+        svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",0)").call(yAxis);
         
         svgContainer.append("text")             
-            .attr("transform","translate(" + (this.width/2) + " ," + (this.height + 40) + ")")
+            .attr("transform","translate(" + ((this.width/2)+textPadding) + " ," + (this.height + 40) + ")")
             .style("text-anchor", "middle")
             .text("Death Toll");
         svgContainer.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -70)
+            .attr("y", 0)
             .attr("x",0 - (this.height / 2))
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Countries");
     }
     
+    creatInfoBox(cause){  
+        console.log(cause)
+        let svgContainer = d3.select("#infoBox").select("svg");
+        svgContainer.append("text")    
+            .attr('x', 150)
+            .attr('y', 50)
+            .style("text-anchor", "middle")
+            .text(cause);
+            
+        svgContainer = d3.select("#infoBox").select("svg");
+        svgContainer.append("text")    
+            .attr('x', 50)
+            .attr('y', 100)
+            .style("text-anchor", "middle")
+            .text(this.causesOfDeathDetails[cause]);
+    }
     displayLineChart(cause){  
         this.selectedCause = cause;
         let that = this;
@@ -104,6 +133,8 @@ class TreeMap {
         let textPadding = 70;
         let svgContainer = d3.select("#barChart").select("svg");
         svgContainer.selectAll("g").remove();
+        svgContainer = d3.select("#infoBox").select("svg");
+        svgContainer.selectAll("text").remove();
         svgContainer = d3.select("#lineChart").select("svg");
         svgContainer.selectAll("g").remove();
 
@@ -125,10 +156,9 @@ class TreeMap {
         let totalLength = pathValue.node().getTotalLength();
 
         pathValue
-        .attr("stroke-dasharray", totalLength + " " + totalLength)
-        .attr("stroke-dashoffset", totalLength)
-        .transition()
-            .duration(2000)
+            .attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition().duration(2000)//harshi
             .attr("stroke-dashoffset", 0);
 
         svgContainer.selectAll("circle")
@@ -158,11 +188,11 @@ class TreeMap {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Death Toll");
+        this.creatInfoBox(cause)
     }
     createTreeMap(causesOfDeathData){
         let domain = [d3.min(causesOfDeathData, function(d) { return d.sum; }), d3.max(causesOfDeathData, function(d) { return d.sum; })];
         let range = ["#83677B", "#2E1114"];
-        console.log(causesOfDeathData);
         let that = this;           
         let colorScale = d3.scaleOrdinal(d3.schemePaired);
         let svgContainer = d3.select("#treeMap").select("svg");
@@ -179,6 +209,8 @@ class TreeMap {
             .sort((a, b) => b.height - a.height || b.value - a.value);
 
         treemap(root);
+        
+        let format = d3.format(",d");
         let cell = svgContainer.selectAll("a")
             .data(root.leaves())
             .enter().append("a")
@@ -191,10 +223,35 @@ class TreeMap {
             .attr("fill",  d=> {
                 let a = d.ancestors();
                 return colorScale(a[a.length - 2].id); });
-        cell.selectAll("rect").on("click", function() { that.displayLineChart(this.id);});
+        let label = cell.append("text")
+            .attr("clip-path", d => d.name);
+        label.append("tspan")
+            .attr("x", 15)
+            .attr("y", 18)
+            .text(function(d){
+                if(d.x1 - d.x0 > 75){
+                    return that.causesOfDeathName[d.id];
+                }else{
+                    return ""
+                }
+            });
+        label.append("tspan")
+            .attr("x", 15)
+            .attr("y", 40)
+            .text(function(d){
+                if(d.x1 - d.x0 > 50){
+                    return d.value;
+                }else{
+                    return ""
+                }
+            });
+            
+        cell.selectAll("rect").on("click", function() { 
+            that.displayLineChart(this.id);});
         cell.append("title")    
             .text(d =>  d.id + "\n" + d.value)
-            .style('fill', "white"); //harshi
+            .style('fill', "white"); 
+        
     }
     update (){
         let that = this;
