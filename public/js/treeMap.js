@@ -60,7 +60,7 @@ class TreeMap {
             .attr("width", svgWidth)
             .attr("height", svgHeight);
         d3.select("#infoBox").append("svg")
-            .attr("width", this.lineAndBarSvgWidth + 100)
+            .attr("width", this.treeMapWidth)
             .attr("height", this.lineAndBarSvgHeight);
         d3.select("#lineChart").append("svg")
             .attr("width", this.lineAndBarSvgWidth + 100)
@@ -135,19 +135,28 @@ class TreeMap {
     
     creatInfoBox(cause){  
         console.log(cause)
+        let that = this;
         let svgContainer = d3.select("#infoBox").select("svg");
-        svgContainer.append("text")    
-            .attr('x', 150)
-            .attr('y', 50)
-            .style("text-anchor", "middle")
-            .text(cause);
-            
-        svgContainer = d3.select("#infoBox").select("svg");
-        svgContainer.append("text")    
-            .attr('x', 50)
-            .attr('y', 100)
-            .style("text-anchor", "middle")
-            .text(this.causesOfDeathDetails[cause]);
+        let text = svgContainer.selectAll("text")
+            .data(cause)
+            .enter()
+            .append("text")
+            .attr("x", 20)
+            .attr("y", 20);
+
+        text.append("tspan")
+            .text(cause)
+            .attr("class", "title");
+
+        text.selectAll("tspan.text")
+            .data(this.causesOfDeathDetails[cause].split("\n"))
+            .enter()
+            .append("tspan")
+            .attr("class", "text")
+            .text(d => d)
+            .attr("x", 20)
+            .attr("dx", 10)
+            .attr("dy", 22);
     }
     displayLineChart(cause){  
         this.selectedCause = cause;
