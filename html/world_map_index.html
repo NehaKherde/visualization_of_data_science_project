@@ -39,27 +39,70 @@
 <div class="bg-3 text-center">
 	<h3>World Map</h3>
 	<hr>
-	<div class="container-fluid text-center">  
-		<div class="row content">
-			<div class="col-sm-9">
-				<div id="nav_bar" class="well">
-		    	</div>
+	<div class="row">
+		<div class="col-sm-9">
+			<div class="container-fluid text-center">  
+				<div class="row content">
+					<div class="col-sm-">
+						<div id="nav_bar" class="well">
+						</div>
+					</div>
+					<div class="col-sm-11">
+						<h1>Parallel Chart</h1>
+						<hr>
+					</div> 
+					<div id = "worldmap" class = "col-sm-11">
+						<h1>World Chart</h1>
+						<div id="map-chart" class="view"></div>
+						<div id="legend" class = "view"></div>
+						<hr>
+					</div>
+				</div>
 			</div>
-			<div class="col-sm-3">
-		    	<div class="well">
-		    		<p>Select Factor</p>
-		    	</div>
-		    </div>
-			<div class="col-sm-12">
-				<h1>Parallel Chart</h1>
-				<hr>
-			</div> 
-			<div id = "worldmap" class = "col-sm-12">
-				<h1>World Chart</h1>
-				<div id="map-chart" class="view"></div>
-				<div id="legend" class = "view"></div>
-				<hr>
-			</div>
+		</div>
+		<div class="col-sm-2">
+			<h5><b>Select Health Factors<b></h5>
+			<div class="well factors_container">
+				<form id="check_box_list">
+					<div class="checkbox">
+					  <label>
+						<input type="checkbox" value="beer-consumption-per-person">Beer Consumption per person</label>
+					</div>
+					<div class="checkbox">
+					  <label><input checked type="checkbox" value="child-mortality.csv">Child Mortality</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="child-mortality-by-income-level-of-country">Child mortality by income level of country</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="expected-years-of-living-with-disability-or-disease-burden">Expected years of living with disability/disease</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="life-expectancy">Life expectancy</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="maternal-mortality">Maternal Mortality</label>
+					</div>
+					<div class="checkbox">
+					  <label><input checked  type="checkbox" value="median-age">Median Age</label>
+					</div>
+					<div class="checkbox">
+					  <label><input checked type="checkbox" value="polio-vaccine-coverage-of-one-year-olds">Polio vaccine coverage of one year olds</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="share-of-population-with-cancer">Share of population with cancer</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="share-with-alcohol-use-disorders">Share with alcohol use disorders</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="share-with-mental-and-substance-disorders">Share with mental and substance disorders</label>
+					</div>
+					<div class="checkbox">
+					  <label><input type="checkbox" value="total-healthcare-expenditure-as-share-of-national-gdp-by-country">Total healthcare expenditure as share of national gdp</label>
+					</div>
+				</form>
+			</div>				
 		</div>
 	</div>
 </div>
