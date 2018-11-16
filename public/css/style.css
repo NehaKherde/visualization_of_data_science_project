@@ -65,3 +65,16 @@ display: inline-block;
     stroke: #FF0000 !important;
     stroke-width: 1px !important;
 }
+
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 100px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: #DDD8D9;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
