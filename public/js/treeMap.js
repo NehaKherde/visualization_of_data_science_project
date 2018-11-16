@@ -8,7 +8,7 @@ class TreeMap {
         this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson's": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat or cold exposure": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution": 0 ,"Meningitis": 0 ,"Respiratory infections": 0 ,"Intestinal infectious": 0 ,"Protein-energy malnutrition": 0 ,"Conflict": 0 ,"Terrorism":0}
         let svgWidth = 900;
         let svgHeight = 700;
-        this.lineAndBarSvgWidth = 350;
+        this.lineAndBarSvgWidth = 400;
         this.lineAndBarSvgHeight = 350;
         this.deathType = {"Dementia": "NC","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"NC","Liver disease":"NC","Diabetes":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's":"NC","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"C","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"NC","Alcohol disorder":"NC","Natural disasters":"A","Diarrheal diseases":"NC","Heat or cold exposure":"NC","Nutritional deficiencies":"NC","Suicide":"CR","Execution":"CR","Meningitis":"C","Respiratory infections":"NC","Intestinal infectious":"NC","Protein-energy malnutrition":"NC","Conflict":"CR","Terrorism":"CR"};
         this.treeMapWidth = 800;
@@ -16,7 +16,7 @@ class TreeMap {
         this.selectedYears = [2006, 2007, 2008, 2009, 2010];
         this.selectedCountries = ["AFG", "ALB", "NOR", "OMN", "SWE", "SGP"];
         this.padding = 50;
-        this.width = this.lineAndBarSvgWidth - 2*this.padding;
+        this.width = this.lineAndBarSvgWidth - 2*this.padding - 50;
         this.height = this.lineAndBarSvgHeight - 2*this.padding;
         d3.select("#treeMap").append("svg")
             .attr("width", svgWidth)
@@ -101,7 +101,7 @@ class TreeMap {
             });
             lineChartData.push({"Year":year, "causeSum":yearCauseSum});
         });
-        
+        let textPadding = 70;
         let svgContainer = d3.select("#barChart").select("svg");
         svgContainer.selectAll("g").remove();
         svgContainer = d3.select("#lineChart").select("svg");
@@ -120,7 +120,8 @@ class TreeMap {
             .attr("d", valueline(lineChartData))
             .attr("stroke", "#2E1114")
             .attr("stroke-width", 2)
-            .attr("fill", " none");
+            .attr("fill", " none")
+            .attr("transform", "translate(" +textPadding+ ",0)");
         let totalLength = pathValue.node().getTotalLength();
 
         pathValue
@@ -140,18 +141,19 @@ class TreeMap {
             .attr("fill", "#ADADAD")
             .attr("stroke", "#644856")
             .attr("stroke-width", 2)
+            .attr("transform", "translate(" +textPadding+ ",0)")
             .on("click", function() { that.displayBarChart(this.id); });
             
-        svgContainer.append("g").attr("transform", "translate(0," + (this.width) + ")").call(xAxis);
-        svgContainer.append("g").call(yAxis);
+        svgContainer.append("g").attr("transform", "translate("+textPadding+"," + (this.width) + ")").call(xAxis);
+        svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",0)").call(yAxis);
         
         svgContainer.append("text")             
-            .attr("transform","translate(" + (this.width/2) + " ," + (this.height + 40) + ")")
+            .attr("transform","translate(" + ((this.width/2)+textPadding) + " ," + (this.height + 40) + ")")
             .style("text-anchor", "middle")
             .text("Year");
         svgContainer.append("text")
             .attr("transform", "rotate(-90)")
-            .attr("y", -70)
+            .attr("y", 5)
             .attr("x",0 - (this.height / 2))
             .attr("dy", "1em")
             .style("text-anchor", "middle")
