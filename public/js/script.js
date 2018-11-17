@@ -5,6 +5,7 @@ loadData().then(data => {
 	this.activeYear = ["2000", "2000"]
     this.selected_health_factor = 'child-mortality';
     let that = this;
+    this.selected_factors_for_parallel_chart = ["child-mortality", "polio-vaccine-coverage-of-one-year-olds", "median-age"]
 
     function updateCountry(countryID) {
         that.activeCountry = countryID;
@@ -20,14 +21,39 @@ loadData().then(data => {
 
     worldMap.yearslider()
 
+    function get_checked_box_list(value, is_checked) {
+        if(value.endsWith(".csv")) {
+            var len = value.length - 4
+            value = value.slice(0,len); 
+        }
+        if(is_checked) {
+            that.selected_factors_for_parallel_chart.push(value)
+        }
+        else {
+            let index = that.selected_factors_for_parallel_chart.indexOf(value)
+            if (index > -1) {
+                that.selected_factors_for_parallel_chart.splice(index, 1);
+            }
+        }
+
+    }
+
     document.addEventListener("click", function(e) {
         e.stopPropagation();
         // Update country if you click on any of the countries in the world map
         worldMap.clearHighlight()
+
+        if (e.path[0].type == "checkbox") {
+            var is_checked = e.path[0].checked
+            get_checked_box_list(e.path[0].value, is_checked)
+        }
         if ((e.path[1].id) == "map_chart_svg") {
              updateCountry(e.path[0].id);
         }
+        e.stopPropagation();
+        console.log(that.selected_factors_for_parallel_chart)
     });
+
 
 });
 
