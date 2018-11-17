@@ -1,18 +1,18 @@
 class TreeMap {
     constructor(){
-        console.log("tree map constructor");
         this.causesOfDeathData = []
         this.selectedFeaturesData =[]
         this.selectedCause = ""
         this.selectedYear = 0
         this.causesOfDeathName = {"Dementia": "Dementia","Cardiovascular diseases":"Cardiovascular","Kidney disease":"Kidney","Respiratory disease":"Respiratory","Liver disease":"Liver","Diabetes":"Diabetes","Digestive disease":"Digestive" ,"Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson's":"Parkinson's","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV/AIDS":"HIV/AIDS","Drug disorder":"Drugs","Tuberculosis":"Tuberculosis","Road incidents":"Road incidents","Maternal deaths":"Maternal","Neonatal deaths":"Neonatal","Alcohol disorder":"Alcohol","Natural disasters":"Disasters","Diarrheal diseases":"Diarrheal","Heat or cold exposure":"Exposure","Nutritional deficiencies":"Nutrition","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory infections":"Respiratory","Intestinal infectious":"Intestinal","Protein-energy malnutrition":"Protein-energy","Conflict":"Conflict","Terrorism":"Terrorism"};
         this.causesOfDeathDetails= {
-            "Dementia": "Not a specific disease, dementia is a group of conditions characterized by impairment of at least two brain functions, such as memory loss and judgment. \n\nSymptoms include forgetfulness, limited social skills, and thinking abilities so impaired that it interferes with daily functioning. \n \n Medications and therapies may help manage symptoms. Some causes are reversible.",
-            "Cardiovascular diseases":"NC",
-            "Kidney disease":"NC",
+            "Dementia": "Not a specific disease, dementia is a group of conditions characterized by impairment of at least two brain functions, \nsuch as memory loss and judgment. \n\nSymptoms include forgetfulness, limited social skills, and thinking abilities so impaired that it interferes with daily functioning. \n \n Medications and therapies may help manage symptoms. Some causes are reversible.",
+            "Cardiovascular diseases":
+            "Cardiovascular disease (CVD) is a class of diseases that involve the heart or blood vessels. Cardiovascular disease \nincludes coronary artery diseases (CAD) such as angina and myocardial infarction (commonly known as a heart attack). \nOther CVDs include stroke, heart failure, hypertensive heart disease, rheumatic heart disease, cardiomyopathy, \nheart arrhythmia, congenital heart disease, valvular heart disease, carditis, aortic aneurysms, \nperipheral artery disease, thromboembolic disease, and venous thrombosis.",
+            "Kidney disease":"Kidney disease, or renal disease, also known as nephropathy, is damage to or disease of a kidney. \nNephritis is an inflammatory kidney disease and has several types according to the location of the inflammation. \nInflammation can be diagnosed by blood tests. Nephrosis is non-inflammatory kidney disease. Nephritis and \nnephrosis can give rise to nephritic syndrome and nephrotic syndrome respectively. Kidney disease usually \ncauses a loss of kidney function to some degree and can result in kidney failure, the complete loss of kidney \nfunction. Kidney failure is known as the end-stage of kidney disease, where dialysis or a \nkidney transplant is the only treatment option.",
             "Respiratory disease":"NC",
             "Liver disease":"NC",
-            "Diabetes":"NC",
+            "Diabetes":"Diabetes mellitus (DM), commonly referred to as diabetes, is a group of metabolic disorders in which \nthere are high blood sugar levels over a prolonged period. Symptoms of high blood sugar include frequent urination, \nincreased thirst, and increased hunger. If left untreated, diabetes can cause many complications. Acute \ncomplications can include diabetic ketoacidosis, hyperosmolar hyperglycemic state, or death. Serious \nlong-term complications include cardiovascular disease, stroke, chronic kidney disease, foot ulcers, and damage to the eyes.",
             "Digestive disease":"NC",
             "Hepatitis":"C",
             "Cancers":"NC",
@@ -39,7 +39,7 @@ class TreeMap {
             "Intestinal infectious":"NC",
             "Protein-energy malnutrition":"NC",
             "Conflict":"CR",
-            "Terrorism":"CR"
+            "Terrorism":"Terrorism is, in the broadest sense, the use of intentionally indiscriminate violence as a means to \ncreate terror among masses of people; or fear to achieve a religious or political aim.[1] It is used in this regard primarily to refer to violence against peacetime targets or in war against non-combatants.[2] The terms 'terrorist' and 'terrorism' originated during the French Revolution of the late 18th century[3] but gained mainstream popularity during the U.S. presidency of Ronald Reagan (1981–89) after the 1983 Beirut barracks bombings[4] and again after the 2001 September 11 attacks[5][4][6] and the 2002 Bali bombings.[4]"
         };
         this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson's": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat or cold exposure": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution": 0 ,"Meningitis": 0 ,"Respiratory infections": 0 ,"Intestinal infectious": 0 ,"Protein-energy malnutrition": 0 ,"Conflict": 0 ,"Terrorism":0}
         let svgWidth = 900;
@@ -131,10 +131,19 @@ class TreeMap {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Countries");
+        
+        svgContainer.append("text")
+            .attr("y", -20)
+            .attr("x",200)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text(year)
+            .style("fill", "#2E1114")
+            .style("font-weight", "bold")
+            .style("font-size", "20px");
     }
     
     creatInfoBox(cause){  
-        console.log(cause)
         let that = this;
         let svgContainer = d3.select("#infoBox").select("svg");
         let text = svgContainer.selectAll("text")
@@ -144,9 +153,7 @@ class TreeMap {
             .attr("x", 20)
             .attr("y", 20);
 
-        text.append("tspan")
-            .text(cause)
-            .attr("class", "title");
+        text.append("tspan").text(cause).attr("class", "title");
 
         text.selectAll("tspan.text")
             .data(this.causesOfDeathDetails[cause].split("\n"))
@@ -250,6 +257,16 @@ class TreeMap {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text("Death Toll");
+
+        svgContainer.append("text")
+            .attr("y", -20)
+            .attr("x",200)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text(cause)
+            .style("fill", "#2E1114")
+            .style("font-weight", "bold")
+            .style("font-size", "20px");
         this.creatInfoBox(cause)
     }
     createTreeMap(causesOfDeathData){
@@ -271,8 +288,6 @@ class TreeMap {
             .sort((a, b) => b.height - a.height || b.value - a.value);
 
         treemap(root);
-        
-        let format = d3.format(",d");
         let cell = svgContainer.selectAll("a")
             .data(root.leaves())
             .enter().append("a")
