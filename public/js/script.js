@@ -7,6 +7,8 @@ loadData().then(data => {
     let that = this;
     this.selected_factors_for_parallel_chart = ["child-mortality", "polio-vaccine-coverage-of-one-year-olds", "median-age"]
 
+
+
     function updateCountry(countryID) {
         that.activeCountry = countryID;
         worldMap.clearHighlight()
@@ -20,6 +22,7 @@ loadData().then(data => {
     });
 
     worldMap.yearslider()
+
 
     function get_checked_box_list(value, is_checked) {
         if(value.endsWith(".csv")) {
@@ -51,7 +54,10 @@ loadData().then(data => {
              updateCountry(e.path[0].id);
         }
         e.stopPropagation();
-        console.log(that.selected_factors_for_parallel_chart)
+        //console.log(that.selected_factors_for_parallel_chart)
+        if (e.path[0].id == "play_button") {
+            worldMap.playMap()
+        }
     });
 
 

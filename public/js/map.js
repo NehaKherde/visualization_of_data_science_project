@@ -28,13 +28,13 @@ class Map {
         this.updateCountry = updateCountry;
         this.activeYear = activeYear;
 
-        let legendHeight = 150;
+        let legendHeight = 90;
         let legend_section = d3.select("#legend").classed("tile_view",true);
 
         this.legendSvg = legend_section.append("svg")
                             .attr("width",600)
                             .attr("height",legendHeight)
-                            .attr("transform", "translate(0,0)");
+                            .attr("transform", "translate(0,-40)");
         }
 
 
@@ -43,27 +43,6 @@ class Map {
      * @param world the topojson data with the shape of all countries and a string for the activeYear
      */
     drawMap(world) {
-        //note that projection is global!
-
-        // ******* TODO: PART I *******
-
-        //world is a topojson file. you will have to convert this to geojson (hint: you should have learned this in class!)
-
-        // Draw the background (country outlines; hint: use #map-chart)
-        // Make sure to add a graticule (gridlines) and an outline to the map
-
-        // Hint: assign an id to each country path to make it easier to select afterwards
-        // we suggest you use the variable in the data element's id field to set the id
-
-        // Make sure and give your paths the appropriate class (see the .css selectors at
-        // the top of the provided html file)
-
-        // You need to match the country with the region. This can be done using .map()
-        // We have provided a class structure for the data called CountryData that you should assign the paramters to in your mapping
-
-        //TODO - Your code goes here - 
-
-        // Converted topoJSON to geoJson
 
         let domain = [0, 1, 5, 10, 20, 30, 50];
         let range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
@@ -108,6 +87,8 @@ class Map {
                                                         })
         let tooltip = new_path_element.append("svg:title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
 
+        document.getElementById("play_button").disabled = true;
+
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
                 .attr("transform", "translate(0,50)");
@@ -125,7 +106,9 @@ class Map {
         let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
         let legendGWidth = svgBounds.width;
             
-         this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,50)");
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,50)");
+
+        svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 50).attr("y", 500);
     }
 
     
@@ -144,20 +127,28 @@ class Map {
     updateMap(active_year, health_factor) {
         
         // check if the active year is only one year
-        if(active_year[0] == active_year[1]) {
+        //if(active_year[0] == active_year[1]) {
+          //  document.getElementById("play_button").disabled = true;
             let _that = this
-            let data = this.fetchYearAndFactorRelatedData(active_year[0], health_factor)
+            let data = this.fetchYearAndFactorRelatedData(active_year, health_factor)
             let new_path_element = d3.select("#map_chart_svg").selectAll("path")
             let add_region_clas = new_path_element.attr("fill", function(d, i) {
                                                             let id = data[d["id"]]
                                                             if(id == undefined)
                                                                 return "#eee"
+                                                            if (d["id"] == "IRN") {
+                                                                console.log("IRN")
+                                                            }
                                                             return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1], false)
                                                         })
             // Update the tooltip
-            new_path_element.select("title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
-        }
+            new_path_element.select("title").html(d=>this.tooltipRender(data, d, health_factor));
+        //}
+//        else {
+    //        document.getElementById("play_button").disabled = false;
+  //      }
         
+        let text_select = d3.select(".activeYear-background").text(active_year);
         d3.selectAll("#legend").select('g').remove()
 
         this.legendSvg.append("g")
@@ -196,16 +187,7 @@ class Map {
      * Clears all highlights
      */
     clearHighlight() {
-        // ******* TODO: PART 3*******
-        // Clear the map of any colors/markers; You can do this with inline styling or by
-        // defining a class style in styles.css
-
-        // Hint: If you followed our suggestion of using classes to style
-        // the colors and markers for hosts/teams/winners, you can use
-        // d3 selection and .classed to set these classes off here.
         let selector = d3.select("#map-chart").select("svg").selectAll("path").classed("selected-country",false);
-
-
     }
 
     yearslider() {
@@ -271,13 +253,36 @@ class Map {
             }
             d3.select(this).transition().call(d3.event.target.move, d1.map(x));
             that.activeYear = [d1[0], d1[1]-1]
-            that.updateMap(that.activeYear, that.selected_health_factor)
+            
+
+            that.updateMap(that.activeYear[0], that.selected_health_factor)
+            if(d1[0] == d1[1]-1) {
+                document.getElementById("play_button").disabled = true;
+            }
+            else {
+                document.getElementById("play_button").disabled = false;
+              //  that.updateMapForRange(that.activeYear, that.selected_health_factor)
+            }
             
         }
 
         // TODO: try to trigger a default event
         //brush.event(context.select('g.x.brush'));
         //document.getElementById('brush_div').click();
+    }
+
+    updateMapForRange(activeYear_range, selected_health_factor) {
+        let i;
+        let diff = activeYear_range[1] - activeYear_range[0] +1
+
+       // setTimeout(this.updateMap(i, selected_health_factor), 3000, diff)
+        // for(i = activeYear_range[0]; i <= activeYear_range[1]; i++) {
+            
+        // }
+    }
+
+    playMap() {
+        this.updateMapForRange(this.activeYear, this.selected_health_factor)
     }
 
     tooltipRender(data, d, health_factor) {

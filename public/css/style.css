@@ -90,3 +90,11 @@ div.tooltip {
     color: red;
     text-anchor:start;
 }
+.play_button {
+    float : left;
+    margin-left: 10px;
+}
+.activeYear-background{
+    font-size: 80px;
+    opacity: .4;
+}
