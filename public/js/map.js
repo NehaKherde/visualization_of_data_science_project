@@ -1,18 +1,5 @@
-/**
- * Data structure for the data associated with an individual country.
- * the CountryData class will be used to keep the data for drawing your map.
- * You will use the region to assign a class to color the map!
- */
 class CountryData {
-    /**
-     *
-     * @param type refers to the geoJSON type- countries are considered features
-     * @param properties contains the value mappings for the data
-     * @param geometry contains array of coordinates to draw the country paths
-     * @param region the country region
-     */
     constructor(type, id, properties, geometry, region) {
-
         this.type = type;
         this.id = id;
         this.properties = properties;
@@ -40,7 +27,15 @@ class Map {
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
         this.activeYear = activeYear;
-    }
+
+        let legendHeight = 150;
+        let legend_section = d3.select("#legend").classed("tile_view",true);
+
+        this.legendSvg = legend_section.append("svg")
+                            .attr("width",600)
+                            .attr("height",legendHeight)
+                            .attr("transform", "translate(0,0)");
+        }
 
 
     /**
@@ -112,23 +107,28 @@ class Map {
                                                             return colorScale(data[d["id"]][1])
                                                         })
         let tooltip = new_path_element.append("svg:title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
+
+        this.legendSvg.append("g")
+                .attr("class", "legendQuantile")
+                .attr("transform", "translate(0,50)");
+                
+        let legendQuantile = d3.legendColor()
+                .shapeWidth((600)/6)
+                .cells(6)
+                .orient('horizontal')
+                .labelFormat(d3.format('.1r'))
+                .scale(colorScale);
+
+        this.legendSvg.select(".legendQuantile")
+                .call(legendQuantile);
+
+        let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
+        let legendGWidth = svgBounds.width;
+            
+         this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,50)");
     }
 
-    getDomainAndRangeForColorScale(health_factor, value) {
-        let domain = []
-        let range = [];
-        
-        switch(health_factor) {
-            case "child-mortality":
-                domain = [0, 1, 5, 10, 20, 30, 50];
-                range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
-                let colorScale = d3.scaleQuantile()
-                            .domain(domain)
-                            .range(range);
-                return colorScale(value)
-            // Need to add other factor values
-        }
-    }
+    
 
     fetchYearAndFactorRelatedData(active_year, health_factor) {
         let factor_data = this.complete_data[health_factor]
@@ -152,11 +152,34 @@ class Map {
                                                             let id = data[d["id"]]
                                                             if(id == undefined)
                                                                 return "#eee"
-                                                            return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1])
+                                                            return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1], false)
                                                         })
             // Update the tooltip
             new_path_element.select("title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
         }
+        
+        d3.selectAll("#legend").select('g').remove()
+
+        this.legendSvg.append("g")
+                .attr("class", "legendQuantile")
+                .attr("transform", "translate(0,50)");        
+        let divisions = this.getDomainAndRangeForColorScale(health_factor, '', true)
+        let legendQuantile = d3.legendColor()
+                .shapeWidth((600)/divisions)
+                .cells(divisions)
+                .orient('horizontal')
+                .labelFormat(d3.format('.1r'))
+                .scale(this.getDomainAndRangeForColorScale(health_factor, '', false));
+
+        this.legendSvg.select(".legendQuantile")
+                .call(legendQuantile);
+
+        let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
+            let legendGWidth = svgBounds.width;
+            
+            let diff = (600 - legendGWidth)/2;
+            this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
+
     }
 
     /**
@@ -263,18 +286,190 @@ class Map {
         let text;
         let html_text;
         let val;
+        if(country_data == undefined) {
+            return html_text = "No Data"
+        }
+        val = Math.round(parseFloat(country_data[1]) * 10)/10;
+        html_text = "<h2>" + country_data[0] + "</h2>";
+        html_text += "<br>"
         switch(health_factor) {
             case 'child-mortality':
-                if(country_data == undefined) {
-                    html_text = "No Data"
-                }
-                else {
-                    val = Math.round(parseFloat(country_data[1]) * 10)/10;
-                    // TODO: add horizontal line and change the way tooltip is displayed
-                    html_text = "<h2><b>"+ country_data[0] +"</b></h2><hr>"+"<h2>" + val + "% of children that die before they are 5 years old" + "</h2>";
-                }
-                break;
+                    html_text += "<h5>" + val + "% of children that die before they are 5 years old" + "</h5>"
+                    break;
+            case 'beer-consumption-per-person':
+                    html_text += "<h5>" + val + " liters of pure alcohol." + "</h5>"
+                    break;
+            case 'child-mortality-by-income-level-of-country':
+                    html_text += "<h5>" + val + "%" + "</h5>"
+                    break;
+            case 'expected-years-of-living-with-disability-or-disease-burden':
+                    html_text += "<h5>" + val + " years" + "</h5>"
+                    break;
+            case 'life-expectancy':
+                    html_text += "<h5>" + val + " years" + "</h5>"
+                    break;
+            case 'maternal-mortality':
+                    html_text += "<h5>" + val + " deaths per 100,000 live births" + "</h5>"
+                    break;
+            case 'median-age':
+                    html_text += "<h5>" + val + " years" + "</h5>"
+                    break;
+            case 'polio-vaccine-coverage-of-one-year-olds':
+                    html_text += "<h5>" + val + "%" + "</h5>"
+                    break;
+            case 'share-of-population-with-cancer':
+                    html_text += "<h5>" + val + "%" + "</h5>"
+                    break;
+            case 'share-with-alcohol-use-disorders':
+                    html_text += "<h5>" + val + "%" + "</h5>"
+                    break;
+            case 'share-with-mental-and-substance-disorders':
+                    html_text += "<h5>" + val + "%" + "</h5>"
+                    break;
+            case 'total-healthcare-expenditure-as-share-of-national-gdp-by-country':
+                    html_text += "<h5>" + val + "% of GDP" + "</h5>"
+                    break;
         }
         return html_text;
+    }
+
+    getDomainAndRangeForColorScale(health_factor, value, get_divisions) {
+        let domain = []
+        let range = [];
+        let colorScale
+        switch(health_factor) {
+            case "child-mortality":
+                if(get_divisions)
+                    return 6
+                domain = [0, 1, 5, 10, 20, 30, 50];
+                range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "beer-consumption-per-person":
+                if(get_divisions)
+                    return 8
+                domain = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+                range = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#0c2c84"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "child-mortality-by-income-level-of-country":
+                if(get_divisions)
+                    return 5
+                domain = [0, 5, 10, 15, 20, 25];
+                range = ["#023858", "#d0d1e6", "#74a9cf", "#74a9cf", "#023858"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "expected-years-of-living-with-disability-or-disease-burden":
+                if(get_divisions)
+                    return 7
+                domain = [5, 6, 7, 8, 9, 10, 11, 12];
+                range = ["#ffffb2", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "life-expectancy":
+                if(get_divisions)
+                    return 11
+                domain = [20, 30, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85];
+                range = ["#9e0142", "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd", "#674c98"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "maternal-mortality":
+                if(get_divisions)
+                    return 7
+                domain = [0, 10, 50, 100, 200, 500, 1000, 3000];
+                range = ["#fef0d9", "#fdd49e", "#fdbb84", "#fc8d59"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "median-age":
+                if(get_divisions)
+                    return 8
+                domain = [14, 20, 25, 30, 35, 40, 45, 50, 55];
+                range = ["#fff7fb", "#ece2f0", "#d0d1e6", "#a6bddb", "#67a9cf", "#3690c0", "#02818a", "#016450"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "polio-vaccine-coverage-of-one-year-olds":
+                if(get_divisions)
+                    return 10
+                domain = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+                range = ["#f7fcfd", "#e5f5f9", "#ccece6", "#99d8c9", "#66c2a4", "#41ae76", "#238b45", "#006d2c", "rgb(0, 89, 36)", "#00441b"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "share-of-population-with-cancer":
+                if(get_divisions)
+                    return 8
+                domain = [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+                range = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "share-with-alcohol-use-disorders":
+                if(get_divisions)
+                    return 8
+                domain = [0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5];
+                range = ["#f7fcfd", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#6e016b"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "share-with-mental-and-substance-disorders":
+                if(get_divisions)
+                    return 7
+                domain = [7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25];
+                range = ["#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+            case "total-healthcare-expenditure-as-share-of-national-gdp-by-country":
+                if(get_divisions)
+                    return 9
+                domain = [1,2,3,4,5,7,8,9,10,18];
+                range = ["#f7fcf0", "#e0f3db", "#ccebc5", "#a8ddb5", "#7bccc4", "rgb(101, 192, 204)", "#4eb3d3", "rgb(61, 160, 201)", "#2b8cbe"];
+                colorScale = d3.scaleQuantile()
+                            .domain(domain)
+                            .range(range);
+                if (value == '')
+                    return colorScale
+                return colorScale(value)
+        }
     }
 }

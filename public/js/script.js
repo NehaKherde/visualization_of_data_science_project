@@ -90,16 +90,16 @@ async function loadData() {
 
     return {
         'child-mortality': cmu,
-        'beer-consumption-per-person.csv': bcpp,
-        'child-mortality-by-income-level-of-country.csv': cmilc,
-        'expected-years-of-living-with-disability-or-disease-burden.csv': eyl,
-        'life-expectancy.csv': le,
-        'maternal-mortality.csv': mm,
-        'median-age.csv': ma,
-        'polio-vaccine-coverage-of-one-year-olds.csv': pvc,
-        'share-of-population-with-cancer.csv': spc,
-        'share-with-alcohol-use-disorders.csv': sad,
-        'share-with-mental-and-substance-disorders.csv': smsd,
-        'total-healthcare-expenditure-as-share-of-national-gdp-by-country.csv': the
+        'beer-consumption-per-person': bcpp,
+        'child-mortality-by-income-level-of-country': cmilc,
+        'expected-years-of-living-with-disability-or-disease-burden': eyl,
+        'life-expectancy': le,
+        'maternal-mortality': mm,
+        'median-age': ma,
+        'polio-vaccine-coverage-of-one-year-olds': pvc,
+        'share-of-population-with-cancer': spc,
+        'share-with-alcohol-use-disorders': sad,
+        'share-with-mental-and-substance-disorders': smsd,
+        'total-healthcare-expenditure-as-share-of-national-gdp-by-country': the
     };
 }

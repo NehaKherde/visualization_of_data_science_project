@@ -9,7 +9,7 @@
     float: left;
 }
 #map-chart {
-    height: 850px;
+    height: 570px;
 }
 
 #scatter-plot {
@@ -85,4 +85,8 @@ div.tooltip {
     height: 400px; 
     overflow-y: scroll;
     text-align: left;
+}
+.world_map_tooltip_title {
+    color: red;
+    text-anchor:start;
 }
