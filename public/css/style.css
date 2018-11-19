@@ -90,7 +90,7 @@ div.tooltip {
     overflow-y: scroll;
     text-align: left;
 }
-<<<<<<< Updated upstream
+
 .world_map_tooltip_title {
     color: red;
     text-anchor:start;
@@ -102,6 +102,7 @@ div.tooltip {
 .activeYear-background{
     font-size: 80px;
     opacity: .4;
+}
 
 .background path {
   fill: none;
