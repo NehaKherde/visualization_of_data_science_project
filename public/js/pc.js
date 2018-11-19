@@ -1,6 +1,6 @@
 class ParallelChart{
   //later pass year array and factor array 
-  constructor(data){
+  constructor(data, factor){
     // this.margin = {top: 30, right: 20, bottom: 30, left: 100};
     let parallelDiv = d3.select("#parallel-chart").classed("contentforparallelplot", true);
     this.svgBounds = parallelDiv.node().getBoundingClientRect();
@@ -15,12 +15,12 @@ class ParallelChart{
           .attr("height",this.svgHeight + this.margin.top + this.margin.bottom)
           .attr("transform", "translate(10 ,30)")
     //this.yearArray = yearArray
-    //this.factor = factor
+    this.factor = factor
     this.yearArray = ["2005","2005"];
     if(this.yearArray[0] == this.yearArray[1]){
       this.yearArray = [this.yearArray[0]];
     }
-    this.factor = ["child-mortality","child-mortality-by-income-level-of-country", "polio-vaccine-coverage-of-one-year-olds","maternal-mortality" ]
+    //this.factor = ["child-mortality","child-mortality-by-income-level-of-country", "polio-vaccine-coverage-of-one-year-olds","maternal-mortality" ]
     this.factormap = {
       'child-mortality' : 'Child Mortality',
       'beer-consumption-per-person': "Beer beer consumption per person",

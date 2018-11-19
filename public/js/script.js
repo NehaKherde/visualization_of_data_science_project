@@ -15,7 +15,7 @@ loadData().then(data => {
         worldMap.addHighlight(countryID)
     }
 
-    const parallel_chart = new ParallelChart(data);
+    const parallel_chart = new ParallelChart(data, this.selected_factors_for_parallel_chart);
     const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor);
 
     d3.json('../data/world.json').then(mapData => {
@@ -39,7 +39,7 @@ loadData().then(data => {
                 that.selected_factors_for_parallel_chart.splice(index, 1);
             }
         }
-
+        parallel_chart.updateFactor(that.selected_factors_for_parallel_chart);
     }
 
     document.addEventListener("click", function(e) {
