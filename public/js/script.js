@@ -15,6 +15,7 @@ loadData().then(data => {
         worldMap.addHighlight(countryID)
     }
 
+    const parallel_chart = new ParallelChart(data);
     const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor);
 
     d3.json('../data/world.json').then(mapData => {

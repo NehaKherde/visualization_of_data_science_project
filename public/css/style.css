@@ -16,6 +16,10 @@
     height: 730px;
 }
 
+#parallel-chart{
+    height: 500px;
+    width: 960px;
+}
 #map-chart svg {
     width: 100%;
     height: 100%;
@@ -86,6 +90,7 @@ div.tooltip {
     overflow-y: scroll;
     text-align: left;
 }
+<<<<<<< Updated upstream
 .world_map_tooltip_title {
     color: red;
     text-anchor:start;
@@ -97,4 +102,32 @@ div.tooltip {
 .activeYear-background{
     font-size: 80px;
     opacity: .4;
+
+.background path {
+  fill: none;
+  stroke: #ddd;
+  shape-rendering: crispEdges;
+}
+
+.foreground path {
+  fill: none;
+  stroke: #5c5c8a;
+}
+
+.brush .extent {
+  fill-opacity: .3;
+  stroke: #fff;
+  shape-rendering: crispEdges;
+}
+
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis text {
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  cursor: move;
 }
