@@ -27,7 +27,11 @@ class Map {
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
         this.activeYear = activeYear;
-
+        if (selected_health_factor == "causesOfDeath"){
+            this.defaultData = 'causesOfDeath';
+        }else{
+            this.defaultData = 'child-mortality';
+        }
         let legendHeight = 90;
         let legend_section = d3.select("#legend").classed("tile_view",true);
 
@@ -76,7 +80,7 @@ class Map {
 
         
         // Fetch the data related to the default health factor and year
-        let data = this.fetchYearAndFactorRelatedData("2000", 'child-mortality')
+        let data = this.fetchYearAndFactorRelatedData("2000", this.defaultData);
 
         let new_path_element = d3.select("#map_chart_svg").selectAll("path")
         let add_region_clas = new_path_element.attr("fill", function(d, i) {
@@ -115,6 +119,8 @@ class Map {
     
 
     fetchYearAndFactorRelatedData(active_year, health_factor) {
+        console.log(this.complete_data);
+        console.log(health_factor);
         let factor_data = this.complete_data[health_factor]
         let year_specific_data = []
         let data = {}

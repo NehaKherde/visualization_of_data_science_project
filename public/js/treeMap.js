@@ -1,5 +1,6 @@
 class TreeMap {
-    constructor(){
+    constructor(worldMap){
+        this.worldMap = worldMap
         this.causesOfDeathData = []
         this.selectedFeaturesData =[]
         this.selectedCause = ""
