@@ -1,6 +1,6 @@
 class ParallelChart{
   //later pass year array and factor array 
-  constructor(data, factor, updateSelectedFactor){
+  constructor(data, factor, updateSelectedFactor, yearArray){
     // this.margin = {top: 30, right: 20, bottom: 30, left: 100};
     let parallelDiv = d3.select("#parallel-chart").classed("contentforparallelplot", true);
     this.svgBounds = parallelDiv.node().getBoundingClientRect();
@@ -17,7 +17,8 @@ class ParallelChart{
           .attr("transform", "translate(10 ,30)")
     //this.yearArray = yearArray
     this.factor = factor
-    this.yearArray = ["2005","2005"];
+    this.originalArr = yearArray;
+    this.yearArray = yearArray;
     if(this.yearArray[0] == this.yearArray[1]){
       this.yearArray = [this.yearArray[0]];
     }
@@ -60,6 +61,7 @@ class ParallelChart{
 
   updateYear(yearArray){
     this.yearArray = yearArray;
+    this.originalArr = yearArray;
     if(this.yearArray[0] == this.yearArray[1]){
       this.yearArray = [this.yearArray[0]];
     }
@@ -176,7 +178,8 @@ class ParallelChart{
              let a = d3.event;
               let val = a.srcElement.__data__;
               let key = self.reversefactormap[val]
-              self.updateSelectedFactor(key);
+              let value = self.originalArr;
+              self.updateSelectedFactor(key, value);
               d3.event.stopPropagation();
           });                    
            // g.append("g").attr("class", "brush")
@@ -187,8 +190,7 @@ class ParallelChart{
            //    .attr("x", -8)
            //    .attr("width", 16);     
 
-               g.append("g")
-                           .attr("class", "brush")
+            g.append("g").attr("class", "brush")
                            .each(function(d) {
                              d3.select(this).call(yScales[d].brush = d3.brushY().extent([[-10,self.margin.top],[10,(self.svgHeight - self.margin.bottom)]]).on("brush", brush));
                            })

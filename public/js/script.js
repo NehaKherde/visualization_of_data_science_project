@@ -11,8 +11,9 @@ loadData().then(data => {
         this.activeYear = year
         parallel_chart.updateYear(this.activeYear);
     }
-    function updateSelectedFactor(factor){
+    function updateSelectedFactor(factor, yearArray){
         this.selected_factor_for_map = factor;
+        this.activeYear = yearArray;
         worldMap.updateMap(this.activeYear, this.selected_factor_for_map);
     }
 
@@ -22,7 +23,7 @@ loadData().then(data => {
         worldMap.addHighlight(countryID)
     }
 
-    const parallel_chart = new ParallelChart(data, this.selected_factors_for_parallel_chart, updateSelectedFactor);
+    const parallel_chart = new ParallelChart(data, this.selected_factors_for_parallel_chart, updateSelectedFactor, this.activeYear);
     const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor, updateYearRange);
 
     d3.json('../data/world.json').then(mapData => {
