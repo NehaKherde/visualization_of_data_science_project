@@ -1,0 +1,68 @@
+[1mdiff --git a/public/js/pc.js b/public/js/pc.js[m
+[1mindex 4d32460..ba56768 100644[m
+[1m--- a/public/js/pc.js[m
+[1m+++ b/public/js/pc.js[m
+[36m@@ -1,6 +1,6 @@[m
+ class ParallelChart{[m
+   //later pass year array and factor array [m
+[31m-  constructor(data, factor){[m
+[32m+[m[32m  constructor(data, factor, updateSelectedFactor){[m
+     // this.margin = {top: 30, right: 20, bottom: 30, left: 100};[m
+     let parallelDiv = d3.select("#parallel-chart").classed("contentforparallelplot", true);[m
+     this.svgBounds = parallelDiv.node().getBoundingClientRect();[m
+[36m@@ -9,6 +9,7 @@[m [mclass ParallelChart{[m
+     this.svgHeight = this.svgBounds.height - this.margin.top - this.margin.bottom;[m
+     this.background;[m
+     this.complete_data = data;[m
+[32m+[m[32m    this.updateSelectedFactor = updateSelectedFactor;[m
+      //add the svg to the div[m
+     this.svg = parallelDiv.append("svg")[m
+           .attr("width",this.svgWidth + this.margin.left + this.margin.right)[m
+[36m@@ -27,14 +28,28 @@[m [mclass ParallelChart{[m
+       'child-mortality-by-income-level-of-country': "Child Mortality by Income Level",[m
+       'expected-years-of-living-with-disability-or-disease-burden': "Life Expectancy with Disability",[m
+       'life-expectancy': "Life Expectancy",[m
+[31m-      'maternal-mortality': "Mental Mortality",[m
+[32m+[m[32m      'maternal-mortality': "Maternal Mortality",[m
+       'median-age': "Median Age",[m
+       'polio-vaccine-coverage-of-one-year-olds': "Polio vaccine coverage of one year olds",[m
+       'share-of-population-with-cancer': "Share of population with cancer",[m
+       'share-with-alcohol-use-disorders': "Share with alchohol use disorders",[m
+[31m-      'share-with-mental-and-substance-disorders': "share-with-alcohol-use-disordersre with mental and substance disorders",[m
+[32m+[m[32m      'share-with-mental-and-substance-disorders': "Mental and substance disorders",[m
+       'total-healthcare-expenditure-as-share-of-national-gdp-by-country': "HealthCare Expenditure"[m
+     }[m
+[32m+[m[32m    this.reversefactormap = {[m
+[32m+[m[32m      'Child Mortality':'child-mortality',[m
+[32m+[m[32m      "Beer beer consumption per person":'beer-consumption-per-person',[m
+[32m+[m[32m      "Child Mortality by Income Level": 'child-mortality-by-income-level-of-country',[m
+[32m+[m[32m      "Life Expectancy with Disability": 'expected-years-of-living-with-disability-or-disease-burden',[m
+[32m+[m[32m      "Life Expectancy": 'life-expectancy',[m
+[32m+[m[32m      "Maternal Mortality": 'maternal-mortality',[m
+[32m+[m[32m      "Median Age": 'median-age',[m
+[32m+[m[32m      "Polio vaccine coverage of one year olds": 'polio-vaccine-coverage-of-one-year-olds',[m
+[32m+[m[32m      "Share of population with cancer": 'share-of-population-with-cancer',[m
+[32m+[m[32m      "Share with alchohol use disorders":'share-with-alcohol-use-disorders',[m
+[32m+[m[32m      "Mental and substance disorders":'share-with-mental-and-substance-disorders',[m
+[32m+[m[32m      "HealthCare Expenditure":'total-healthcare-expenditure-as-share-of-national-gdp-by-country'[m
+[32m+[m[32m    }[m
+     this.indexmap = {}[m
+     for(let i = 0; i<this.factor.length; i++){[m
+       this.indexmap[this.factormap[this.factor[i]]] = i+1 ;[m
+[36m@@ -45,6 +60,9 @@[m [mclass ParallelChart{[m
+ [m
+   updateYear(yearArray){[m
+     this.yearArray = yearArray;[m
+[32m+[m[32m    if(this.yearArray[0] == this.yearArray[1]){[m
+[32m+[m[32m      this.yearArray = [this.yearArray[0]];[m
+[32m+[m[32m    }[m
+     this.updateCoordinates()[m
+   }[m
+ [m
+[36m@@ -145,7 +163,7 @@[m [mclass ParallelChart{[m
+                         .attr("transform", function(d) { return "translate(" + xScale(d) + ")"; });[m
+ [m
+          //Add an axis and title.[m
+[31m-          g.append("g").attr("class", "axis")[m
+[32m+[m[32m         let axes = g.append("g").attr("class", "axis")[m
+                           .each(function(d) { d3.select(this).call(yAxis.scale(ySc

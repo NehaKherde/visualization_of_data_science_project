@@ -1,6 +1,6 @@
 class ParallelChart{
   //later pass year array and factor array 
-  constructor(data, factor){
+  constructor(data, factor, updateSelectedFactor){
     // this.margin = {top: 30, right: 20, bottom: 30, left: 100};
     let parallelDiv = d3.select("#parallel-chart").classed("contentforparallelplot", true);
     this.svgBounds = parallelDiv.node().getBoundingClientRect();
@@ -9,6 +9,7 @@ class ParallelChart{
     this.svgHeight = this.svgBounds.height - this.margin.top - this.margin.bottom;
     this.background;
     this.complete_data = data;
+    this.updateSelectedFactor = updateSelectedFactor;
      //add the svg to the div
     this.svg = parallelDiv.append("svg")
           .attr("width",this.svgWidth + this.margin.left + this.margin.right)
@@ -27,13 +28,27 @@ class ParallelChart{
       'child-mortality-by-income-level-of-country': "Child Mortality by Income Level",
       'expected-years-of-living-with-disability-or-disease-burden': "Life Expectancy with Disability",
       'life-expectancy': "Life Expectancy",
-      'maternal-mortality': "Mental Mortality",
+      'maternal-mortality': "Maternal Mortality",
       'median-age': "Median Age",
       'polio-vaccine-coverage-of-one-year-olds': "Polio vaccine coverage of one year olds",
       'share-of-population-with-cancer': "Share of population with cancer",
       'share-with-alcohol-use-disorders': "Share with alchohol use disorders",
-      'share-with-mental-and-substance-disorders': "share-with-alcohol-use-disordersre with mental and substance disorders",
+      'share-with-mental-and-substance-disorders': "Mental and substance disorders",
       'total-healthcare-expenditure-as-share-of-national-gdp-by-country': "HealthCare Expenditure"
+    }
+    this.reversefactormap = {
+      'Child Mortality':'child-mortality',
+      "Beer beer consumption per person":'beer-consumption-per-person',
+      "Child Mortality by Income Level": 'child-mortality-by-income-level-of-country',
+      "Life Expectancy with Disability": 'expected-years-of-living-with-disability-or-disease-burden',
+      "Life Expectancy": 'life-expectancy',
+      "Maternal Mortality": 'maternal-mortality',
+      "Median Age": 'median-age',
+      "Polio vaccine coverage of one year olds": 'polio-vaccine-coverage-of-one-year-olds',
+      "Share of population with cancer": 'share-of-population-with-cancer',
+      "Share with alchohol use disorders":'share-with-alcohol-use-disorders',
+      "Mental and substance disorders":'share-with-mental-and-substance-disorders',
+      "HealthCare Expenditure":'total-healthcare-expenditure-as-share-of-national-gdp-by-country'
     }
     this.indexmap = {}
     for(let i = 0; i<this.factor.length; i++){
@@ -45,6 +60,9 @@ class ParallelChart{
 
   updateYear(yearArray){
     this.yearArray = yearArray;
+    if(this.yearArray[0] == this.yearArray[1]){
+      this.yearArray = [this.yearArray[0]];
+    }
     this.updateCoordinates()
   }
 
@@ -145,7 +163,7 @@ class ParallelChart{
                         .attr("transform", function(d) { return "translate(" + xScale(d) + ")"; });
 
          //Add an axis and title.
-          g.append("g").attr("class", "axis")
+         let axes = g.append("g").attr("class", "axis")
                           .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll('text')
                           .style("font-size",12)})
                             .append("text")
@@ -154,12 +172,64 @@ class ParallelChart{
                               .text(function(d,i) { console.log(d); return d; })
                               .style("stroke","black")
                               .style("font-size",10)
-                        
+          axes.on("click", function(){
+             let a = d3.event;
+              let val = a.srcElement.__data__;
+              let key = self.reversefactormap[val]
+              self.updateSelectedFactor(key);
+              d3.event.stopPropagation();
+          });                    
+           // g.append("g").attr("class", "brush")
+           //    .each(funtion(d) {
+           //      d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
+           //    })
+           //  .selectAll("rect")
+           //    .attr("x", -8)
+           //    .attr("width", 16);     
+
+               g.append("g")
+                           .attr("class", "brush")
+                           .each(function(d) {
+                             d3.select(this).call(yScales[d].brush = d3.brushY().extent([[-10,self.margin.top],[10,(self.svgHeight - self.margin.bottom)]]).on("brush", brush));
+                           })
+                         .selectAll("rect")
+                           .attr("x", -8)
+                           .attr("width", 16);         
+
+
         // Returns the path for a given data point.
         function path(d) {
                         return line(column_names.map(function(p) {
                           return [xScale(p), yScales[p](d[p])]; }));
         }
+
+        function brushstart() {
+          d3.event.sourceEvent.stopPropagation();
+        }
+
+
+         function brush() {
+                      var actives = [];
+                        d3.selectAll(".brush")
+                          .filter(function(d) {
+                            return d3.brushSelection(this);
+                          })
+                          .each(function(d) {
+                            actives.push({
+                              "dimension": d,
+                              extent: d3.brushSelection(this)
+                            });
+                          });
+                      let extents = actives.map(function(p) { return p.extent});
+                      console.log(actives, extents)
+                      foreground.style("display", function(d) {
+                        return actives.every(function(p, i) {
+                          console.log(d[p.dimension]  )
+                          return extents[i][0] <= yScales[p.dimension](d[p.dimension]) && yScales[p.dimension](d[p.dimension]) <= extents[i][1];
+
+                        }) ? null : "none";
+                      });
+                    }
   }
 }
 

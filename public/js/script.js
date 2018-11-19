@@ -12,7 +12,8 @@ loadData().then(data => {
         parallel_chart.updateYear(this.activeYear);
     }
     function updateSelectedFactor(factor){
-        this.selected_factor_for_map = factor
+        this.selected_factor_for_map = factor;
+        worldMap.updateMap(this.activeYear, this.selected_factor_for_map);
     }
 
     function updateCountry(countryID) {
