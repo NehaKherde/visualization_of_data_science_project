@@ -56,9 +56,9 @@ loadData().then(data => {
         }
         e.stopPropagation();
         //console.log(that.selected_factors_for_parallel_chart)
-        if (e.path[0].id == "play_button") {
-            worldMap.playMap()
-        }
+        // if (e.path[0].id == "play_button") {
+        //     worldMap.playMap()
+        // }
     });
 
 

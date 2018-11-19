@@ -87,7 +87,7 @@ class Map {
                                                         })
         let tooltip = new_path_element.append("svg:title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
 
-        document.getElementById("play_button").disabled = true;
+       // document.getElementById("play_button").disabled = true;
 
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
@@ -107,6 +107,7 @@ class Map {
         let legendGWidth = svgBounds.width;
             
         this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,50)");
+
 
         svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 50).attr("y", 500);
     }
@@ -135,10 +136,7 @@ class Map {
             let add_region_clas = new_path_element.attr("fill", function(d, i) {
                                                             let id = data[d["id"]]
                                                             if(id == undefined)
-                                                                return "#eee"
-                                                            if (d["id"] == "IRN") {
-                                                                console.log("IRN")
-                                                            }
+                                                                return "#eee"                                                            
                                                             return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1], false)
                                                         })
             // Update the tooltip
@@ -166,10 +164,17 @@ class Map {
                 .call(legendQuantile);
 
         let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
-            let legendGWidth = svgBounds.width;
-            
-            let diff = (600 - legendGWidth)/2;
-            this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
+        let legendGWidth = svgBounds.width;
+        
+        let diff = (600 - legendGWidth)/2;
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
+
+        // let a_rect_bar_mouse_event = document.getElementById("map-chart")
+        // a_rect_bar_mouse_event.onmouseover = function(event) {
+        //     if("path" in event) {
+        //         //event.target.style.stroke-width = "0.3px"
+        //     }
+        // };
 
     }
 
@@ -193,7 +198,7 @@ class Map {
     yearslider() {
         let that = this;
 
-        let margin = {top: 200, right: 40, bottom: 200, left: 40},
+        let margin = {top: 200, right: 40, bottom: 200, left: 0},
         width = 960 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -203,7 +208,7 @@ class Map {
 
         let svg = d3.select("#nav_bar").append("svg")
             .attr("width", 923)
-            .attr("height", 50)
+            .attr("height", 50).attr("id", "year_slider_id")
             .append("g")
             .attr("transform", "translate(" + margin.left + ", 0)");
 
@@ -242,10 +247,12 @@ class Map {
             else if (!d3.event.sourceEvent) return; // Only transition after input.
             else if (!d3.event.selection) { // if empty selection then choose the block
                 // Selected block:
-                let clicked_location = x.invert(d3.event.sourceEvent.x)
+
+                let margin = document.getElementById("year_slider_id").getBoundingClientRect().x
+                let clicked_location = x.invert(d3.event.sourceEvent.x-margin)
                 //console.log(clicked_location)
-                d1[0] = Math.round(clicked_location)-5
-                d1[1] = Math.round(clicked_location)-5+1
+                d1[0] = Math.floor(clicked_location)
+                d1[1] = Math.floor(clicked_location)+1
             }
             else{
                 var d0 = d3.event.selection.map(x.invert),
@@ -256,13 +263,13 @@ class Map {
             
 
             that.updateMap(that.activeYear[0], that.selected_health_factor)
-            if(d1[0] == d1[1]-1) {
-                document.getElementById("play_button").disabled = true;
-            }
-            else {
-                document.getElementById("play_button").disabled = false;
-              //  that.updateMapForRange(that.activeYear, that.selected_health_factor)
-            }
+            // if(d1[0] == d1[1]-1) {
+            //     document.getElementById("play_button").disabled = true;
+            // }
+            // else {
+            //     document.getElementById("play_button").disabled = false;
+            //   //  that.updateMapForRange(that.activeYear, that.selected_health_factor)
+            // }
             
         }
 
@@ -271,15 +278,26 @@ class Map {
         //document.getElementById('brush_div').click();
     }
 
-    updateMapForRange(activeYear_range, selected_health_factor) {
-        let i;
-        let diff = activeYear_range[1] - activeYear_range[0] +1
+    // updateMapForRange(activeYear_range, selected_health_factor) {
+    //     let i;
+    //     let diff = activeYear_range[1] - activeYear_range[0] +1
 
-       // setTimeout(this.updateMap(i, selected_health_factor), 3000, diff)
-        // for(i = activeYear_range[0]; i <= activeYear_range[1]; i++) {
-            
-        // }
-    }
+    //     this.theLoop(diff, activeYear_range[1], selected_health_factor, this.updateMap)
+    //    // setTimeout(this.updateMap(i, selected_health_factor), 3000, diff)
+    //     // for(i = activeYear_range[0]; i <= activeYear_range[1]; i++) {            
+    //     // }
+    // }
+
+    // theLoop(i, activeYear, selected_health_factor, updateMapFunction) {
+    //         setTimeout(function () {
+    //             updateMapFunction(activeYear, selected_health_factor)
+    //             if (--i) {
+    //                 activeYear_range += 1// If i > 0, keep going
+    //                 theLoop(i, activeYear, selected_health_factor, updateMapFunction);
+    //         }
+    //     }, 2000);
+    // };
+
 
     playMap() {
         this.updateMapForRange(this.activeYear, this.selected_health_factor)
