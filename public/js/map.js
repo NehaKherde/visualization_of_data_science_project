@@ -18,7 +18,7 @@ class Map {
      * @param updateCountry a callback function used to notify other parts of the program when the selected
      * country was updated (clicked)
      */
-    constructor(data, activeYear, updateCountry, selected_health_factor) {
+    constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
         // ******* TODO: PART I *******
         this.projection = d3.geoEquirectangular().scale(150).translate([480, 325]);
         //this.nameArray = data.population.map(d => d.geo.toUpperCase());
@@ -27,6 +27,7 @@ class Map {
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
         this.activeYear = activeYear;
+        this.updateYearRange = updateYearRange;
 
         let legendHeight = 90;
         let legend_section = d3.select("#legend").classed("tile_view",true);
@@ -263,6 +264,7 @@ class Map {
             
 
             that.updateMap(that.activeYear[0], that.selected_health_factor)
+            that.updateYearRange(that.activeYear)
             // if(d1[0] == d1[1]-1) {
             //     document.getElementById("play_button").disabled = true;
             // }

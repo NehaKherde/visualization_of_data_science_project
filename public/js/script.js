@@ -7,7 +7,9 @@ loadData().then(data => {
     let that = this;
     this.selected_factors_for_parallel_chart = ["child-mortality", "polio-vaccine-coverage-of-one-year-olds", "median-age"]
 
-
+    function updateYearRange(year) {
+        this.activeYear = year
+    }
 
     function updateCountry(countryID) {
         that.activeCountry = countryID;
@@ -16,7 +18,7 @@ loadData().then(data => {
     }
 
     const parallel_chart = new ParallelChart(data, this.selected_factors_for_parallel_chart);
-    const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor);
+    const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor, updateYearRange);
 
     d3.json('../data/world.json').then(mapData => {
         worldMap.drawMap(mapData);
