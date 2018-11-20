@@ -38,27 +38,27 @@
 </nav>
         
 <div style="width:1200px;">
-  
-  <div id = "worldmap" class = "col-sm-11">
-    <h1>World Chart</h1>
-    <div id="map-chart" class="view"></div>
-    <div id="legend" class = "view">
-      <button id="play_button" type="button" class="btn btn-primary play_button">Play</button>
+  <div id="causesOfDeathTopDiv">
+    <div id='container' style="padding: 20px; padding-top: 50px; width:300px; float:left;">
+      <!-- tree Map -->
+      <div id = "treeMap"></div>
+    </div>
+
+    <div id='container' style="padding: 20px; width:300px; float:right; position: relative;">
+      <div id = "worldmap" class = "col-sm-11">
+        <div id="map-chart" class="view"></div>
+      </div>
     </div>
   </div>
-  <div id='container' style="padding: 30px; padding-top: 150px; width:300px; float:left;">
-    <!-- tree Map -->
-    <div id = "treeMap"></div>
-    <!-- info box -->
-    <div id = "infoBox"></div>
-  </div>
+</div>
 
-  <div id='container' style="padding: 30px; width:300px; float:right; position: relative;">
-    <!-- line chart -->
-    <div id = "lineChart" style="padding: 30px; width:300px; float:right;"></div>
-    <!-- bar chart -->
-    <div id = "barChart" style="padding: 30px; width:300px; float:right;"></div>
-  </div>
+<div id="causesOfDeathBottomDiv">
+  <!-- info box -->
+  <div id = "infoBox"></div>
+  <!-- line chart -->
+  <div id = "lineChart" ></div>
+  <!-- bar chart -->
+  <div id = "barChart"></div>
 </div>
 
 

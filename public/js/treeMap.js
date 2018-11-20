@@ -49,7 +49,9 @@ class TreeMap {
         this.deathType = {"Dementia": "NC","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"NC","Liver disease":"NC","Diabetes":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's":"NC","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"C","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"NC","Alcohol disorder":"NC","Natural disasters":"A","Diarrheal diseases":"NC","Heat or cold exposure":"NC","Nutritional deficiencies":"NC","Suicide":"CR","Execution":"CR","Meningitis":"C","Respiratory infections":"NC","Intestinal infectious":"NC","Protein-energy malnutrition":"NC","Conflict":"CR","Terrorism":"CR"};
         this.treeMapWidth = 800;
         this.treeMapHeight = 500;
-        this.selectedYears = [2006, 2007, 2008, 2009, 2010];
+        this.selectedYear = 0;
+        this.lineSelectedYear = 0;
+        this.selectedYears = [];
         this.selectedCountries = ["AFG", "ALB", "NOR", "OMN", "SWE", "SGP"];
         this.allContries = false
         this.allYears = false
@@ -71,12 +73,12 @@ class TreeMap {
     };
     
     displayBarChart(year){  
-        this.selectedYear = year;
+        this.lineSelectedYear = year;
         let that = this;
         let barChartData = [];
         let dataBuffer = 2000;
         that.selectedFeaturesData.forEach(function(element){
-            if (element["Year"] == that.selectedYear){
+            if (element["Year"] == that.lineSelectedYear){
                 if (element[that.selectedCause]!= undefined){
                     barChartData.push({"country":element["Entity"], "conCode": element["Code"], "CauseValue": element[that.selectedCause]});
                 }else{
@@ -220,12 +222,30 @@ class TreeMap {
         svgContainer.selectAll("circle")
             .data(lineChartData)
             .enter().append("circle")
-            .attr("r", 5)
+            .attr("r", function(d) { 
+                if(d.Year == that.selectedYear){
+                    return 7;
+                }else{
+                    return 5;
+                }
+            })
             .attr("cx", function(d) { return x(d.Year); })
             .attr("cy", function(d) { return y(d.causeSum); })
             .attr("id",  function(d) { return d.Year; })
-            .attr("fill", "#ADADAD")
-            .attr("stroke", "#644856")
+            .attr("fill", function(d) { 
+                if(d.Year == that.selectedYear){
+                    return  "#ffffff";
+                }else{
+                    return "#ADADAD";
+                }
+            })
+            .attr("stroke", function(d) { 
+                if(d.Year == that.selectedYear){
+                    return  "#000000";
+                }else{
+                    return "#644856";
+                }
+            })
             .attr("stroke-width", 2)
             .attr("transform", "translate(" +textPadding+ ",0)")
             .on("click", function() { that.displayBarChart(this.id); })	
@@ -297,7 +317,7 @@ class TreeMap {
             .attr("height", d => d.y1 - d.y0)
             .transition().duration(4000) 
             .attr("width", d => d.x1 - d.x0)
-            .attr("fill",  d=> {
+            .attr("fill",  d => {
                 let a = d.ancestors();
                 return colorScale(a[a.length - 2].id); });
         let label = cell.append("text")
@@ -330,7 +350,16 @@ class TreeMap {
             .style('fill', "white"); 
         
     }
-    update (){
+    update(year){
+        this.selectedYear =  parseInt(year);
+        let tempYear =  parseInt(year) - 3;
+        while(tempYear <=  parseInt(year)+3){
+            console.log(tempYear >= 1990);
+            if(tempYear >= 1990 && tempYear <=2016){
+                this.selectedYears.push(tempYear);
+            }
+            tempYear += 1;
+        }
         let that = this;
         d3.csv("../data/annual-number-of-deaths-by-cause.csv").then( causesOfDeath => {
             that.causesOfDeathData.push(causesOfDeath);
@@ -345,100 +374,164 @@ class TreeMap {
                         dataDict["Code"] = ele["Code"];
                         dataDict["Year"] = parseInt(ele["Year"]);
                         if(ele["Dementia"] != ""){
-                            that.causesOfDeathSumValues[ "Dementia"] += parseInt(ele["Dementia"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Dementia"] += parseInt(ele["Dementia"]);
+                            }
                             dataDict["Dementia"] = parseInt(ele["Dementia"]);
                         }if(ele["Cardiovascular diseases"] != ""){
-                            that.causesOfDeathSumValues[ "Cardiovascular diseases"] += parseInt(ele["Cardiovascular diseases"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Cardiovascular diseases"] += parseInt(ele["Cardiovascular diseases"]);
+                            }
                             dataDict["Cardiovascular diseases"] = parseInt(ele["Cardiovascular diseases"]);
                         }if(ele["Kidney disease"] != ""){
-                            that.causesOfDeathSumValues[ "Kidney disease"] += parseInt(ele["Kidney disease"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Kidney disease"] += parseInt(ele["Kidney disease"]);
+                            }
                             dataDict["Kidney disease"] = parseInt(ele["Kidney disease"]);
                         }if(ele["Respiratory disease"] != ""){
-                            that.causesOfDeathSumValues[ "Respiratory disease"] += parseInt(ele["Respiratory disease"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Respiratory disease"] += parseInt(ele["Respiratory disease"]);
+                            }
                             dataDict["Respiratory disease"] = parseInt(ele["Respiratory disease"]);
                         }if(ele["Liver disease"] != ""){
-                            that.causesOfDeathSumValues[ "Liver disease"] += parseInt(ele["Liver disease"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Liver disease"] += parseInt(ele["Liver disease"]);
+                            }
                             dataDict["Liver disease"] = parseInt(ele["Liver disease"]);
                         }if(ele["Diabetes, blood and endocrine disease"] != ""){
-                            that.causesOfDeathSumValues[ "Diabetes"] += parseInt(ele["Diabetes, blood and endocrine disease"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Diabetes"] += parseInt(ele["Diabetes, blood and endocrine disease"]);
+                            }
                             dataDict["Diabetes"] = parseInt(ele["Diabetes, blood and endocrine disease"]);
                         }if(ele["Digestive disease"] != ""){
-                            that.causesOfDeathSumValues[ "Digestive disease"] += parseInt(ele["Digestive disease"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Digestive disease"] += parseInt(ele["Digestive disease"]);
+                            }
                             dataDict["Digestive disease"] = parseInt(ele["Digestive disease"]);
                         }if(ele["Hepatitis"] != ""){
-                            that.causesOfDeathSumValues[ "Hepatitis"] += parseInt(ele["Hepatitis"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Hepatitis"] += parseInt(ele["Hepatitis"]);
+                            }
                             dataDict["Hepatitis"] = parseInt(ele["Hepatitis"]);
                         }if(ele["Cancers"] != ""){
-                            that.causesOfDeathSumValues[ "Cancers"] += parseInt(ele["Cancers"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Cancers"] += parseInt(ele["Cancers"]);
+                            }
                             dataDict["Cancers"] = parseInt(ele["Cancers"]);
                         }if(ele["Parkinson's disease"] != ""){
-                            that.causesOfDeathSumValues[ "Parkinson's"] += parseInt(ele["Parkinson's disease"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Parkinson's"] += parseInt(ele["Parkinson's disease"]);
+                            }
                             dataDict["Parkinson's"] = parseInt(ele["Parkinson's disease"]);
                         }if(ele["Fire"] != ""){
-                            that.causesOfDeathSumValues[ "Fire"] += parseInt(ele["Fire"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Fire"] += parseInt(ele["Fire"]);
+                            }
                             dataDict["Fire"] = parseInt(ele["Fire"]);
                         }if(ele["Malaria"] != ""){
-                            that.causesOfDeathSumValues[ "Malaria"] += parseInt(ele["Malaria"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Malaria"] += parseInt(ele["Malaria"]);
+                            }
                             dataDict["Malaria"] = parseInt(ele["Malaria"]);
                         }if(ele["Drowning"] != ""){
-                            that.causesOfDeathSumValues[ "Drowning"] += parseInt(ele["Drowning"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Drowning"] += parseInt(ele["Drowning"]);
+                            }
                             dataDict["Drowning"] = parseInt(ele["Drowning"]);
                         }if(ele["Homicide"] != ""){
-                            that.causesOfDeathSumValues[ "Homicide"] += parseInt(ele["Homicide"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Homicide"] += parseInt(ele["Homicide"]);
+                            }
                             dataDict["Homicide"] = parseInt(ele["Homicide"]);
                         }if(ele["HIV/AIDS"] != ""){
-                            that.causesOfDeathSumValues[ "HIV/AIDS"] += parseInt(ele["HIV/AIDS"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "HIV/AIDS"] += parseInt(ele["HIV/AIDS"]);
+                            }
                             dataDict["HIV/AIDS"] = parseInt(ele["HIV/AIDS"]);
                         }if(ele["Drug disorder"] != ""){
-                            that.causesOfDeathSumValues[ "Drug disorder"] += parseInt(ele["Drug disorder"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Drug disorder"] += parseInt(ele["Drug disorder"]);
+                            }
                             dataDict["Drug disorder"] = parseInt(ele["Drug disorder"]);
                         }if(ele["Tuberculosis"] != ""){
-                            that.causesOfDeathSumValues[ "Tuberculosis"] += parseInt(ele["Tuberculosis"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Tuberculosis"] += parseInt(ele["Tuberculosis"]);
+                            }
                             dataDict["Tuberculosis"] = parseInt(ele["Tuberculosis"]);
                         }if(ele["Road incidents"] != ""){
-                            that.causesOfDeathSumValues[ "Road incidents"] += parseInt(ele["Road incidents"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Road incidents"] += parseInt(ele["Road incidents"]);
+                            }
                             dataDict["Road incidents"] = parseInt(ele["Road incidents"]);
                         }if(ele["Maternal deaths"] != ""){
-                            that.causesOfDeathSumValues[ "Maternal deaths"] += parseInt(ele["Maternal deaths"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Maternal deaths"] += parseInt(ele["Maternal deaths"]);
+                            }
                             dataDict["Maternal deaths"] = parseInt(ele["Maternal deaths"]);
                         }if(ele["Neonatal deaths"] != ""){
-                            that.causesOfDeathSumValues[ "Neonatal deaths"] += parseInt(ele["Neonatal deaths"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Neonatal deaths"] += parseInt(ele["Neonatal deaths"]);
+                            }
                             dataDict["Neonatal deaths"] = parseInt(ele["Neonatal deaths"]);
                         }if(ele["Alcohol disorder"] != ""){
-                            that.causesOfDeathSumValues[ "Alcohol disorder"] += parseInt(ele["Alcohol disorder"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Alcohol disorder"] += parseInt(ele["Alcohol disorder"]);
+                            }
                             dataDict["Alcohol disorder"] = parseInt(ele["Alcohol disorder"]);
                         }if(ele["Natural disasters"] != ""){
-                            that.causesOfDeathSumValues[ "Natural disasters"] += parseInt(ele["Natural disasters"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Natural disasters"] += parseInt(ele["Natural disasters"]);
+                            }
                             dataDict["Natural disasters"] = parseInt(ele["Natural disasters"]);
                         }if(ele["Heat-related deaths (hot or cold exposure)"] != ""){
-                            that.causesOfDeathSumValues[ "Heat or cold exposure"] += parseInt(ele["Heat-related deaths (hot or cold exposure)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Heat or cold exposure"] += parseInt(ele["Heat-related deaths (hot or cold exposure)"]);
+                            }
                             dataDict["Heat or cold exposure"] = parseInt(ele["Heat-related deaths (hot or cold exposure)"]);
                         }if(ele["Nutritional deficiencies"] != ""){
-                            that.causesOfDeathSumValues[ "Nutritional deficiencies"] += parseInt(ele["Nutritional deficiencies"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Nutritional deficiencies"] += parseInt(ele["Nutritional deficiencies"]);
+                            }
                             dataDict["Nutritional deficiencies"] = parseInt(ele["Nutritional deficiencies"]);
                         }if(ele["Suicide"] != ""){
-                            that.causesOfDeathSumValues[ "Suicide"] += parseInt(ele["Suicide"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Suicide"] += parseInt(ele["Suicide"]);
+                            }
                             dataDict["Suicide"] = parseInt(ele["Suicide"]);
                         }if(ele["Execution (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Execution"] += parseInt(ele["Execution (deaths)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Execution"] += parseInt(ele["Execution (deaths)"]);
+                            }
                             dataDict["Execution"] = parseInt(ele["Execution (deaths)"]);
                         }if(ele["Meningitis (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Meningitis"] += parseInt(ele["Meningitis (deaths)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Meningitis"] += parseInt(ele["Meningitis (deaths)"]);
+                            }
                             dataDict["Meningitis"] = parseInt(ele["Meningitis (deaths)"]);
                         }if(ele["Lower respiratory infections (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Respiratory infections"] += parseInt(ele["Lower respiratory infections (deaths)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Respiratory infections"] += parseInt(ele["Lower respiratory infections (deaths)"]);
+                            }
                             dataDict["Respiratory infections"] = parseInt(ele["Lower respiratory infections (deaths)"]);
                         }if(ele["Intestinal infectious diseases (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Intestinal infectious"] += parseInt(ele["Intestinal infectious diseases (deaths)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Intestinal infectious"] += parseInt(ele["Intestinal infectious diseases (deaths)"]);
+                            }
                             dataDict["Intestinal infectious"] = parseInt(ele["Intestinal infectious diseases (deaths)"]);
                         }if(ele["Protein-energy malnutrition (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Protein-energy malnutrition"] += parseInt(ele["Protein-energy malnutrition (deaths)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Protein-energy malnutrition"] += parseInt(ele["Protein-energy malnutrition (deaths)"]);
+                            }
                             dataDict["Protein-energy malnutrition"] = parseInt(ele["Protein-energy malnutrition (deaths)"]);
                         }if(ele["Conflict (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Conflict"] += parseInt(ele["Conflict (deaths)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Conflict"] += parseInt(ele["Conflict (deaths)"]);
+                            }
                             dataDict["Conflict"] = parseInt(ele["Conflict (deaths)"]);
                         }if(ele["Terrorism (deaths)"] != ""){
-                            that.causesOfDeathSumValues[ "Terrorism"] += parseInt(ele["Terrorism (deaths)"]);
+                            if(that.selectedYear == parseInt(ele["Year"])){
+                                that.causesOfDeathSumValues[ "Terrorism"] += parseInt(ele["Terrorism (deaths)"]);
+                            }
                             dataDict["Terrorism"] = parseInt(ele["Terrorism (deaths)"]);
                         }
                        that.selectedFeaturesData.push(dataDict); 

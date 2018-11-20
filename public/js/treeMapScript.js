@@ -1,10 +1,10 @@
 
 loadData().then(data => {
 
-	this.activeYear = ["2000", "2000"]
+	this.activeYear = ["2006", "2006"]
     const worldMap = new Map(data, this.activeYear, updateCountry, "causesOfDeath");
     this.treeMap = new TreeMap(worldMap);
-    this.treeMap.update();
+    this.treeMap.update(this.activeYear[0]);
 
 	this.activeCountry = null;
     let that = this;

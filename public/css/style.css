@@ -144,3 +144,13 @@ div.tooltip {
   opacity: 0.5;
   font-style: italic; 
 }
+#causesOfDeathBottomDiv div {float: left;}
+#infoBox {
+    width: 30%;
+}
+#lineChart {
+    width: 35%;
+}
+#barChart {
+    width: 35%;
+}
