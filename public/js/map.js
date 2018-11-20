@@ -8,21 +8,10 @@ class CountryData {
     }
 }
 
-/** Class representing the map view. */
 class Map {
 
-    /**
-     * Creates a Map Object
-     *
-     * @param data the full dataset
-     * @param updateCountry a callback function used to notify other parts of the program when the selected
-     * country was updated (clicked)
-     */
-    constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
-        // ******* TODO: PART I *******
+        constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
         this.projection = d3.geoEquirectangular().scale(120).translate([500, 190]);
-        //this.nameArray = data.population.map(d => d.geo.toUpperCase());
-        //this.populationData = data.population;
         this.complete_data = data
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
@@ -43,10 +32,6 @@ class Map {
     }
 
 
-    /**
-     * Renders the map
-     * @param world the topojson data with the shape of all countries and a string for the activeYear
-     */
     drawMap(world) {
 
         let domain = [0, 1, 5, 10, 20, 30, 50];
@@ -187,10 +172,6 @@ class Map {
 
     }
 
-    /**
-     * Highlights the selected conutry and region on mouse click
-     * @param activeCountry the country ID of the country to be rendered as selected/highlighted
-     */
     addHighlight(activeCountry) {
         let country_id = "#"+activeCountry;
         let selected_country = d3.select("#map-chart").select("svg").select(country_id);
