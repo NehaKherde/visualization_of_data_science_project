@@ -20,7 +20,7 @@
 
 #parallel-chart{
     height: 500px;
-    width: 960px;
+    /*width: 960px;*/
 }
 #map-chart svg {
     width: 100%;
@@ -139,4 +139,8 @@ div.tooltip {
 }
 .nav_bar {
   padding: 0px !important;
+}
+.sub-title {
+  opacity: 0.5;
+  font-style: italic; 
 }

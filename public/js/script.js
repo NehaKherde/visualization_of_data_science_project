@@ -13,6 +13,7 @@ loadData().then(data => {
     }
     function updateSelectedFactor(factor, yearArray){
         this.selected_factor_for_map = factor;
+        this.selected_health_factor = factor;
         this.activeYear = yearArray;
         worldMap.updateMap(this.activeYear[0], this.selected_factor_for_map);
     }

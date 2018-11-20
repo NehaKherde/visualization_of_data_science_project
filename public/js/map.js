@@ -20,7 +20,7 @@ class Map {
      */
     constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
         // ******* TODO: PART I *******
-        this.projection = d3.geoEquirectangular().scale(120).translate([400, 190]);
+        this.projection = d3.geoEquirectangular().scale(120).translate([500, 190]);
         //this.nameArray = data.population.map(d => d.geo.toUpperCase());
         //this.populationData = data.population;
         this.complete_data = data
@@ -40,7 +40,7 @@ class Map {
                             .attr("width",130)
                             .attr("height",legendHeight)
                             .attr("transform", "translate(-30,-40)");
-        }
+    }
 
 
     /**
@@ -112,7 +112,8 @@ class Map {
         let legendGWidth = svgBounds.width;
             
         this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,41)");
-        svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 50).attr("y", 334);
+        svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 150).attr("y", 334);
+        this.tooltip_message('child-mortality')
     }
 
     
@@ -136,6 +137,8 @@ class Map {
         //if(active_year[0] == active_year[1]) {
           //  document.getElementById("play_button").disabled = true;
             let _that = this
+            this.tooltip_message(health_factor)
+            this.selected_health_factor = health_factor
             let data = this.fetchYearAndFactorRelatedData(active_year, health_factor)
             let new_path_element = d3.select("#map_chart_svg").selectAll("path")
             let add_region_clas = new_path_element.attr("fill", function(d, i) {
@@ -269,6 +272,7 @@ class Map {
             
 
             that.updateMap(that.activeYear[0], that.selected_health_factor)
+            that.tooltip_message(that.selected_health_factor)
             that.updateYearRange(that.activeYear)
             // if(d1[0] == d1[1]-1) {
             //     document.getElementById("play_button").disabled = true;
@@ -310,6 +314,72 @@ class Map {
 
     playMap() {
         this.updateMapForRange(this.activeYear, this.selected_health_factor)
+    }
+
+    tooltip_message(health_factor){
+        switch(health_factor) {
+            case 'child-mortality':
+                d3.select("#tooltip_title").text("Child Mortality");
+                d3.select(".sub-title").text("Shown is the share of children (born alive) who die before they are 5 years old");
+                d3.select(".message").text("The world map shows the estimated level of child mortality for all world regions from 1990 to 2014 in the country borders of today. In all parts of the world child mortality is estimated to be higher than one third.")
+                break;
+            case 'beer-consumption-per-person':
+                d3.select("#tooltip_title").text("Beer Consumption Per Person (liters pure alcohol)");
+                d3.select(".sub-title").text("Average per capita beer consumption, measured as in liters of pure alcohol per year");
+                d3.select(".message").text("The world map shows the measure in terms of pure alcohol/ethanol intake, rather than the total quantity of the beverage.")
+                break;
+            case 'child-mortality-by-income-level-of-country':
+                d3.select("#tooltip_title").text("Child Mortality By Income Level Of Country");
+                d3.select(".sub-title").text("The child mortality rate measures the share of children that die before reaching the age of 5.");
+                d3.select(".message").text("As one would expect, income level of the country is extremely correlated with child mortality rate. The poorest countries have the highest levels of child mortality, and the countries with the highest income have the lowest rates. This relationship has remained the same even as child mortality has decreased around the world, as demonstrated below.") 
+                break;
+            case 'expected-years-of-living-with-disability-or-disease-burden':
+                d3.select("#tooltip_title").text("Expected Years of Living With Disability Or Disease Burden");
+                d3.select(".sub-title").text("");
+                d3.select(".message").text("Average number of years with disability an individual born in the respective year can expect to experience. This is calculated as the difference between total and healthy life expectancy.")
+                break;
+            case 'life-expectancy':
+                d3.select("#tooltip_title").text("Life Expectancy");
+                d3.select(".sub-title").text("");
+                d3.select(".message").text("Shown is period life expectancy at birth. This corresponds to an estimate of the average number of years a newborn infant would live if prevailing patterns of mortality at the time of its birth were to stay the same throughout its life")
+                break;
+            case 'maternal-mortality':
+                d3.select("#tooltip_title").text("Maternal Mortality");
+                d3.select(".sub-title").text("Maternal mortality ratio is the number of women who die from pregnancy-related causes while pregnant or within 42 days of pregnancy termination per 100,000 live births.");
+                d3.select(".message").text("The countries that achieved the lowest maternal mortality rate are Finland, Greece, Iceland, and Poland. For each 100,000 deaths 3 mothers die.")
+                break;
+            case 'median-age':
+                d3.select("#tooltip_title").text("Median Age");
+                d3.select(".sub-title").text("");
+                d3.select(".message").text("The median age divides the population in two parts of equal size: that is, there are as many persons with ages above the median as there are with ages below the median.")
+                break;
+            case 'polio-vaccine-coverage-of-one-year-olds':
+                d3.select("#tooltip_title").text("Polio Vaccine Coverage Of One Year Olds");
+                d3.select(".sub-title").text("Percentage of one-year-olds who have received three doses of polio vaccine in a given year.");
+                d3.select(".message").text("Globally you can see that in 1990 only 22% of one-year-olds were vaccinated against polio, and this increased to a coverage of 86% of the world's one year-olds in 2014")
+                break;
+            case 'share-of-population-with-cancer':
+                d3.select("#tooltip_title").text("Share Of Population With Cancer");
+                d3.select(".sub-title").text("");
+                d3.select(".message").text("Share of total population with any form of cancer, measured as the age-standardized percentage. This share has been age-standardized assuming a constant age structure to compare prevalence between countries and through time.")
+                break;
+            case 'share-with-alcohol-use-disorders':
+                d3.select("#tooltip_title").text("Share With Alcohol Use Disorders");
+                d3.select(".sub-title").text("");
+                d3.select(".message").text("Alcohol dependence is defined by the International Classification of Diseases as the presence of three or more indicators of dependence for at least a month within the previous year. This is given as the age-standardized prevalence which assumes a constant age structure allowing for comparison by sex, country and through time.")
+                break;
+            case 'share-with-mental-and-substance-disorders':
+                d3.select("#tooltip_title").text("Share of Population with Mental Health and Substance use Disorders");
+                d3.select(".sub-title").text("");
+                d3.select(".message").text("In the chart below we see that globally, mental and substance use disorders are very common: around 1-in-6 people (15-20 percent) have one or more mental or substance use disorders.")
+                break;
+            case 'total-healthcare-expenditure-as-share-of-national-gdp-by-country':
+                d3.select("#tooltip_title").text("Total Healthcare Expenditure as Share of National GDP by Country");
+                d3.select(".sub-title").text("Total Healthcare expenditure by country (% of corresponding national GDP) ");
+                d3.select(".message").text("Global trends in healthcare expenditure mask a great deal of heterogeneity. The following map shows how total expenditure on healthcare has changed across the world.")
+                break;
+
+        }
     }
 
     tooltipRender(data, d, health_factor) {
