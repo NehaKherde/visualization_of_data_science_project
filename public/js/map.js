@@ -446,8 +446,8 @@ class Map {
             case "child-mortality-by-income-level-of-country":
                 if(get_divisions)
                     return 5
-                domain = [0, 5, 10, 15, 20, 25];
-                range = ["#023858", "#d0d1e6", "#74a9cf", "#74a9cf", "#023858"];
+                domain = [0, 5, 10, 20, 30];
+                range = ["#ffffcc", "#c7e9b4", "#7fcdbb", "#2c7fb8", "#FFEC38"];
                 colorScale = d3.scaleQuantile()
                             .domain(domain)
                             .range(range);
@@ -457,8 +457,8 @@ class Map {
             case "expected-years-of-living-with-disability-or-disease-burden":
                 if(get_divisions)
                     return 7
-                domain = [5, 6, 7, 8, 9, 10, 11, 12];
-                range = ["#ffffb2", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
+                domain = [5, 6, 7, 8, 9, 10];
+                range = ["#ffffb2", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a"];
                 colorScale = d3.scaleQuantile()
                             .domain(domain)
                             .range(range);
@@ -512,8 +512,8 @@ class Map {
             case "share-of-population-with-cancer":
                 if(get_divisions)
                     return 8
-                domain = [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
-                range = ["#ffffcc", "#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
+                domain = [0, 0.2, 0.5, 0.7, 0.9, 1.59, 2];
+                range = ["#ffffcc", "#fed976", "#feb24c","#fc4e2a", "#e31a1c", "#b10026"];
                 colorScale = d3.scaleQuantile()
                             .domain(domain)
                             .range(range);
@@ -523,8 +523,8 @@ class Map {
             case "share-with-alcohol-use-disorders":
                 if(get_divisions)
                     return 8
-                domain = [0, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5];
-                range = ["#f7fcfd", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#6e016b"];
+                domain = [0, 0.5, 1, 1.5, 2, 4, 5];
+                range = ["#f7fcfd", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c6bb1", "#88419d", "#6e016b"];
                 colorScale = d3.scaleQuantile()
                             .domain(domain)
                             .range(range);
