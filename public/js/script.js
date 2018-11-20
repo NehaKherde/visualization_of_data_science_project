@@ -14,7 +14,7 @@ loadData().then(data => {
     function updateSelectedFactor(factor, yearArray){
         this.selected_factor_for_map = factor;
         this.activeYear = yearArray;
-        worldMap.updateMap(this.activeYear, this.selected_factor_for_map);
+        worldMap.updateMap(this.activeYear[0], this.selected_factor_for_map);
     }
 
     function updateCountry(countryID) {

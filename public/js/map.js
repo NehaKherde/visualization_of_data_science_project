@@ -20,7 +20,7 @@ class Map {
      */
     constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
         // ******* TODO: PART I *******
-        this.projection = d3.geoEquirectangular().scale(150).translate([480, 325]);
+        this.projection = d3.geoEquirectangular().scale(120).translate([400, 190]);
         //this.nameArray = data.population.map(d => d.geo.toUpperCase());
         //this.populationData = data.population;
         this.complete_data = data
@@ -33,13 +33,13 @@ class Map {
             this.defaultData = 'child-mortality';
         }
         this.updateYearRange = updateYearRange;
-        let legendHeight = 90;
+        let legendHeight = 250;
         let legend_section = d3.select("#legend").classed("tile_view",true);
 
         this.legendSvg = legend_section.append("svg")
-                            .attr("width",600)
+                            .attr("width",130)
                             .attr("height",legendHeight)
-                            .attr("transform", "translate(0,-40)");
+                            .attr("transform", "translate(-30,-40)");
         }
 
 
@@ -96,12 +96,12 @@ class Map {
 
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
-                .attr("transform", "translate(0,50)");
+                .attr("transform", "translate(0,41)");
                 
         let legendQuantile = d3.legendColor()
-                .shapeWidth((600)/6)
+                .shapeWidth((600)/12)
                 .cells(6)
-                .orient('horizontal')
+                .orient('vertical')
                 .labelFormat(d3.format('.1r'))
                 .scale(colorScale);
 
@@ -111,10 +111,8 @@ class Map {
         let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
         let legendGWidth = svgBounds.width;
             
-        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,50)");
-
-
-        svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 50).attr("y", 500);
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,41)");
+        svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 50).attr("y", 334);
     }
 
     
@@ -158,12 +156,12 @@ class Map {
 
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
-                .attr("transform", "translate(0,50)");        
+                .attr("transform", "translate(0,41)");        
         let divisions = this.getDomainAndRangeForColorScale(health_factor, '', true)
         let legendQuantile = d3.legendColor()
-                .shapeWidth((600)/divisions)
+                .shapeWidth((600)/12)
                 .cells(divisions)
-                .orient('horizontal')
+                .orient('vertical')
                 .labelFormat(d3.format('.1r'))
                 .scale(this.getDomainAndRangeForColorScale(health_factor, '', false));
 
@@ -174,7 +172,8 @@ class Map {
         let legendGWidth = svgBounds.width;
         
         let diff = (600 - legendGWidth)/2;
-        this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,41)");
+//        this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
 
         // let a_rect_bar_mouse_event = document.getElementById("map-chart")
         // a_rect_bar_mouse_event.onmouseover = function(event) {
@@ -215,7 +214,7 @@ class Map {
 
         let svg = d3.select("#nav_bar").append("svg")
             .attr("width", 923)
-            .attr("height", 50).attr("id", "year_slider_id")
+            .attr("height", 45).attr("id", "year_slider_id")
             .append("g")
             .attr("transform", "translate(" + margin.left + ", 0)");
 
@@ -283,7 +282,9 @@ class Map {
 
         // TODO: try to trigger a default event
         //brush.event(context.select('g.x.brush'));
-        //document.getElementById('brush_div').click();
+        let point = document.getElementById("year_slider_id").getBoundingClientRect()
+        //$(document.elementFromPoint(point.x+4, point.y+point.top)).click();
+        $(document.elementFromPoint(115, 313)).click();
     }
 
     // updateMapForRange(activeYear_range, selected_health_factor) {
