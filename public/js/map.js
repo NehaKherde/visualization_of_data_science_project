@@ -104,8 +104,6 @@ class Map {
     
 
     fetchYearAndFactorRelatedData(active_year, health_factor) {
-        console.log(this.complete_data);
-        console.log(health_factor);
         let factor_data = this.complete_data[health_factor]
         let year_specific_data = []
         let data = {}
