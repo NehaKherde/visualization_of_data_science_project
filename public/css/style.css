@@ -20,8 +20,43 @@
 
 #parallel-chart{
     height: 500px;
+    word-wrap: break-word;
+    white-space: normal;
     /*width: 960px;*/
 }
+
+#parallel-chart text{
+    height: 500px;
+    word-wrap: break-word;
+    text-anchor:middle;
+    font: 12px Serif;
+    stroke: black;
+}
+.header-pc{
+    height: 500px;
+    word-wrap: break-word;
+    text-anchor:middle;
+    font: 12px Serif;
+    stroke: black;
+    transform: rotate(-7deg)
+    /*overflow-wrap: break-word;*/
+    /*width: 960px;*/
+}
+
+.headerdiv{
+  width:100px;
+  height:100px;
+  word-wrap: break-word;
+  position: relative;
+  float: none;
+  clear: both;
+  margin: 0;
+  padding: 0;
+  border: none;
+
+
+}
+
 #map-chart svg {
     width: 100%;
     height: 70%;
@@ -115,6 +150,7 @@ div.tooltip {
 .foreground path {
   fill: none;
   stroke: #5c5c8a;
+  stroke-width:1;
 }
 
 .brush .extent {
@@ -145,3 +181,25 @@ div.tooltip {
   font-style: italic; 
 }
 #causesOfDeathBottomDiv div {float: left;}
+#infoBox {
+    width: 30%;
+}
+#lineChart {
+    width: 35%;
+}
+#barChart {
+    width: 35%;
+}
+
+div.tooltip { 
+    position: absolute;     
+    text-align: center;     
+    width: 60px;          
+    height: 28px;         
+    padding: 2px;       
+    font: 12px sans-serif;    
+    background: lightsteelblue; 
+    border: 0px;    
+    border-radius: 8px;     
+    pointer-events: none;     
+}
