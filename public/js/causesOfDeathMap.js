@@ -8,7 +8,7 @@ class CountryData {
     }
 }
 
-class Map {
+class CodMap {
 
         constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
         this.projection = d3.geoEquirectangular().scale(120).translate([500, 190]);
@@ -16,7 +16,7 @@ class Map {
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
         this.activeYear = activeYear;
-        this.defaultData = 'child-mortality';
+        this.defaultData = 'causesOfDeath';
         this.updateYearRange = updateYearRange;
         let legendHeight = 250;
         let legend_section = d3.select("#legend").classed("tile_view",true);

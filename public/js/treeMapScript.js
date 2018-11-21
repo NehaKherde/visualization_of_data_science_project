@@ -2,7 +2,7 @@
 loadData().then(data => {
 
 	this.activeYear = ["2006", "2006"]
-    const worldMap = new Map(data, this.activeYear, updateCountry, "causesOfDeath");
+    const worldMap = new CodMap(data, this.activeYear, updateCountry, "causesOfDeath");
     this.treeMap = new TreeMap(worldMap);
     this.treeMap.update(this.activeYear[0]);
 
