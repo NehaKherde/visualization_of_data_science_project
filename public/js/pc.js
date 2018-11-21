@@ -112,6 +112,24 @@ class ParallelChart{
    
   }
 
+  addHighlight(countryId){
+    let country_id = "#"+countryId;
+    let selected_country = d3.select("#parallel-chart").select(".foreground").select(country_id);
+    let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
+              f.style("stroke","#ddd") 
+              let a = selected_country;
+              let b = a.parentElement;
+              a._groups[0][0].parentElement.appendChild(a._groups[0][0]);
+              a.style("stroke", "black")
+              a.style("stroke-width", "2")
+  }
+
+  clearHighlight(){
+    let f = d3.select("#parallel-chart").selectAll("path");
+              f.style("stroke","#5c5c8a") 
+              f.style("stroke-width", "1")
+  }
+
   updateParallelPlot(combined_data){
 
     let self = this;
@@ -173,7 +191,7 @@ class ParallelChart{
           }
                         
           function nothover(){
-              let f = d3.select("#parallel-chart").selectAll("path");
+              let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
               f.style("stroke","#5c5c8a") 
               f.style("stroke-width", "1")
           }                        
@@ -249,13 +267,13 @@ class ParallelChart{
            //                    .style("stroke","black")
            //                    .style("font-size",10)     
 
-            g.append("g").attr("class", "brush")
-                           .each(function(d) {
-                             d3.select(this).call(yScales[d].brush = d3.brushY().extent([[-10,self.margin.top],[10,(self.svgHeight - self.margin.bottom)]]).on("brush", brush));
-                           })
-                         .selectAll("rect")
-                           .attr("x", -8)
-                           .attr("width", 16);         
+            // g.append("g").attr("class", "brush")
+            //                .each(function(d) {
+            //                  d3.select(this).call(yScales[d].brush = d3.brushY().extent([[-10,self.margin.top],[10,(self.svgHeight - self.margin.bottom)]]).on("brush", brush));
+            //                })
+            //              .selectAll("rect")
+            //                .attr("x", -8)
+            //                .attr("width", 16);         
 
 
         // Returns the path for a given data point.

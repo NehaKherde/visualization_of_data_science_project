@@ -29,6 +29,8 @@ loadData().then(data => {
         that.activeCountry = countryID;
         worldMap.clearHighlight()
         worldMap.addHighlight(countryID)
+        parallel_chart.clearHighlight();
+        parallel_chart.addHighlight(world_dict[countryID]);
         // Use world_dict[countryID] to fetch the country name that is selected
     }
 
