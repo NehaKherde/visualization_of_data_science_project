@@ -4,9 +4,16 @@ loadData().then(data => {
 	this.activeCountry = null;
 	this.activeYear = ["2000", "2000"]
     this.selected_health_factor = 'child-mortality';
+    this.world_dict = {};
     let that = this;
     this.selected_factors_for_parallel_chart = ["child-mortality", "polio-vaccine-coverage-of-one-year-olds", "share-of-population-with-cancer"]
     this.selected_factor_for_map = ""
+
+    
+    for (let i in data[this.selected_health_factor]) {
+        this.world_dict[data[this.selected_health_factor][i].ID] = data[this.selected_health_factor][i].Country
+    }
+
     function updateYearRange(year) {
         this.activeYear = year
         parallel_chart.updateYear(this.activeYear);
@@ -22,6 +29,7 @@ loadData().then(data => {
         that.activeCountry = countryID;
         worldMap.clearHighlight()
         worldMap.addHighlight(countryID)
+        // Use world_dict[countryID] to fetch the country name that is selected
     }
 
     const parallel_chart = new ParallelChart(data, this.selected_factors_for_parallel_chart, updateSelectedFactor, this.activeYear);
