@@ -2,36 +2,58 @@
 loadData().then(data => {
 
 	this.activeYear = ["2006", "2006"]
-    const worldMap = new CodMap(data, this.activeYear, updateCountry, "causesOfDeath");
+    const worldMap = new CodMap(data, this.activeYear, updateCountry, "causesOfDeath",updateYearRange);
     this.treeMap = new TreeMap(worldMap);
+    this.selected_countries = []
     this.treeMap.update(this.activeYear[0]);
 
 	this.activeCountry = null;
     let that = this;
+
+
     function updateCountry(countryID) {
         that.activeCountry = countryID;
-        worldMap.clearHighlight()
-        worldMap.addHighlight(countryID)
+        let removed_selection = ""
+//        worldMap.clearHighlight()
+        if(this.selected_countries.includes(countryID)) {
+            let index = this.selected_countries.indexOf(countryID);
+            if (index > -1) {
+                this.selected_countries.splice(index, 1);
+                removed_selection = countryID
+            }
+        }
+        else {
+            selected_countries.push(countryID)
+        }
+        worldMap.addHighlight(this.selected_countries)
+        if(removed_selection != "") {
+            worldMap.clearHighlight(removed_selection)
+        }
     }
+
+    function updateYearRange(year) {
+        this.activeYear = year
+       
+    }
+
+
     d3.json('../data/world.json').then(mapData => {
         worldMap.drawMap(mapData);
     });
+
+
     worldMap.yearslider()
     document.addEventListener("click", function(e) {
         e.stopPropagation();
         // Update country if you click on any of the countries in the world map
-        worldMap.clearHighlight()
-        if (e.path[0].type == "checkbox") {
-            var is_checked = e.path[0].checked
-            get_checked_box_list(e.path[0].value, is_checked)
-        }
+        //worldMap.clearHighlight()
         if ((e.path[1].id) == "map_chart_svg") {
              updateCountry(e.path[0].id);
         }
         e.stopPropagation();
-        if (e.path[0].id == "play_button") {
-            worldMap.playMap()
-        }
+        // if (e.path[0].id == "play_button") {
+        //     worldMap.playMap()
+        // }
     });
 });
 
