@@ -25,7 +25,7 @@ class ParallelChart{
     //this.factor = ["child-mortality","child-mortality-by-income-level-of-country", "polio-vaccine-coverage-of-one-year-olds","maternal-mortality" ]
     this.factormap = {
       'child-mortality' : 'Child Mortality',
-      'beer-consumption-per-person': "Beer beer consumption per person",
+      'beer-consumption-per-person': "Beer consumption per person",
       'child-mortality-by-income-level-of-country': "Child Mortality by Income Level",
       'expected-years-of-living-with-disability-or-disease-burden': "Life Expectancy with Disability",
       'life-expectancy': "Life Expectancy",
@@ -39,7 +39,7 @@ class ParallelChart{
     }
     this.reversefactormap = {
       'Child Mortality':'child-mortality',
-      "Beer beer consumption per person":'beer-consumption-per-person',
+      "Beer consumption per person":'beer-consumption-per-person',
       "Child Mortality by Income Level": 'child-mortality-by-income-level-of-country',
       "Life Expectancy with Disability": 'expected-years-of-living-with-disability-or-disease-burden',
       "Life Expectancy": 'life-expectancy',
@@ -141,22 +141,66 @@ class ParallelChart{
         yScales[column_names[i]] = d3.scaleLinear().domain(d3.extent(combined_data, function(p) { return +p[column_names[i]]; })
 )                                                    .range([this.margin.top, this.svgHeight - this.margin.bottom]);
     }
+        
 
         let line = d3.line();
         let background = this.svg.append("g")
                         .attr("class", "background")
                         .selectAll("path")
                         .data(combined_data)
-                        .enter().append("path")
+                        .enter().append("path").attr("id", function(d,i) { return combined_data[i]["name"]})
                         .attr("d", path);
+
 
         let foreground = this.svg.append("g")
                         .attr("class", "foreground")
                         .selectAll("path")
                         .data(combined_data)
-                        .enter().append("path")
-                        .attr("d", path);
+                        .enter().append("path").attr("id", function(d,i) { return combined_data[i]["name"]})
+                        .attr("d", path)
+                        .on("mouseover",onhover)
+                        .on("mouseout",nothover)
+                        .append("svg:title")
+                        .text(function(d, i) { return d["name"];  });
+          function onhover(){
+              let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
+              f.style("stroke","#ddd") 
+              let a = d3.select(this);
+              this.parentElement.appendChild(this);
+              a.style("stroke", "black")
+              a.style("stroke-width", "2")
+              // a.append("text").text("Hi");
+          }
+                        
+          function nothover(){
+              let f = d3.select("#parallel-chart").selectAll("path");
+              f.style("stroke","#5c5c8a") 
+              f.style("stroke-width", "1")
+          }                        
+          
 
+                         // .on("mouseover", function(){
+                        //    let a = d3.event;
+                        //    console.log(a.path[0].id);  
+                        //    svg.append("text").attr({
+                        //      id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
+                        //       x: function() { return xScale(d.x) - 30; },
+                        //       y: function() { return yScale(d.y) - 15; }
+                        //   })
+                        //   .text(function() {
+                        //     return [d.x, d.y];  // Value of the text
+                        //   });
+                        //    return tooltip.text(a.path[0].id).style("visibility", "visible");
+                        // });       
+         // let tooltip = foreground.append("svg:title").html(function(d,i){ return combined_data[i]["id"]});
+        
+        
+        // let tooltip "visibility", "hidden")                 
+        // foreground.on("mouseover", function(){
+        //      let a = d3.event;
+        //      console.log(a.path[0].id);  
+        //      return tooltip.text(a.path[0].id).style("visibility", "visible");
+        //   });                                    
     //                   // Add a group element for each dimension.
         let g = this.svg.selectAll(".column")
                         .data(column_names)
@@ -165,15 +209,21 @@ class ParallelChart{
                         .attr("transform", function(d) { return "translate(" + xScale(d) + ")"; });
 
          //Add an axis and title.
-         let axes = g.append("g").attr("class", "axis")
-                          .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll('text')
-                          .style("font-size",12)})
+         // let axes = g.append("g").attr("class", "axis")
+         //                  .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll("text").style("font-size",12)})
+         //                  .attr("class","headerdiv")
+         //                    .append("text")
+         //                      .attr("y", 12)
+         //                      .text(function(d,i) { console.log(d); return d; })
+         //                      .attr("class", "text")
+          let axes = g.append("g").attr("class", "axis")
+                          .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll('text')})
                             .append("text")
-                              .style("text-anchor", "middle")
-                              .attr("y", 12)
+                              .attr("class", "header-pc")
+                              .attr("y", 20)
                               .text(function(d,i) { console.log(d); return d; })
-                              .style("stroke","black")
-                              .style("font-size",10)
+                                 
+
           axes.on("click", function(){
              let a = d3.event;
               let val = a.srcElement.__data__;
@@ -188,7 +238,16 @@ class ParallelChart{
            //    })
            //  .selectAll("rect")
            //    .attr("x", -8)
-           //    .attr("width", 16);     
+           //    .attr("width", 16);
+           // let axes = g.append("g").attr("class", "axis")
+           //                .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll('text')
+           //                .style("font-size",12)})
+           //                  .append("text")
+           //                    .style("text-anchor", "middle")
+           //                    .attr("y", 12)
+           //                    .text(function(d,i) { console.log(d); return d; })
+           //                    .style("stroke","black")
+           //                    .style("font-size",10)     
 
             g.append("g").attr("class", "brush")
                            .each(function(d) {
