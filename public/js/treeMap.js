@@ -7,7 +7,7 @@ class TreeMap {
         this.selectedYear = 0
         this.causesOfDeathName = {"Dementia": "Dementia","Cardiovascular diseases":"Cardiovascular","Kidney disease":"Kidney","Respiratory disease":"Respiratory","Liver disease":"Liver","Diabetes":"Diabetes","Digestive disease":"Digestive" ,"Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson's":"Parkinson's","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV/AIDS":"HIV/AIDS","Drug disorder":"Drugs","Tuberculosis":"Tuberculosis","Road incidents":"Road incidents","Maternal deaths":"Maternal","Neonatal deaths":"Neonatal","Alcohol disorder":"Alcohol","Natural disasters":"Disasters","Diarrheal diseases":"Diarrheal","Heat or cold exposure":"Exposure","Nutritional deficiencies":"Nutrition","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory infections":"Respiratory","Intestinal infectious":"Intestinal","Protein-energy malnutrition":"Protein-energy","Conflict":"Conflict","Terrorism":"Terrorism"};
         this.causesOfDeathDetails= {
-            "CausesOfDeath": "As global population increases, life expectancy rises, and living standards improve, causes of death across the world are changing. In this entry we present a global overview of the causes of death. \nThe data visualisations and explainers in the early part of this entry attempt to provide a comparison between causes and risk factors of death across countries and age groups. The sections which \nthen follow explore the empirical data of specific causes in more detail. Each of the charts which follows is shown at a global level. However, all of the data included in this entry is available to \nexplore at the national level using the \"change country\" function on the interactive charts. As will become clear in the data which follows, causes of death across the world remain heterogeneous \nand continue to change.",
+            "Causes Of Death": "As global population increases, life expectancy rises, and living standards improve, causes of death across the world are changing. In this entry we present a global overview of the causes of death. \nThe data visualisations and explainers in the early part of this entry attempt to provide a comparison between causes and risk factors of death across countries. The sections which \nthen follow explore the empirical data of specific causes in more detail. Each of the charts which follows is shown at a global level. However, all of the data included in this entry is available to \nexplore at the national level using the \"map\" and year selctor on the interactive charts. As will become clear in the data which follows, causes of death across the world remain heterogeneous \nand continue to change.",
             "Dementia": "Not a specific disease, dementia is a group of conditions characterized by impairment of at least two brain functions, such as memory loss and judgment. Symptoms include forgetfulness, limited social skills, and \nthinking abilities so impaired that it interferes with daily functioning. \n \n Medications and therapies may help manage symptoms. Some causes are reversible.",
             "Cardiovascular diseases": "Cardiovascular disease (CVD) is a class of diseases that involve the heart or blood vessels. Cardiovascular disease includes coronary artery diseases (CAD) such as angina and myocardial infarction \n(commonly known as a heart attack). Other CVDs include stroke, heart failure, hypertensive heart disease, rheumatic heart disease, cardiomyopathy, heart arrhythmia, congenital heart disease, \nvalvular heart disease, carditis, aortic aneurysms, peripheral artery disease, thromboembolic disease, and venous thrombosis.",
             "Kidney disease": "Kidney disease, or renal disease, also known as nephropathy, is damage to or disease of a kidney. Nephritis is an inflammatory kidney disease and has several types according to the location of the inflammation. \nInflammation can be diagnosed by blood tests. Nephrosis is non-inflammatory kidney disease. Nephritis and nephrosis can give rise to nephritic syndrome and nephrotic syndrome \nrespectively. Kidney disease usually causes a loss of kidney function to some degree and can result in kidney failure, the complete loss of kidney function. Kidney failure is known as the end-stage of kidney \ndisease, where dialysis or a kidney transplant is the only treatment option.",
@@ -65,7 +65,7 @@ class TreeMap {
         d3.select("#infoBox").append("svg")
             .attr("width", "100%")
             .attr("height", 200);
-        this.creatInfoBox("CausesOfDeath");
+        this.creatInfoBox("Causes Of Death");
         d3.select("#lineChart").append("svg")
             .attr("width", this.lineAndBarSvgWidth + 100)
             .attr("height", this.lineAndBarSvgHeight);
@@ -192,7 +192,7 @@ class TreeMap {
         let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.causeSum; })-dataBuffer, d3.max(lineChartData, function(d) { return d.causeSum; })+dataBuffer]).range([this.height, 0]);
         let xAxis = d3.axisBottom(x).ticks(5);
         let yAxis = d3.axisLeft(y).ticks(5);
-        let div = d3.select("body").append("div")	
+        let div = d3.select("body").append("div")
         .attr("class", "tooltip")				
         .style("opacity", 0);
         let valueline = d3.line()
@@ -244,7 +244,7 @@ class TreeMap {
                 div.transition()		
                     .duration(200)		
                     .style("opacity", .9);		
-                div	.html("YEAR: "+d.Year + "<br/> Count: "  + d.causeSum)	
+                div	.html("YEAR: "+d.Year + "<br/> Count: "  + d.causeSum + "<br/> Click Me !! ")	
                     .style("left", (d3.event.pageX) + "px")		
                     .style("top", (d3.event.pageY - 28) + "px");	
                 })					
