@@ -52,7 +52,7 @@ class TreeMap {
         this.selectedYear = 0;
         this.lineSelectedYear = 0;
         this.selectedYears = [];
-        this.selectedCountries = ["USA", "GBR", "FRA", "RUS", "MEX", "JPN", "IND", "TUR", "BRA", "CAN"];
+        this.selectedCountries = ["USA", "CAN"];
         this.allContries = true;
         this.allYears = false;
         this.padding = 50;
@@ -304,6 +304,19 @@ class TreeMap {
             .attr("fill",  d => {
                 let a = d.ancestors();
                 return colorScale(a[a.length - 2].id); });
+            // .on("mouseover", function(d) {		
+            //     div.transition()		
+            //         .duration(200)		
+            //         .style("opacity", .9);		
+            //     div	.html("YEAR: "+d.Year + "<br/> Count: "  + d.causeSum)	
+            //         .style("left", (d3.event.pageX) + "px")		
+            //         .style("top", (d3.event.pageY - 28) + "px");	
+            //     })					
+            // .on("mouseout", function(d) {		
+            //     div.transition()		
+            //         .duration(500)		
+            //         .style("opacity", 0);	
+            // });
         let label = cell.append("text")
             .attr("clip-path", d => d.name);
         label.append("tspan")
