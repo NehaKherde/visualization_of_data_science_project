@@ -19,6 +19,8 @@ class ParallelChart{
     this.factor = factor
     this.originalArr = yearArray;
     this.yearArray = yearArray;
+    this.selected_flag = false;
+    this.countryId = "";
     if(this.yearArray[0] == this.yearArray[1]){
       this.yearArray = [this.yearArray[0]];
     }
@@ -105,6 +107,7 @@ class ParallelChart{
     for(let key in combined_data){
         let row = {};
         row = combined_data[key];
+        key = key.replace(/\s+/g, '_');
         row["name"] = key;        
         data.push(row);
     }
@@ -112,7 +115,12 @@ class ParallelChart{
    
   }
 
+  updateSelectedCountry(countryId){
+    this.countryId = countryId;
+  }
+
   addHighlight(countryId){
+    countryId = countryId.replace(/\s+/g, '_');
     let country_id = "#"+countryId;
     let selected_country = d3.select("#parallel-chart").select(".foreground").select(country_id);
     let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
@@ -122,12 +130,14 @@ class ParallelChart{
               a._groups[0][0].parentElement.appendChild(a._groups[0][0]);
               a.style("stroke", "black")
               a.style("stroke-width", "2")
+    this.selected_flag = true;
   }
 
   clearHighlight(){
     let f = d3.select("#parallel-chart").selectAll("path");
               f.style("stroke","#5c5c8a") 
               f.style("stroke-width", "1")
+    this.selected_flag = false;
   }
 
   updateParallelPlot(combined_data){
@@ -181,19 +191,39 @@ class ParallelChart{
                         .append("svg:title")
                         .text(function(d, i) { return d["name"];  });
           function onhover(){
-              let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
-              f.style("stroke","#ddd") 
-              let a = d3.select(this);
-              this.parentElement.appendChild(this);
-              a.style("stroke", "black")
-              a.style("stroke-width", "2")
+              if ( self.selected_flag == false){
+                let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
+                f.style("stroke","#ddd") 
+                let a = d3.select(this);
+                this.parentElement.appendChild(this);
+                a.style("stroke", "black")
+                a.style("stroke-width", "2")  
+              }
+              else{
+                let countryId = self.countryId.replace(/\s+/g, '');
+                let country_id = "#"+countryId;
+                let selected_country = d3.select("#parallel-chart").select(".foreground").select(country_id);
+                let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
+                          f.style("stroke","#ddd") 
+                          let a = selected_country;
+                          let b = a.parentElement;
+                          a._groups[0][0].parentElement.appendChild(a._groups[0][0]);
+                          a.style("stroke", "black")
+                          a.style("stroke-width", "2")
+                let c = d3.select(this);
+                this.parentElement.appendChild(this);
+                c.style("stroke", "red")
+                c.style("stroke-width", "2")  
+              }
               // a.append("text").text("Hi");
           }
                         
           function nothover(){
+            if ( this.selected_flag == false){
               let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
               f.style("stroke","#5c5c8a") 
               f.style("stroke-width", "1")
+            }
           }                        
           
 

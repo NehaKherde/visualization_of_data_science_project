@@ -65,6 +65,7 @@ loadData().then(data => {
         e.stopPropagation();
         // Update country if you click on any of the countries in the world map
         worldMap.clearHighlight()
+        parallel_chart.clearHighlight();
 
         if (e.path[0].type == "checkbox") {
             var is_checked = e.path[0].checked
@@ -72,6 +73,7 @@ loadData().then(data => {
         }
         if ((e.path[1].id) == "map_chart_svg") {
              updateCountry(e.path[0].id);
+             parallel_chart.updateSelectedCountry(world_dict[e.path[0].id])
         }
         e.stopPropagation();
         //console.log(that.selected_factors_for_parallel_chart)
