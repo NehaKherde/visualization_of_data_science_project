@@ -44,7 +44,8 @@ class Map {
 
         let svgContainer = d3.select("#map-chart").append("svg").attr('id', 'map_chart_svg');
         let map_chart_width = document.getElementById("map-chart").offsetWidth
-        this.projection = d3.geoEquirectangular().scale(120).translate([map_chart_width-390, 190]);
+        let legend_col_width = document.getElementById("legend").offsetWidth
+        this.projection = d3.geoEquirectangular().scale(120).translate([legend_col_width+120, 190]);
         let path = d3.geoPath().projection(this.projection);
         let path_element = svgContainer.selectAll("path")
                 .data(countries.features)
@@ -83,9 +84,9 @@ class Map {
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
                 .attr("transform", "translate(0,0)");
-                
+        let width_rectangle = 600
         let legendQuantile = d3.legendColor()
-                .shapeWidth(600/12)
+                .shapeWidth(width_rectangle/12)
                 .cells(6)
                 .orient('vertical')
                 .labelFormat(d3.format('.1r'))
@@ -96,8 +97,8 @@ class Map {
 
         let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
         let legendGWidth = svgBounds.width;
-            
-        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,0)");
+        let translate_x= legendGWidth - (width_rectangle/12)
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate("+translate_x+",0)");
         svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 150).attr("y", 334);
         this.tooltip_message('child-mortality')
     }
