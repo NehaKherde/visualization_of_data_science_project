@@ -11,7 +11,11 @@ loadData().then(data => {
 
     
     for (let i in data[this.selected_health_factor]) {
-        this.world_dict[data[this.selected_health_factor][i].ID] = data[this.selected_health_factor][i].Country
+        let country_name = data[this.selected_health_factor][i].Country
+        if (country_name.indexOf(' ') >= 0){
+            country_name = country_name.replace(" ", "_");
+        }
+        this.world_dict[data[this.selected_health_factor][i].ID] = country_name
     }
 
     function updateYearRange(year) {

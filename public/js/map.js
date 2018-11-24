@@ -45,7 +45,7 @@ class Map {
         let svgContainer = d3.select("#map-chart").append("svg").attr('id', 'map_chart_svg');
         let map_chart_width = document.getElementById("map-chart").offsetWidth
         let legend_col_width = document.getElementById("legend").offsetWidth
-        this.projection = d3.geoEquirectangular().scale(120).translate([legend_col_width+120, 190]);
+        this.projection = d3.geoEquirectangular().scale(120).translate([legend_col_width+100, 190]);
         let path = d3.geoPath().projection(this.projection);
         let path_element = svgContainer.selectAll("path")
                 .data(countries.features)
@@ -99,7 +99,7 @@ class Map {
         let legendGWidth = svgBounds.width;
         let translate_x= legendGWidth - (width_rectangle/12)
         this.legendSvg.select(".legendQuantile").attr("transform", "translate("+translate_x+",0)");
-        svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 150).attr("y", 334);
+        svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 100).attr("y", 334);
         this.tooltip_message('child-mortality')
     }
 
