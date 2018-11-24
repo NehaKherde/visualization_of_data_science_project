@@ -11,20 +11,22 @@ class CountryData {
 class Map {
 
         constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
-        this.projection = d3.geoEquirectangular().scale(120).translate([500, 190]);
+       // this.projection = d3.geoEquirectangular().scale(120).translate([0, 190]);
         this.complete_data = data
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
         this.activeYear = activeYear;
         this.defaultData = 'child-mortality';
         this.updateYearRange = updateYearRange;
-        let legendHeight = 250;
+        let legendHeight = '100%';
         let legend_section = d3.select("#legend").classed("tile_view",true);
 
         this.legendSvg = legend_section.append("svg")
-                            .attr("width",130)
+                            .attr("width",'100%')
+                            .attr("id", "legend_svg")
                             .attr("height",legendHeight)
-                            .attr("transform", "translate(-30,-40)");
+                            .attr("transform", "translate(0,0)");
+        //this.legend_col_width = document.getElementById("legend_svg").width.baseVal.value
     }
 
 
@@ -39,8 +41,11 @@ class Map {
         let countries = topojson.feature(world, world.objects.countries);
         // projection converts the coordinates onto the screen coordinates. 
         // using geoPath(), convert the polygons to the svg path 
-        let path = d3.geoPath().projection(this.projection);
+
         let svgContainer = d3.select("#map-chart").append("svg").attr('id', 'map_chart_svg');
+        let map_chart_width = document.getElementById("map-chart").offsetWidth
+        this.projection = d3.geoEquirectangular().scale(120).translate([map_chart_width-390, 190]);
+        let path = d3.geoPath().projection(this.projection);
         let path_element = svgContainer.selectAll("path")
                 .data(countries.features)
                 .enter()
@@ -77,10 +82,10 @@ class Map {
 
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
-                .attr("transform", "translate(0,41)");
+                .attr("transform", "translate(0,0)");
                 
         let legendQuantile = d3.legendColor()
-                .shapeWidth((600)/12)
+                .shapeWidth(600/12)
                 .cells(6)
                 .orient('vertical')
                 .labelFormat(d3.format('.1r'))
@@ -92,7 +97,7 @@ class Map {
         let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
         let legendGWidth = svgBounds.width;
             
-        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,41)");
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,0)");
         svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 150).attr("y", 334);
         this.tooltip_message('child-mortality')
     }
@@ -138,7 +143,7 @@ class Map {
 
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
-                .attr("transform", "translate(0,41)");        
+                .attr("transform", "translate(0,0)");        
         let divisions = this.getDomainAndRangeForColorScale(health_factor, '', true)
         let legendQuantile = d3.legendColor()
                 .shapeWidth((600)/12)
@@ -154,7 +159,7 @@ class Map {
         let legendGWidth = svgBounds.width;
         
         let diff = (600 - legendGWidth)/2;
-        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,41)");
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,0)");
 //        this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
 
         // let a_rect_bar_mouse_event = document.getElementById("map-chart")
