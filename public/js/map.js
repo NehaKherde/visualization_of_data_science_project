@@ -118,9 +118,6 @@ class Map {
 
     updateMap(active_year, health_factor) {
         
-        // check if the active year is only one year
-        //if(active_year[0] == active_year[1]) {
-          //  document.getElementById("play_button").disabled = true;
             let _that = this
             this.tooltip_message(health_factor)
             this.selected_health_factor = health_factor
@@ -226,7 +223,9 @@ class Map {
             .attr("id", "brush_div")
             .call(d3.brushX()
                 .extent([[0, 0], [width, 30]])
-                .on("end", brushended));
+                .on("end", brushended))
+            .selectAll("rect")
+            .attr('cursor', "");
 
         function brushended() {
             d1 = []
