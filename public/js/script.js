@@ -33,12 +33,25 @@ loadData().then(data => {
         this.selected_flag = flag;
     }
 
+    function update_title(countryId, reset_flag) {
+        let text = undefined
+        if(reset_flag) {
+            text = "Study Of Factors And Countries"
+        }
+        else {
+            let country_name = countryId.replace('_', " ")
+            text = "Study Of Factors And Country " + country_name
+        }
+        d3.select("#parallel_chart_title").select("text").text(text)
+    }
+
     function updateCountry(countryID) {
         that.activeCountry = countryID;
         worldMap.clearHighlight()
         worldMap.addHighlight(countryID)
         parallel_chart.clearHighlight();
         parallel_chart.addHighlight(world_dict[countryID]);
+        update_title(world_dict[countryID], false)
         // Use world_dict[countryID] to fetch the country name that is selected
     }
 
@@ -58,6 +71,7 @@ loadData().then(data => {
         that.activeCountry = countryID;
         worldMap.clearHighlight()
         worldMap.addHighlight(countryID)
+        update_title(countryId ,false)
     }
 
     function updateHighlight(){
@@ -119,6 +133,7 @@ loadData().then(data => {
     function reset(){
         updateHighlight();  
         worldMap.clearHighlight()
+        update_title("", true)
     // document.getElementById("demo").innerHTML = "Hello World";
     }
 

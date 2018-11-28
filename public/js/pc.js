@@ -144,9 +144,18 @@ class ParallelChart{
     this.updateSelectedFlag(false);
   }
 
+  add_title_text() {
+    return "Neha Prafulla Kherde"
+  }
+
   updateParallelPlot(combined_data){
 
     let self = this;
+    d3.select("#parallel_chart_title").append("text")
+                                      .text("Study Of Factors And Countries")
+                                      .attr("font-family", "sans-serif")
+                                      .attr("fill", "red")
+                                      .attr("transform", "translate(0,30)");
     d3.select('#parallel-chart').selectAll('svg').remove()
     this.svg = d3.select('#parallel-chart').append('svg').attr("width", this.svgWidth + this.margin.left + this.margin.right).attr("height", this.svgHeight + this.margin.top + this.margin.bottom)
                     .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
