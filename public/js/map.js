@@ -25,6 +25,7 @@ class Map {
                             .attr("id", "legend_svg")
                             .attr("height",legendHeight)
                             .attr("transform", "translate(0,0)");
+        this.width_rectangle = 600
         //this.legend_col_width = document.getElementById("legend_svg").width.baseVal.value
     }
 
@@ -81,9 +82,8 @@ class Map {
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
                 .attr("transform", "translate(0,0)");
-        let width_rectangle = 600
         let legendQuantile = d3.legendColor()
-                .shapeWidth(width_rectangle/12)
+                .shapeWidth(this.width_rectangle/12)
                 .cells(6)
                 .orient('vertical')
                 .labelFormat(d3.format('.1r'))
@@ -94,7 +94,7 @@ class Map {
 
         let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
         let legendGWidth = svgBounds.width;
-        let translate_x= legendGWidth - (width_rectangle/12)
+        let translate_x= legendGWidth - (this.width_rectangle/12)
         this.legendSvg.select(".legendQuantile").attr("transform", "translate("+translate_x+",0)");
         svgContainer.append('text').classed('activeYear-background', true).text("2000").attr("x", 100).attr("y", 334);
         this.tooltip_message('child-mortality')
@@ -153,7 +153,10 @@ class Map {
         let legendGWidth = svgBounds.width;
         
         let diff = (600 - legendGWidth)/2;
-        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,0)");
+        legendGWidth = svgBounds.width;
+        let translate_x= legendGWidth - (this.width_rectangle/12)
+        this.legendSvg.select(".legendQuantile").attr("transform", "translate("+translate_x+",0)");
+//        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,0)");
 //        this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
 
         // let a_rect_bar_mouse_event = document.getElementById("map-chart")
