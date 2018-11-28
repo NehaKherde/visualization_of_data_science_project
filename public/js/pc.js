@@ -1,6 +1,6 @@
 class ParallelChart{
   //later pass year array and factor array 
-  constructor(data, factor, updateSelectedFactor, yearArray){
+  constructor(data, factor, updateSelectedFactor, yearArray, updateSelectedFlag){
     // this.margin = {top: 30, right: 20, bottom: 30, left: 100};
     let parallelDiv = d3.select("#parallel-chart").classed("contentforparallelplot", true);
     this.svgBounds = parallelDiv.node().getBoundingClientRect();
@@ -10,6 +10,7 @@ class ParallelChart{
     this.background;
     this.complete_data = data;
     this.updateSelectedFactor = updateSelectedFactor;
+    this.updateSelectedFlag = updateSelectedFlag;
      //add the svg to the div
     this.svg = parallelDiv.append("svg")
           .attr("width",this.svgWidth + this.margin.left + this.margin.right)
@@ -131,6 +132,7 @@ class ParallelChart{
               a.style("stroke", "black")
               a.style("stroke-width", "2")
     this.selected_flag = true;
+    this.updateSelectedFlag(true)
   }
 
   clearHighlight(){
@@ -138,6 +140,7 @@ class ParallelChart{
               f.style("stroke","#5c5c8a") 
               f.style("stroke-width", "1")
     this.selected_flag = false;
+    this.updateSelectedFlag(false);
   }
 
   updateParallelPlot(combined_data){
@@ -188,6 +191,7 @@ class ParallelChart{
                         .attr("d", path)
                         .on("mouseover",onhover)
                         .on("mouseout",nothover)
+                        .on("click",clicked)
                         .append("svg:title")
                         .text(function(d, i) { return d["name"];  });
           function onhover(){
@@ -219,13 +223,33 @@ class ParallelChart{
           }
                         
           function nothover(){
-            if ( this.selected_flag == false){
+            if ( self.selected_flag == false){
               let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
               f.style("stroke","#5c5c8a") 
               f.style("stroke-width", "1")
             }
+            else{
+              let countryId = self.countryId.replace(/\s+/g, '');
+                let country_id = "#"+countryId;
+                let selected_country = d3.select("#parallel-chart").select(".foreground").select(country_id);
+                let f = d3.select("#parallel-chart").select(".foreground").selectAll("path");
+                          f.style("stroke","#ddd") 
+                          let a = selected_country;
+                          let b = a.parentElement;
+                          a._groups[0][0].parentElement.appendChild(a._groups[0][0]);
+                          a.style("stroke", "black")
+                          a.style("stroke-width", "2")
+            }
           }                        
-          
+          function clicked(e){
+              if(e.name != undefined){
+                let name = e.name;
+                self.updateSelectedCountry(name);
+                self.clearHighlight();
+                self.addHighlight(name);
+                self.updateCountryMap(name);
+              }
+          }
 
                          // .on("mouseover", function(){
                         //    let a = d3.event;

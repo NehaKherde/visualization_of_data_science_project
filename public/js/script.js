@@ -8,7 +8,7 @@ loadData().then(data => {
     let that = this;
     this.selected_factors_for_parallel_chart = ["child-mortality", "polio-vaccine-coverage-of-one-year-olds", "share-of-population-with-cancer"]
     this.selected_factor_for_map = ""
-
+    this.selected_flag = false
     
     for (let i in data[this.selected_health_factor]) {
         let country_name = data[this.selected_health_factor][i].Country
@@ -29,6 +29,10 @@ loadData().then(data => {
         worldMap.updateMap(this.activeYear[0], this.selected_factor_for_map);
     }
 
+    function updateSelectedFlag(flag){
+        this.selected_flag = flag;
+    }
+
     function updateCountry(countryID) {
         that.activeCountry = countryID;
         worldMap.clearHighlight()
@@ -38,7 +42,19 @@ loadData().then(data => {
         // Use world_dict[countryID] to fetch the country name that is selected
     }
 
-    const parallel_chart = new ParallelChart(data, this.selected_factors_for_parallel_chart, updateSelectedFactor, this.activeYear);
+    function updateCountryMap(countryId){
+        // countryId is in Name format
+        //erverse map to country id reqd for worldMap
+        // that.activeCountry = countryID;
+        worldMap.clearHighlight()
+        worldMap.addHighlight(countryID)
+    }
+
+    function updateHighlight(){
+        parallel_chart.clearHighlight();
+    }
+
+    const parallel_chart = new ParallelChart(data, this.selected_factors_for_parallel_chart, updateSelectedFactor, this.activeYear, updateSelectedFlag, updateCountryMap);
     const worldMap = new Map(data, this.activeYear, updateCountry, this.selected_health_factor, updateYearRange);
 
     d3.json('../data/world.json').then(mapData => {
@@ -69,7 +85,8 @@ loadData().then(data => {
         e.stopPropagation();
         // Update country if you click on any of the countries in the world map
         worldMap.clearHighlight()
-        parallel_chart.clearHighlight();
+        // updateHighlight();    
+        
 
         if (e.path[0].type == "checkbox") {
             var is_checked = e.path[0].checked
@@ -79,6 +96,9 @@ loadData().then(data => {
              updateCountry(e.path[0].id);
              parallel_chart.updateSelectedCountry(world_dict[e.path[0].id])
         }
+        if ((e.path[0].id) == "reset") {
+             reset()
+        }
         e.stopPropagation();
         //console.log(that.selected_factors_for_parallel_chart)
         // if (e.path[0].id == "play_button") {
@@ -86,8 +106,14 @@ loadData().then(data => {
         // }
     });
 
+    function reset(){
+        updateHighlight();  
+        this.worldMap.clearHighlight()
+    // document.getElementById("demo").innerHTML = "Hello World";
+    }
 
 });
+
 
 // ******* DATA LOADING *******
 async function loadFile(file) {
