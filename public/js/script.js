@@ -36,11 +36,11 @@ loadData().then(data => {
     function update_title(countryId, reset_flag) {
         let text = undefined
         if(reset_flag) {
-            text = "Study Of Factors And Countries"
+            text = "Study Of Factors For Countries"
         }
         else {
             let country_name = countryId.replace('_', " ")
-            text = "Study Of Factors And Country " + country_name
+            text = "Study Of Factors For " + country_name
         }
         d3.select("#parallel_chart_title").select("text").text(text)
     }
