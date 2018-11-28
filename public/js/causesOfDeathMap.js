@@ -27,7 +27,6 @@ class CodMap {
                             .attr("transform", "translate(0,-200)");
     }
 
-
     drawMap(world) {
 
         let domain = [0, 1, 5, 10, 20, 30, 50];
@@ -222,7 +221,10 @@ class CodMap {
             .attr("id", "brush_div")
             .call(d3.brushX()
                 .extent([[0, 0], [width, 30]])
-                .on("end", brushended));
+                .on("end", brushended))
+            .selectAll("rect")
+            .attr('cursor', "")
+            .attr('pointer-events', "");
 
         function brushended() {
             d1 = []
@@ -243,6 +245,7 @@ class CodMap {
             else{
                 var d0 = d3.event.selection.map(x.invert),
                 d1 = d0.map(Math.round);
+                d1[1] = d1[0] + 1
             }
             d3.select(this).transition().call(d3.event.target.move, d1.map(x));
             that.activeYear = [d1[0], d1[1]-1]

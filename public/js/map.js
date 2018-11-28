@@ -11,7 +11,6 @@ class CountryData {
 class Map {
 
         constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
-       // this.projection = d3.geoEquirectangular().scale(120).translate([0, 190]);
         this.complete_data = data
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
@@ -79,8 +78,6 @@ class Map {
                                                         })
         let tooltip = new_path_element.append("svg:title").html(d=>this.tooltipRender(data, d, 'child-mortality'));
 
-       // document.getElementById("play_button").disabled = true;
-
         this.legendSvg.append("g")
                 .attr("class", "legendQuantile")
                 .attr("transform", "translate(0,0)");
@@ -103,7 +100,6 @@ class Map {
         this.tooltip_message('child-mortality')
     }
 
-    
 
     fetchYearAndFactorRelatedData(active_year, health_factor) {
         let factor_data = this.complete_data[health_factor]
@@ -225,7 +221,8 @@ class Map {
                 .extent([[0, 0], [width, 30]])
                 .on("end", brushended))
             .selectAll("rect")
-            .attr('cursor', "");
+            .attr('cursor', "")
+            .attr('pointer-events', "");
 
         function brushended() {
             d1 = []
@@ -246,6 +243,7 @@ class Map {
             else{
                 var d0 = d3.event.selection.map(x.invert),
                 d1 = d0.map(Math.round);
+                d1[1] = d1[0] + 1
             }
             d3.select(this).transition().call(d3.event.target.move, d1.map(x));
             that.activeYear = [d1[0], d1[1]-1]
@@ -270,27 +268,6 @@ class Map {
         //$(document.elementFromPoint(point.x+4, point.y+point.top)).click();
         $(document.elementFromPoint(115, 313)).click();
     }
-
-    // updateMapForRange(activeYear_range, selected_health_factor) {
-    //     let i;
-    //     let diff = activeYear_range[1] - activeYear_range[0] +1
-
-    //     this.theLoop(diff, activeYear_range[1], selected_health_factor, this.updateMap)
-    //    // setTimeout(this.updateMap(i, selected_health_factor), 3000, diff)
-    //     // for(i = activeYear_range[0]; i <= activeYear_range[1]; i++) {            
-    //     // }
-    // }
-
-    // theLoop(i, activeYear, selected_health_factor, updateMapFunction) {
-    //         setTimeout(function () {
-    //             updateMapFunction(activeYear, selected_health_factor)
-    //             if (--i) {
-    //                 activeYear_range += 1// If i > 0, keep going
-    //                 theLoop(i, activeYear, selected_health_factor, updateMapFunction);
-    //         }
-    //     }, 2000);
-    // };
-
 
     playMap() {
         this.updateMapForRange(this.activeYear, this.selected_health_factor)
