@@ -20,24 +20,19 @@
 
 #parallel-chart{
     height: 500px;
-    word-wrap: break-word;
-    white-space: normal;
     /*width: 960px;*/
 }
 
 #parallel-chart text{
-    height: 500px;
     word-wrap: break-word;
-    text-anchor:middle;
-    font: 12px Serif;
     stroke: black;
 }
+
 .header-pc{
-    height: 500px;
-    word-wrap: break-word;
+    height: 500px;;
     text-anchor:middle;
     font: 12px Serif;
-    stroke: black;
+    fill: black;
     transform: rotate(-9deg)
     /*overflow-wrap: break-word;*/
     /*width: 960px;*/
@@ -167,7 +162,7 @@ div.tooltip {
 }
 
 .axis text {
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;*/
   cursor: move;
 }
 .global_title {

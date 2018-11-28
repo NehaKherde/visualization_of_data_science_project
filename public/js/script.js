@@ -134,6 +134,7 @@ loadData().then(data => {
         updateHighlight();  
         worldMap.clearHighlight()
         update_title("", true)
+        parallel_chart.clearTitleHighlight()
     // document.getElementById("demo").innerHTML = "Hello World";
     }
 
