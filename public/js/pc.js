@@ -1,6 +1,6 @@
 class ParallelChart{
   //later pass year array and factor array 
-  constructor(data, factor, updateSelectedFactor, yearArray, updateSelectedFlag){
+  constructor(data, factor, updateSelectedFactor, yearArray, updateSelectedFlag, updateCountryMap){
     // this.margin = {top: 30, right: 20, bottom: 30, left: 100};
     let parallelDiv = d3.select("#parallel-chart").classed("contentforparallelplot", true);
     this.svgBounds = parallelDiv.node().getBoundingClientRect();
@@ -21,6 +21,7 @@ class ParallelChart{
     this.originalArr = yearArray;
     this.yearArray = yearArray;
     this.selected_flag = false;
+    this.updateCountryMap = updateCountryMap;
     this.countryId = "";
     if(this.yearArray[0] == this.yearArray[1]){
       this.yearArray = [this.yearArray[0]];

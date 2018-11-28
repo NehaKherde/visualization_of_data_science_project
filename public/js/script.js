@@ -108,7 +108,7 @@ loadData().then(data => {
 
     function reset(){
         updateHighlight();  
-        this.worldMap.clearHighlight()
+        worldMap.clearHighlight()
     // document.getElementById("demo").innerHTML = "Hello World";
     }
 
