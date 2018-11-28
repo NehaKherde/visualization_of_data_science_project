@@ -216,12 +216,15 @@ class CodMap {
             .selectAll("text")
             .attr("x", 6);
 
+        let brush = d3.brushX()
+                .extent([[0, 0], [width, 30]])
+                .on("end", brushended);
+
         svg.append("g")
             .attr("class", "brush")
             .attr("id", "brush_div")
-            .call(d3.brushX()
-                .extent([[0, 0], [width, 30]])
-                .on("end", brushended))
+            .call(brush)
+            .call(brush.move, [2000, 2001].map(x))
             .selectAll("rect")
             .attr('cursor', "")
             .attr('pointer-events', "");
