@@ -42,10 +42,20 @@ loadData().then(data => {
         // Use world_dict[countryID] to fetch the country name that is selected
     }
 
+    function get_ID_from_country_name(countryId) {
+        this.world_dict
+        for(let key in world_dict){
+            if(world_dict[key] == countryId) {
+                return key
+            }
+        }
+    }
+
     function updateCountryMap(countryId){
         // countryId is in Name format
-        //erverse map to country id reqd for worldMap
-        // that.activeCountry = countryID;
+        //reverse map to country id reqd for worldMap
+        countryID = get_ID_from_country_name(countryId)
+        that.activeCountry = countryID;
         worldMap.clearHighlight()
         worldMap.addHighlight(countryID)
     }
@@ -84,7 +94,7 @@ loadData().then(data => {
     document.addEventListener("click", function(e) {
         e.stopPropagation();
         // Update country if you click on any of the countries in the world map
-        worldMap.clearHighlight()
+       // worldMap.clearHighlight()
         // updateHighlight();    
         
 
