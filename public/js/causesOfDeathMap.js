@@ -11,7 +11,7 @@ class CountryData {
 class CodMap {
 
         constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
-        this.projection = d3.geoEquirectangular().scale(100).translate([250, 190]);
+        this.projection = d3.geoEquirectangular().scale(90).translate([300, 190]);
         this.complete_data = data
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
@@ -24,7 +24,7 @@ class CodMap {
         this.legendSvg = legend_section.append("svg")
                             .attr("width",500)
                             .attr("height",legendHeight)
-                            .attr("transform", "translate(0,-90)");
+                            .attr("transform", "translate(0,-200)");
     }
 
 

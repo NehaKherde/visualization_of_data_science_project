@@ -43,7 +43,7 @@ class TreeMap {
             "Terrorism":"Terrorism is, in the broadest sense, the use of intentionally indiscriminate violence as a means to create terror among masses of people; or fear to achieve a religious or political aim. It is used in this regard primarily \nto refer to violence against peacetime targets or in war against non-combatants. The terms 'terrorist' and 'terrorism' originated during the French Revolution of the late 18th century \nbut gained mainstream popularity during the U.S. presidency of Ronald Reagan (1981–89) after the 1983 Beirut barracks bombings and again after the 2001 September \n11 attacks and the 2002 Bali bombings."
         };
         this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson's": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat or cold exposure": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution": 0 ,"Meningitis": 0 ,"Respiratory infections": 0 ,"Intestinal infectious": 0 ,"Protein-energy malnutrition": 0 ,"Conflict": 0 ,"Terrorism":0}
-        let svgWidth = 900;
+        let svgWidth = 800;
         let svgHeight = 500;
         this.lineAndBarSvgWidth = 500;
         this.lineAndBarSvgHeight = 450;
