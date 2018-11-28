@@ -98,8 +98,8 @@ display: inline-block;
   stroke-opacity: .5;
 }
 .selected-country {
-    stroke: #FF0000 !important;
-    stroke-width: 1px !important;
+    stroke: #000000 !important;
+    stroke-width: 2px !important;
 }
 
 div.tooltip {	
