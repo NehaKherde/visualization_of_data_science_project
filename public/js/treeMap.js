@@ -55,7 +55,7 @@ class TreeMap {
         this.selectedYear = 0;
         this.lineSelectedYear = 0;
         this.selectedYears = [];
-        this.selectedCountries = ["USA", "CAN", "CMR"];
+        this.selectedCountries = ["USA", "CAN", "IND", "AUS", "CHN", "GBR", "MEX", "ARE", "RUS", "DEU"];
         this.allContries = true;
         this.allYears = false;
         this.padding = 50;
@@ -100,7 +100,7 @@ class TreeMap {
             .attr("x", 0)
             .attr("height", 25)
             .attr("y", function(d) {return y(d.country)+10; })
-            .attr("transform", "translate(" +textPadding+ ",0)")
+            .attr("transform", "translate(" +textPadding+ ",38)")
             .transition().duration(3000)
             .attr("width", function(d) { return x(d.CauseValue); })
             .attr("fill", function(d){return colorScale(d.CauseValue);});
@@ -109,8 +109,9 @@ class TreeMap {
             .enter()
             .append("text")
             .attr("y", function(d) {return y(d.country)+25; })
+            .attr("transform", "translate(" +textPadding+ ",38)")
             .transition().duration(3000)    
-            .attr("x", function(d) { return x(d.CauseValue)+80; })
+            .attr("x", function(d) { return x(d.CauseValue)+20; })
             .text(function(d){return d.CauseValue });
         svgContainer.append("g").attr("transform", "translate("+textPadding+"," + (this.lineAndBarSvgWidth -(2*this.padding) -50 ) + ")").call(xAxis);
         svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",0)").call(yAxis);
@@ -357,7 +358,7 @@ class TreeMap {
             .attr("height", this.treeMapHeight);
         if (contiresList.length == 0){
             this.allContries = true;
-            this.selectedCountries = ["USA", "CAN", "CMR"];
+            this.selectedCountries = ["USA", "CAN", "IND", "AUS", "CHN", "GBR", "MEX", "ARE", "RUS", "DEU"];
         }else{
             this.allContries = false;
             this.selectedCountries = contiresList;
