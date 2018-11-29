@@ -4,12 +4,13 @@
 	<meta charset="utf-8">
 	<title>Global Health Analysis</title>
 	<link rel="stylesheet" href="public/css/style.css"/>
-  <script src="require.js"></script>
-  <script src="cloud.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script type="application/javascript" src="public/js/index.js"></script>
+	<script type="application/javascript" src="public/js/cloud.js"></script>
+	<script type="application/javascript" src="public/js/cloud_data.js"></script>
 </head>
 <body>
 <div class="jumbotron text-center" style="margin-bottom:0">
@@ -31,5 +32,12 @@
     </div>
   </div>
 </nav>
+
+<!-- container for word cloud -->
+<div class="bg-3">
+	<div class="row text-center">
+		<div id="chart" class = "container-fluid view col-sm-12"></div>
+	</div>
+</div>
 </body>
 </html>
