@@ -50,7 +50,6 @@ class TreeMap {
         
         let treeDiv = d3.select("#treeMap");
         this.svgBounds = treeDiv.node().getBoundingClientRect();
-        console.log(this.svgBounds);
         this.margin = {top: 30, right: 10, bottom: 10, left: 10},
         this.treeMapWidth = this.svgBounds.width - this.margin.left - this.margin.right;
         this.treeMapHeight = this.svgBounds.height - this.margin.top - this.margin.bottom;
@@ -299,7 +298,6 @@ class TreeMap {
         });
     }
     createTreeMap(causesOfDeathData){
-        console.log(this.treeMapHeight);  
         let domain = [d3.min(causesOfDeathData, function(d) { return d.sum; }), d3.max(causesOfDeathData, function(d) { return d.sum; })];
         let range = ["#83677B", "#2E1114"];
         let that = this;           
@@ -371,7 +369,9 @@ class TreeMap {
             .style('fill', "white"); 
         
     }
-    update(year){
+    update(year, contiresList){
+        console.log(contiresList);
+        console.log(year);
         this.selectedYear =  parseInt(year);
         let tempYear =  parseInt(year) - 3;
         while(tempYear <=  parseInt(year)+3){

@@ -99,7 +99,7 @@ display: inline-block;
 }
 .selected-country {
     stroke: #000000 !important;
-    stroke-width: 2px !important;
+    stroke-width: 1.5px !important;
 }
 
 div.tooltip {	

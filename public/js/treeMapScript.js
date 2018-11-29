@@ -1,11 +1,11 @@
 
 loadData().then(data => {
 
-	this.activeYear = ["2006", "2006"]
+	this.activeYear = ["2000", "2000"]
     const worldMap = new CodMap(data, this.activeYear, updateCountry, "causesOfDeath",updateYearRange);
     this.treeMap = new TreeMap(worldMap);
     this.selected_countries = []
-    this.treeMap.update(this.activeYear[0]);
+    this.treeMap.update(this.activeYear[0], selected_countries);
 
 	this.activeCountry = null;
     let that = this;
@@ -29,11 +29,12 @@ loadData().then(data => {
         if(removed_selection != "") {
             worldMap.clearHighlight(removed_selection)
         }
+        this.treeMap.update(this.activeYear[0], selected_countries);
     }
 
     function updateYearRange(year) {
         this.activeYear = year
-       
+        treeMap.update(this.activeYear[0], selected_countries);
     }
 
 
