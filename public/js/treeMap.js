@@ -44,32 +44,32 @@ class TreeMap {
             "Terrorism":"Terrorism is, in the broadest sense, the use of intentionally indiscriminate violence as a means to create terror among masses of people."
         };
         this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson's": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat or cold exposure": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution": 0 ,"Meningitis": 0 ,"Respiratory infections": 0 ,"Intestinal infectious": 0 ,"Protein-energy malnutrition": 0 ,"Conflict": 0 ,"Terrorism":0}
-        let svgWidth = 800;
-        let svgHeight = 500;
         this.lineAndBarSvgWidth = 500;
         this.lineAndBarSvgHeight = 450;
         this.deathType = {"Dementia": "NE","Cardiovascular diseases":"NC","Kidney disease":"NC","Respiratory disease":"RE","Liver disease":"NC","Diabetes":"NC","Digestive disease":"NC","Hepatitis":"C","Cancers":"NC","Parkinson's":"NE","Fire":"A","Malaria":"NC","Drowning":"A","Homicide":"CR","HIV/AIDS":"C","Drug disorder":"NC","Tuberculosis":"RE","Road incidents":"A","Maternal deaths":"A","Neonatal deaths":"A","Alcohol disorder":"AD","Natural disasters":"A","Diarrheal diseases":"NC","Heat or cold exposure":"NC","Nutritional deficiencies":"NU","Suicide":"CR","Execution":"CR","Meningitis":"C","Respiratory infections":"RE","Intestinal infectious":"NC","Protein-energy malnutrition":"NU","Conflict":"CR","Terrorism":"CR"};
-        this.treeMapWidth = 800;
-        this.treeMapHeight = 500;
+        
+        let treeDiv = d3.select("#treeMap");
+        this.svgBounds = treeDiv.node().getBoundingClientRect();
+        console.log(this.svgBounds);
+        this.margin = {top: 30, right: 10, bottom: 10, left: 10},
+        this.treeMapWidth = this.svgBounds.width - this.margin.left - this.margin.right;
+        this.treeMapHeight = this.svgBounds.height - this.margin.top - this.margin.bottom;
         this.selectedYear = 0;
         this.lineSelectedYear = 0;
         this.selectedYears = [];
-        this.selectedCountries = ["USA", "CAN"];
+        this.selectedCountries = ["USA", "CAN", "CMR"];
         this.allContries = true;
         this.allYears = false;
         this.padding = 50;
         this.width = this.lineAndBarSvgWidth - 2*this.padding - 50;
         this.height = this.lineAndBarSvgHeight - 2*this.padding;
         d3.select("#treeMap").append("svg")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight);
+            .attr("width", this.treeMapWidth)
+            .attr("height", this.treeMapHeight);
         d3.select("#infoBox").append("svg")
             .attr("width", "100%")
             .attr("height", 200);
         this.creatInfoBox("Causes Of Death");
-        d3.select("#lineChart").append("svg")
-            .attr("width", this.lineAndBarSvgWidth + 100)
-            .attr("height", this.lineAndBarSvgHeight);
         d3.select("#barChart").append("svg")
             .attr("width", this.lineAndBarSvgWidth + 100)
             .attr("height", this.lineAndBarSvgHeight);
@@ -171,6 +171,19 @@ class TreeMap {
         }else{
             this.selectedCauses.push(cause);
         }
+        
+        // let treeMap = d3.select("#treeMap");
+        //     treeMap.selectAll("rect").style("opacity", 0.4)
+        //     .attr("stroke", "none").attr("stroke-width", 0);
+        // this.selectedCauses.forEach(function(cause){
+        // console.log(cause);
+        //     treeMap.select("#"+cause).style("opacity", 1.0)
+        //     .attr("stroke", "#2E1114").attr("stroke-width", 2);
+        // });
+        d3.select("#lineChart").selectAll("svg").remove();
+        d3.select("#lineChart").append("svg")
+            .attr("width", this.lineAndBarSvgWidth + 100)
+            .attr("height", this.lineAndBarSvgHeight);
         let that = this;
         let dataBuffer = 1000;
         let yearBuffer = 1;
@@ -286,6 +299,7 @@ class TreeMap {
         });
     }
     createTreeMap(causesOfDeathData){
+        console.log(this.treeMapHeight);  
         let domain = [d3.min(causesOfDeathData, function(d) { return d.sum; }), d3.max(causesOfDeathData, function(d) { return d.sum; })];
         let range = ["#83677B", "#2E1114"];
         let that = this;           
