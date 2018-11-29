@@ -20,24 +20,19 @@
 
 #parallel-chart{
     height: 500px;
-    word-wrap: break-word;
-    white-space: normal;
     /*width: 960px;*/
 }
 
 #parallel-chart text{
-    height: 500px;
     word-wrap: break-word;
-    text-anchor:middle;
-    font: 12px Serif;
     stroke: black;
 }
+
 .header-pc{
-    height: 500px;
-    word-wrap: break-word;
+    height: 500px;;
     text-anchor:middle;
     font: 12px Serif;
-    stroke: black;
+    fill: black;
     transform: rotate(-9deg)
     /*overflow-wrap: break-word;*/
     /*width: 960px;*/
@@ -103,8 +98,8 @@ display: inline-block;
   stroke-opacity: .5;
 }
 .selected-country {
-    stroke: #FF0000 !important;
-    stroke-width: 1px !important;
+    stroke: #000000 !important;
+    stroke-width: 2px !important;
 }
 
 div.tooltip {	
@@ -167,7 +162,7 @@ div.tooltip {
 }
 
 .axis text {
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+  /*text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;*/
   cursor: move;
 }
 .global_title {
@@ -217,4 +212,10 @@ div.tooltip {
     font: 12px sans-serif;
     padding: 5px;
     text-align: center;
+}
+#parallel_chart_title text {
+  font-size: 20px;
+  font-family:sans-serif;
+  font-weight: bold;
+  position: relative
 }

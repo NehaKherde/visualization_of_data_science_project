@@ -144,9 +144,27 @@ class ParallelChart{
     this.updateSelectedFlag(false);
   }
 
+  clearTitleHighlight(){
+    let self = this;
+    let factors = this.factor
+    for(let i = 0; i<factors.length; i++){
+      document.getElementById([factors[i]]).style.fill = "black";
+      document.getElementById([factors[i]]).style.stroke = "black";
+    }
+  }
+
   updateParallelPlot(combined_data){
 
     let self = this;
+
+    if(!document.getElementById("parallel_chart_title").contains(document.getElementsByClassName("parallel_chart_class")[0])) {
+    d3.select("#parallel_chart_title").append("text")
+                                      .text("Study Of Factors For Countries")
+                                      .attr("class", "parallel_chart_class")
+                                      .attr("font-family", "sans-serif")
+                                      .attr("fill", "red")
+                                      .attr("transform", "translate(0,30)");
+    }
     d3.select('#parallel-chart').selectAll('svg').remove()
     this.svg = d3.select('#parallel-chart').append('svg').attr("width", this.svgWidth + this.margin.left + this.margin.right).attr("height", this.svgHeight + this.margin.top + this.margin.bottom)
                     .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
@@ -171,7 +189,7 @@ class ParallelChart{
         let height =  (this.margin.top + 200);
         let h1 = (this.svgHeight - this.margin.bottom-50);
         yScales[column_names[i]] = d3.scaleLinear().domain(d3.extent(combined_data, function(p) { return +p[column_names[i]]; })
-)                                                    .range([this.margin.top, this.svgHeight - this.margin.bottom]);
+                                    ).range([this.margin.top, this.svgHeight - this.margin.bottom]);
     }
         
 
@@ -292,19 +310,28 @@ class ParallelChart{
           let axes = g.append("g").attr("class", "axis")
                           .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll('text')})
                             .append("text")
-                              .attr("class", "header-pc")
                               .attr("y", 20)
                               .text(function(d,i) { console.log(d); return d; })
-                                 
+                              .attr("id", idfunc)
+                              .attr("class", "header-pc");
 
+          function idfunc(d){
+            return self.reversefactormap[d]
+          }                                 
           axes.on("click", function(){
              let a = d3.event;
+              // let x = d3.select(this).style("fill","red")
+              // x.style("fill", "red")
               let val = a.srcElement.__data__;
               let key = self.reversefactormap[val]
               let value = self.originalArr;
               self.updateSelectedFactor(key, value);
               d3.event.stopPropagation();
-          });                    
+              self.clearTitleHighlight();
+              document.getElementById(key).style.fill = "#b2182b";
+              document.getElementById(key).style.stroke = "#b2182b";
+          });      
+
            // g.append("g").attr("class", "brush")
            //    .each(funtion(d) {
            //      d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
