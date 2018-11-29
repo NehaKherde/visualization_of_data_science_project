@@ -14,7 +14,7 @@ loadData().then(data => {
     function updateCountry(countryID) {
         that.activeCountry = countryID;
         let removed_selection = ""
-//        worldMap.clearHighlight()
+//        worldMap.clearHighlight() 
         if(this.selected_countries.includes(countryID)) {
             let index = this.selected_countries.indexOf(countryID);
             if (index > -1) {
