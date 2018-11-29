@@ -1,6 +1,6 @@
-drawWordCloud(text_string);
+drawWordCloud();
 
-function drawWordCloud(text_string) {
+function drawWordCloud() {
   word_count = {'Beer Consumption':2, 'Child Mortality':4, 'Disability':1, 'Life Expectancy':4, 'Maternal Mortality':2, 'Median Age':1, 'Polio':2, 'Vaccine':3, 'Cancer':4, 'Alcohol':4, 'Expenditure':2, 'Deaths':3, 'Diseases':2, 'Suicide':4, 'Homicide':5, 'Deficiencies':3, 'Protein-Energy':2, 'Natural Disasters':3, 'Heat-related':5, 'Diarrheal':3, 'Road':2, 'Tuberculosis':3, 'HIV/AIDS':4, 'Drowning':1, 'Malaria':1, 'Fire':1, 'Hepatitis':4, 'Digestive':2, 'Diabetes':1, 'Liver':2, 'Respiratory':1, 'Kidney':1, 'Cardiovascular':4, 'Drug':2, 'Alcohol':1, "Parkinson's":1, 'Dementia':1}
   var svg_location = "#chart";
   var width = 1500;
