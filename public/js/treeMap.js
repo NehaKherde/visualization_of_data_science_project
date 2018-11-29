@@ -27,17 +27,17 @@ class TreeMap {
             "Drug disorder":"Substance abuse, also known as drug abuse, is a patterned use of a drug in which the user consumes the substance in amounts or with methods which are harmful to themselves or others.",
             "Tuberculosis":"Tuberculosis generally affects the lungs, but can also affect other parts of the body.",
             "Road incidents":"A traffic collision, occurs when a vehicle collides with another vehicle, pedestrian, animal, road debris, or other stationary obstruction.",
-            "Maternal deaths":"Maternal death or maternal mortality is defined by the World Health Organization (WHO) as \"the death of a woman while pregnant or within 42 days of termination of pregnancy, irrespective of the duration and site \nof the pregnancy, from any cause related to or aggravated by the pregnancy or its management but not from vaccidental or incidental causes.\"",
-            "Neonatal deaths":"Premature birth is the biggest contributor to the IMR. Other leading causes of infant mortality are birth asphyxia, pneumonia, congenital malformations, term birth complications such as abnormal presentation of \nthe foetus umbilical cord prolapse, or prolonged labor, neonatal infection, diarrhea, malaria, measles and malnutrition. One of the most common preventable causes of infant mortality is \nsmoking during pregnancy. Many factors contribute to infant mortality, such as the mother's level of education, environmental conditions, and political and medical infrastructure. Improving sanitation,\n access to clean drinking water, immunization against infectious diseases, and other public health measures can help reduce high rates of infant mortality.",
+            "Maternal deaths":"Maternal death or maternal mortality is the death of a woman while pregnant or within 42 days of termination of pregnancy, irrespective of the duration and site of the pregnancy",
+            "Neonatal deaths":"Premature birth is the leading causes of infant mortality are birth asphyxia, pneumonia, congenital malformations.",
             "Alcohol disorder":"Alcoholism, also known as alcohol use disorder (AUD), is a broad term for any drinking of alcohol that results in mental or physical health problems.",
-            "Natural disasters":"A natural disaster is a major adverse event resulting from natural processes of the Earth; examples are floods, hurricanes, tornadoes, volcanic eruptions, earthquakes, tsunamis, and other geologic processes. A \nnatural disaster can cause loss of life or property damage, and typically leaves some economic damage in its wake, the severity of which depends on the affected population's resilience, \nor ability to recover and also on the infrastructure available.",
-            "Diarrheal diseases":"Diarrhea, also spelled diarrhoea, is the condition of having at least three loose or liquid bowel movements each day. It often lasts for a few days and can result in dehydration due to fluid loss. Signs of \ndehydration often begin with loss of the normal stretchiness of the skin and irritable behaviour. This can progress to decreased urination, loss of skin color, a fast heart rate, and a decrease \nin responsiveness as it becomes more severe. Loose but non-watery stools in babies who are exclusively breastfed, however, are normal",
-            "Heat or cold exposure":"Hypothermia is reduced body temperature that happens when a body dissipates more heat than it absorbs. In humans, it is defined as a body core temperature below 35.0 °C (95.0 °F). Symptoms depend on the \ntemperature. In mild hypothermia there is shivering and mental confusion. In moderate hypothermia shivering stops and confusion increases. In severe hypothermia, there may be paradoxical \nundressing, in which a person removes their clothing, as well as an increased risk of the heart stopping. \n \n \n Heat stroke, also known as sun stroke, is a type of severe heat illness that results \nin a body temperature greater than 40.0 °C (104.0 °F) and confusion. Other symptoms include red, dry or damp skin, headache, and dizziness. Onset can be sudden or gradual. Complications may \ninclude seizures, rhabdomyolysis, or kidney failure.",
-            "Nutritional deficiencies":"Nutrient deficiency may refer to: Malnutrition, a condition in animals that results from a diet deficient in calories and/or essential nutrients Micronutrient deficiency, a lack of one or more of the \nmicronutrients required for plant or animal health Avitaminosis, any disease caused by chronic or long-term vitamin deficiency or caused by a defect in metabolic conversion Mineral deficiency, \na lack of dietary minerals that are needed for an organism's proper health",
-            "Suicide":"Suicide is the act of intentionally causing one's own death. Depression, bipolar disorder, schizophrenia, personality disorders, and substance abuse — including alcoholism and the use of benzodiazepines — are risk \nfactors. Some suicides are impulsive acts due to stress such as from financial difficulties, troubles with relationships, or bullying. Those who have previously attempted suicide are at a higher \nrisk for future attempts. Suicide prevention efforts include limiting access to methods of suicide — such as firearms, drugs, and poisons; treating mental disorders and substance misuse; proper\n media reporting of suicide; and improving economic conditions. Even though crisis hotlines are common, there is little evidence for their effectiveness.",
-            "Execution":"Capital punishment, also known as the death penalty, is a government-sanctioned practice whereby a person is killed by the state as a punishment for a crime. The sentence that someone be punished in such a manner is \nreferred to as a death sentence, whereas the act of carrying out the sentence is known as an execution. Crimes that are punishable by death are known as capital crimes or capital offences, \nand they commonly include offences such as murder, treason, espionage, war crimes, crimes against humanity and genocide. Etymologically, the term capital (lit. \"of the head\", derived via the Latin\n capitalis from caput, \"head\") in this context alluded to execution by beheading.",
-            "Meningitis":"Meningitis is an acute inflammation of the protective membranes covering the brain and spinal cord, known collectively as the meninges. The most common symptoms are fever, headache, and neck stiffness. Other symptoms \ninclude confusion or altered consciousness, vomiting, and an inability to tolerate light or loud noises. Young children often exhibit only nonspecific symptoms, such as irritability, \ndrowsiness, or poor feeding. If a rash is present, it may indicate a particular cause of meningitis; for instance, meningitis caused by meningococcal bacteria may be accompanied by a characteristic rash.",
-            "Respiratory infections":"Respiratory tract infection (RTI) refers to any of a number of infectious diseases involving the respiratory tract. An infection of this type is normally further classified as an upper respiratory tract \ninfection (URI or URTI) or a lower respiratory tract infection (LRI or LRTI). Lower respiratory infections, such as pneumonia, tend to be far more serious conditions than upper respiratory \ninfections, such as the common cold.",
+            "Natural disasters":"A natural disaster is a major adverse event resulting from natural processes of the Earth",
+            "Diarrheal diseases":"Diarrhea, also spelled diarrhoea, is the condition of having at least three loose or liquid bowel movements each day.",
+            "Heat or cold exposure":"Hypothermia is reduced body temperature that happens when a body dissipates more heat than it absorbs.",
+            "Nutritional deficiencies":"Nutrient deficiency may refer to: Malnutrition, a condition in animals that results from a diet deficient in calories and/or essential nutrients Micronutrient deficiency.",
+            "Suicide":"Suicide is the act of intentionally causing one's own death.",
+            "Execution":"Capital punishment, also known as the death penalty, is a government-sanctioned practice whereby a person is killed by the state as a punishment for a crime.",
+            "Meningitis":"Meningitis is an acute inflammation of the protective membranes covering the brain and spinal cord, known collectively as the meninges.",
+            "Respiratory infections":"Respiratory tract infection (RTI) refers to any of a number of infectious diseases involving the respiratory tract.",
             "Intestinal infectious":"Intestinal infectious diseases include a large number of infections of the bowels including: cholera, typhoid fever, paratyphoid fever, other types of salmonella infections, shigellosis, botulism, gastroenteritis, and amoebiasis among others.",
             "Protein-energy malnutrition":"Protein–energy malnutrition (PEM) is a form of malnutrition that is defined as a range of pathological conditions arising from coincident lack of dietary protein and/or energy (calories) in varying proportions.",
             "Conflict":"In wartime, you'll hear the word casualty used often for someone killed or injured.",
@@ -179,7 +179,10 @@ class TreeMap {
         let svgContainer ;
         let x;
         let y;
-        let textPadding = 70;  
+        let textPadding = 70; 
+        let div = d3.select("body").append("div")
+        .attr("class", "tooltip")				
+        .style("opacity", 0); 
         this.selectedCauses.forEach(function(cause){
             that.selectedCause = cause;
             let cData = []
@@ -207,52 +210,6 @@ class TreeMap {
             y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.causeSum; })-dataBuffer, d3.max(lineChartData, function(d) { return d.causeSum; })+dataBuffer]).range([that.height, 0]);
             let xAxis = d3.axisBottom(x).ticks(5);
             let yAxis = d3.axisLeft(y).ticks(5);
-            let div = d3.select("body").append("div")
-            .attr("class", "tooltip")				
-            .style("opacity", 0);
-            svgContainer.selectAll("circle")
-                .data(lineChartData)
-                .enter().append("circle")
-                .attr("r", function(d) { 
-                    if(d.Year == that.selectedYear){
-                        return 7;
-                    }else{
-                        return 5;
-                    }
-                })
-                .attr("cx", function(d) { return x(d.Year); })
-                .attr("cy", function(d) { return y(d.causeSum); })
-                .attr("id",  function(d) { return d.Year+"-"+d.cause; })
-                .attr("fill", function(d) { 
-                    if(d.Year == that.selectedYear){
-                        return  "#ffffff";
-                    }else{
-                        return "#ADADAD";
-                    }
-                })
-                .attr("stroke", function(d) { 
-                    if(d.Year == that.selectedYear){
-                        return  "#000000";
-                    }else{
-                        return "#644856";
-                    }
-                })
-                .attr("stroke-width", 2)
-                .attr("transform", "translate(" +textPadding+ ",0)")
-                .on("click", function() { that.displayBarChart(parseInt(this.id.split("-")[0]), this.id.split("-")[1]); })	
-                .on("mouseover", function(d) {		
-                    div.transition()		
-                        .duration(200)		
-                        .style("opacity", .9);		
-                    div	.html("YEAR: "+d.Year + "<br/> Count: "  + d.causeSum + "<br/> Click Me !! ")	
-                        .style("left", (d3.event.pageX) + "px")		
-                        .style("top", (d3.event.pageY - 28) + "px");	
-                    })					
-                .on("mouseout", function(d) {		
-                    div.transition()		
-                        .duration(500)		
-                        .style("opacity", 0);	
-                });
             svgContainer.append("g").attr("transform", "translate("+textPadding+"," + (that.width) + ")").call(xAxis);
             svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",0)").call(yAxis);
             svgContainer.append("text")             
@@ -267,15 +224,6 @@ class TreeMap {
                 .style("text-anchor", "middle")
                 .text("Death Toll");
         });
-        svgContainer.append("text")
-            .attr("y", -50)
-            .attr("x",300)
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .text(cause)
-            .style("fill", "#2E1114")
-            .style("font-weight", "bold")
-            .style("font-size", "20px");
         this.selectedCauses.forEach(function(cause){
             let valueline = d3.line()
                 .x(function(d) { return x(d.Year); })
@@ -292,6 +240,49 @@ class TreeMap {
             .attr("stroke-dashoffset", totalLength)
             .transition().duration(2000)
             .attr("stroke-dashoffset", 0);
+        });
+        svgContainer.selectAll("circle")
+        .data(lineChartData)
+        .enter().append("circle")
+        .attr("r", function(d) { 
+            if(d.Year == that.selectedYear){
+                return 7;
+            }else{
+                return 5;
+            }
+        })
+        .attr("cx", function(d) { return x(d.Year); })
+        .attr("cy", function(d) { return y(d.causeSum); })
+        .attr("id",  function(d) { return d.Year+"-"+d.cause; })
+        .attr("fill", function(d) { 
+            if(d.Year == that.selectedYear){
+                return  "#ffffff";
+            }else{
+                return "#ADADAD";
+            }
+        })
+        .attr("stroke", function(d) { 
+            if(d.Year == that.selectedYear){
+                return  "#000000";
+            }else{
+                return "#644856";
+            }
+        })
+        .attr("stroke-width", 2)
+        .attr("transform", "translate(" +textPadding+ ",0)")
+        .on("click", function() { that.displayBarChart(parseInt(this.id.split("-")[0]), this.id.split("-")[1]); })	
+        .on("mouseover", function(d) {		
+            div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+            div	.html("YEAR: "+d.Year + "<br/> Count: "  + d.causeSum + "<br/>"+d.cause+"<br/> Click Me !! ")	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
         });
     }
     createTreeMap(causesOfDeathData){
@@ -358,7 +349,8 @@ class TreeMap {
                     return ""
                 }
             });
-        cell.selectAll("rect").on("click", function() { 
+        cell.selectAll("rect").on("click", function() {
+             
             that.displayLineChart(this.id);});
         cell.append("title")    
             .text(d =>  d.id + "\n" + d.value)
