@@ -82,7 +82,7 @@ class CodMap {
                 .attr("transform", "translate(0,41)");
                 
         let legendQuantile = d3.legendColor()
-                .shapeWidth((500)/6)
+                .shapeWidth((this.svgWidth-100)/6)
                 .cells(6)
                 .orient('horizontal')
                 .labelFormat(d3.format('.1r'))
