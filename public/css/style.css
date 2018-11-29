@@ -24,8 +24,7 @@
 }
 
 #parallel-chart text{
-    word-wrap: break-word;
-    stroke: black;
+    /*stroke: black;*/
 }
 
 .header-pc{
@@ -34,8 +33,6 @@
     font: 12px Serif;
     fill: black;
     transform: rotate(-9deg)
-    /*overflow-wrap: break-word;*/
-    /*width: 960px;*/
 }
 
 .headerdiv{
@@ -101,6 +98,39 @@ display: inline-block;
     stroke: #000000 !important;
     stroke-width: 1.5px !important;
 }
+
+.d3-tip {
+      line-height: 1;
+      padding: 6px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      border-radius: 4px;
+      font-size: 12px;
+}
+
+.about{
+  font-size:20;
+  font-color:grey;
+}
+
+.d3-tip:after {
+      box-sizing: border-box;
+      display: inline;
+      font-size: 10px;
+      width: 100%;
+      line-height: 1;
+      color: rgba(0, 0, 0, 0.8);
+      content: "\25BC";
+      position: absolute;
+      text-align: center;
+    }
+ 
+    /* Style northward tooltips specifically */
+    .d3-tip.n:after {
+      margin: -2px 0 0 0;
+      top: 100%;
+      left: 0;
+    }
 
 div.tooltip {	
     position: absolute;			
