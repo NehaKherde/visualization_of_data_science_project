@@ -219,3 +219,7 @@ div.tooltip {
   font-weight: bold;
   position: relative
 }
+.world_population_title {
+  font-weight: bold;
+  font-size: 20px;
+}

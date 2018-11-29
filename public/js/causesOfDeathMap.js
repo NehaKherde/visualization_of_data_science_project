@@ -30,12 +30,11 @@ class CodMap {
         this.legendSvg = legend_section.append("svg")
                             .attr("width",500)
                             .attr("height",legendHeight)
-                            .attr("transform", "translate("+50+",-200)");
+                            .attr("transform", "translate("+0+",-200)");
     }
 
     drawMap(world) {
-
-        let domain = [0, 1, 5, 10, 20, 30, 50];
+        let domain = [0, 100, 200, 400, 500, 7000, 8000];
         let range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
         let colorScale = d3.scaleQuantile()
             .domain(domain)
@@ -74,7 +73,7 @@ class CodMap {
                                                             let id = data[d["id"]]
                                                             if(id == undefined)
                                                                 return "#eee"
-                                                            return colorScale(data[d["id"]][1])
+                                                            return colorScale(data[d["id"]][1]/1000)
                                                         })
         let tooltip = new_path_element.append("svg:title").html(d=>this.tooltipRender(data, d, 'causesOfDeath'));
 
