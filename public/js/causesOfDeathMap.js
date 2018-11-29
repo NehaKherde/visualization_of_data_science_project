@@ -11,7 +11,13 @@ class CountryData {
 class CodMap {
 
         constructor(data, activeYear, updateCountry, selected_health_factor, updateYearRange) {
-        this.projection = d3.geoEquirectangular().scale(90).translate([300, 190]);
+        let mapDiv = d3.select("#map-chart")
+        this.svgBounds = mapDiv.node().getBoundingClientRect();
+        this.margin = {top: 30, right: 10, bottom: 10, left: 10},
+        this.svgWidth = this.svgBounds.width - this.margin.left - this.margin.right;
+        this.svgHeight = this.svgBounds.height - this.margin.top - this.margin.bottom;
+        this.projection = d3.geoEquirectangular().scale(90).translate([this.svgWidth/2, this.svgHeight/2.5]);
+
         this.complete_data = data
         this.selected_health_factor = selected_health_factor
         this.updateCountry = updateCountry;
@@ -24,7 +30,7 @@ class CodMap {
         this.legendSvg = legend_section.append("svg")
                             .attr("width",500)
                             .attr("height",legendHeight)
-                            .attr("transform", "translate(0,-200)");
+                            .attr("transform", "translate("+50+",-200)");
     }
 
     drawMap(world) {
