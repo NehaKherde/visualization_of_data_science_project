@@ -88,8 +88,13 @@
       <div class="title">
         <h class="chart-title">Does Political stability affect Life Expectancy?</h>
       </div>
+      
+    <div id="causesOfDeathBottomDiv">
       <h4 class="chart-title">Life Expectancy (%) <span class="year"></span></h4>
       <div class="chart"></div>
+      <h4 class="chart-title">Political stability <span class="year"></span></h4>
+      <div class="lineChart"></div>
+    </div>
   </div>
   <script>
     'use strict';
@@ -99,7 +104,13 @@
     const height = 500 - margin.top - margin.bottom;
     const percentFormat = d3.format('.0%');
     const leftPadding = 5;
-  
+
+    //line chart
+    this.politicalStability = [];
+    this.padding = 50;
+    this.selectedCon = "SYR";
+    this.selectedYears = [2004,2005,2006];
+
     const delay = function(d, i) {
       return i * 40;
     };
@@ -201,7 +212,80 @@
         .attr('height', height + margin.top + margin.bottom)
       .append('g')
         .attr('transform', `translate(${margin.left},${margin.top})`);
-  
+    
+    
+    const lineSvg = d3.select('.lineChart').append('svg')
+        .attr('width', width + margin.left + margin.right)
+        .attr('height', height + margin.top + margin.bottom)
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+    //line chart
+    let that = this;
+    d3.csv("../data/changed_csv/political_stability.csv").then( polStability => {
+        that.politicalStability.push(polStability);
+        setTimeout(lineChartData(), 3000);
+    });
+    function lineChartData(){
+      that.politicalStability.forEach(function(element){
+      });
+    }
+    
+    function drawLineChart(){
+      let svgContainer = d3.select(".lineChart").select("svg");
+      svgContainer.selectAll("g").remove();
+      svgContainer = svgContainer.append("g").attr("transform", "translate(" + that.padding + "," + that.padding + ")");
+      let textPadding = 70;
+      let lineChartData = [];
+      let yearBuffer = 1;
+      let dataBuffer =
+      that.politicalStability.forEach(function(ele){
+        ele.forEach(function(element){
+          if(that.selectedCon == element["ID"]){
+            that.selectedYears.forEach(function(year){
+              lineChartData.push({"year": parseInt(year), "value": parseFloat(element[year])}); 
+            });
+          }   
+        });
+      }); 
+
+      let rangeWidth = width - margin.left - margin.right;
+      let rangeHeight = height + margin.top + margin.bottom;
+      let x = d3.scaleLinear().domain([Math.min.apply(null, that.selectedYears) - yearBuffer, Math.max.apply(null, that.selectedYears)+ yearBuffer]).range([0, rangeWidth]); 
+      let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.value; })-dataBuffer, d3.max(lineChartData, function(d) { return d.value; })+dataBuffer]).range([rangeHeight, 50  ]);
+      let xAxis = d3.axisBottom(x).ticks(5);
+      let yAxis = d3.axisLeft(y).ticks(5);
+
+      svgContainer.append("g").attr("transform", "translate("+textPadding+"," + (rangeWidth) + ")").call(xAxis);
+      svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",0)").call(yAxis);
+      svgContainer.append("text")             
+          .attr("transform","translate(" + ((rangeWidth/2)+textPadding) + " ," + (rangeHeight -100) + ")")
+          .style("text-anchor", "middle")
+          .text("Year");
+      svgContainer.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", -20)
+          .attr("x",0 - (rangeHeight / 2))
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .text("Political Stability");
+          
+      let valueline = d3.line()
+            .x(function(d) { return x(d.year); })
+            .y(function(d) { return y(d.value); });
+      let pathValue = svgContainer.append("path")
+        .attr("d", valueline(lineChartData))
+        .attr("stroke", "#2E1114")
+        .attr("stroke-width", 2)
+        .attr("fill", " none")
+        .attr("transform", "translate(" +textPadding+ ",0)");
+
+      let totalLength = pathValue.node().getTotalLength();
+      pathValue.attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition().duration(750)
+        .attr("stroke-dashoffset", 0);
+    }
     fetch('../data/dataold.csv')
       .then((res) => res.text())
       .then((res) => {
@@ -220,7 +304,7 @@
         drawBars(svg, selectedData);
   
         const interval = d3.interval(() => {
-          const t = d3.transition().duration(1500);
+          const t = d3.transition().duration(2000);
   
           startYear += 1;
           selectedData = removeGeoAreasWithNoData(sortData(data[startYear]));
@@ -230,7 +314,8 @@
           yScale.domain(selectedData.map(yAccessor));
           drawYAxis(svg, selectedData, t);
           drawBars(svg, selectedData, t);
-  
+          drawLineChart();
+          
           if (startYear === lastYear) {
             interval.stop();
           }
