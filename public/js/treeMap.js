@@ -5,10 +5,11 @@ class TreeMap {
         this.selectedFeaturesData =[]
         this.selectedCause = ""
         this.selectedCauses =[]
+        this.selectedCausesId = []
         this.selectedYear = 0
         this.causesOfDeathName = {"Dementia": "Dementia","Cardiovascular diseases":"Cardiovascular","Kidney disease":"Kidney","Respiratory disease":"Respiratory","Liver disease":"Liver","Diabetes":"Diabetes","Digestive disease":"Digestive" ,"Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson's":"Parkinson's","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV/AIDS":"HIV/AIDS","Drug disorder":"Drugs","Tuberculosis":"Tuberculosis","Road incidents":"Road incidents","Maternal deaths":"Maternal","Neonatal deaths":"Neonatal","Alcohol disorder":"Alcohol","Natural disasters":"Disasters","Diarrheal diseases":"Diarrheal","Heat or cold exposure":"Exposure","Nutritional deficiencies":"Nutrition","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory infections":"Respiratory","Intestinal infectious":"Intestinal","Protein-energy malnutrition":"Protein-energy","Conflict":"Conflict","Terrorism":"Terrorism"};
-        this.causesOfDeathId = {"Dementia": "Dementia","Cardiovascular_diseases":"Cardiovascular diseases","Kidney_disease":"Kidney disease","Respiratory_disease":"Respiratory disease","Liver_disease":"Liver disease","Diabetes":"Diabetes","Digestive_disease":"Digestive disease" ,"Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson":"Parkinson's","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV_AIDS":"HIV/AIDS","Drug_disorder":"Drug disorder","Tuberculosis":"Tuberculosis","Road_incidents":"Road incidents","Maternal_deaths":"Maternal deaths","Neonatal_deaths":"Neonatal deaths","Alcohol_disorder":"Alcohol disorder","Natural_disasters":"Natural disasters","Diarrheal_diseases":"Diarrheal diseases","Heat_or_cold_exposure":"Heat or cold exposure","Nutritional_deficiencies":"Nutritional deficiencies","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory_infections":"Respiratory infections","Intestinal_infectious":"Intestinal infectious","Protein_energy_malnutrition":"Protein-energy malnutrition","Conflict":"Conflict","Terrorism":"Terrorism"};
-        this.causesOfDeathIdName = {"Dementia": "Dementia","Cardiovascular diseases":"Cardiovascular_diseases","Kidney disease":"Kidney_disease","Respiratory disease":"Respiratory_disease","Liver disease":"Liver_disease","Diabetes":"Diabetes","Digestive disease":"Digestive_disease" ,"Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson's":"Parkinson","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV/AIDS":"HIV_AIDS","Drug disorder":"Drug_disorder","Tuberculosis":"Tuberculosis","Road incidents":"Road_incidents","Maternal deaths":"Maternal_deaths","Neonatal deaths":"Neonatal_deaths","Alcohol disorder":"Alcohol_disorder","Natural disasters":"Natural_disasters","Diarrheal diseases":"Diarrheal_diseases","Heat or cold exposure":"Heat_or_cold_exposure","Nutritional deficiencies":"Nutritional_deficiencies","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory infections":"Respiratory_infections","Intestinal infectious":"Intestinal_infectious","Protein-energy malnutrition":"Protein_energy_malnutrition","Conflict":"Conflict","Terrorism":"Terrorism"};
+        this.causesOfDeathId = {"Overall": "Overall", "":"", "NC":"NC", "C":"C", "A":"A", "CR":"CR", "RE":"RE", "NE":"NE", "NU":"NU", "AD":"AD", "Dementia": "Dementia","Cardiovascular_diseases":"Cardiovascular diseases","Kidney_disease":"Kidney disease","Respiratory_disease":"Respiratory disease","Liver_disease":"Liver disease","Diabetes":"Diabetes","Digestive_disease":"Digestive disease" ,"Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson":"Parkinson's","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV_AIDS":"HIV/AIDS","Drug_disorder":"Drug disorder","Tuberculosis":"Tuberculosis","Road_incidents":"Road incidents","Maternal_deaths":"Maternal deaths","Neonatal_deaths":"Neonatal deaths","Alcohol_disorder":"Alcohol disorder","Natural_disasters":"Natural disasters","Diarrheal_diseases":"Diarrheal diseases","Heat_or_cold_exposure":"Heat or cold exposure","Nutritional_deficiencies":"Nutritional deficiencies","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory_infections":"Respiratory infections","Intestinal_infectious":"Intestinal infectious","Protein_energy_malnutrition":"Protein-energy malnutrition","Conflict":"Conflict","Terrorism":"Terrorism"};
+        this.causesOfDeathIdName = {"Overall": "Overall", "":"", "NC":"NC", "C":"C", "A":"A", "CR":"CR", "RE":"RE", "NE":"NE", "NU":"NU", "AD":"AD", "Dementia": "Dementia","Cardiovascular diseases":"Cardiovascular_diseases","Kidney disease":"Kidney_disease","Respiratory disease":"Respiratory_disease","Liver disease":"Liver_disease","Diabetes":"Diabetes","Digestive disease":"Digestive_disease" ,"Hepatitis":"Hepatitis","Cancers":"Cancers","Parkinson's":"Parkinson","Fire":"Fire","Malaria":"Malaria","Drowning":"Drowning","Homicide":"Homicide","HIV/AIDS":"HIV_AIDS","Drug disorder":"Drug_disorder","Tuberculosis":"Tuberculosis","Road incidents":"Road_incidents","Maternal deaths":"Maternal_deaths","Neonatal deaths":"Neonatal_deaths","Alcohol disorder":"Alcohol_disorder","Natural disasters":"Natural_disasters","Diarrheal diseases":"Diarrheal_diseases","Heat or cold exposure":"Heat_or_cold_exposure","Nutritional deficiencies":"Nutritional_deficiencies","Suicide":"Suicide","Execution":"Execution","Meningitis":"Meningitis","Respiratory infections":"Respiratory_infections","Intestinal infectious":"Intestinal_infectious","Protein-energy malnutrition":"Protein_energy_malnutrition","Conflict":"Conflict","Terrorism":"Terrorism"};
         this.causesOfDeathDetails= {
             "Causes Of Death": "As global population increases, life expectancy rises, and living standards improve, causes of death across the world are changing.",
             "Dementia": "Not a specific disease, dementia is a group of conditions characterized by impairment of at least two brain functions, such as memory loss and judgment.",
@@ -144,25 +145,27 @@ class TreeMap {
             .style("font-weight", "bold")
             .style("font-size", "20px");
     }
-    displayLineChart(cause){  
-        if(this.selectedCauses.includes(cause)){
-            delete this.selectedCauses[this.selectedCauses.indexOf(cause)];
+    displayLineChart(cause){ 
+        let that = this; 
+        if(this.selectedCausesId.includes(cause)){
+            delete this.selectedCauses[this.selectedCauses.indexOf(this.causesOfDeathId[cause])];
+            delete this.selectedCausesId[this.selectedCausesId.indexOf(cause)];
         }else{
-            this.selectedCauses.push(cause);
+            this.selectedCauses.push(this.causesOfDeathId[cause]);
+            this.selectedCausesId.push(cause);
         }
         let treeMap = d3.select("#treeMap");
             treeMap.selectAll("rect").style("opacity", 0.4)
             .attr("stroke", "none").attr("stroke-width", 0);
-        this.selectedCauses.forEach(function(cause){
-        console.log(cause);
-            treeMap.select("#"+cause).style("opacity", 1.0)
+        this.selectedCausesId.forEach(function(c){
+            treeMap.select("#"+c).style("opacity", 1.0)
             .attr("stroke", "#2E1114").attr("stroke-width", 2);
         });
         d3.select("#lineChart").selectAll("svg").remove();
         d3.select("#lineChart").append("svg")
             .attr("width", this.lineAndBarSvgWidth + 100)
             .attr("height", this.lineAndBarSvgHeight);
-        let that = this;
+        cause = that.causesOfDeathId[cause];
         let dataBuffer = 1000;
         let yearBuffer = 1;
         let lineChartData = [];
@@ -276,7 +279,7 @@ class TreeMap {
             .round(true)
             .padding(1);
         let root = d3.stratify()
-            .id(d => d.name)
+            .id(d => that.causesOfDeathIdName[d.name])
             .parentId(d => d.parent)
             (causesOfDeathData)
             .sum(d => d.sum)
@@ -299,7 +302,7 @@ class TreeMap {
                     that.treeToolTipDiv.transition()		
                         .duration(200)		
                         .style("opacity", .9);		
-                    that.treeToolTipDiv.html( "CAUSE: "+d.id+"<br/>DEATH TOLL: "+d.data.sum+"<br/>ABOUT: "+that.causesOfDeathDetails[d.id] +"<br/>Click Me !! ")	
+                    that.treeToolTipDiv.html( "CAUSE: "+that.causesOfDeathId[d.id]+"<br/>DEATH TOLL: "+d.data.sum+"<br/>ABOUT: "+that.causesOfDeathDetails[that.causesOfDeathId[d.id]] +"<br/>Click Me !! ")	
                         .style("left", (d3.event.pageX) + "px")		
                         .style("top", (d3.event.pageY - 28) + "px");	
                     })					
@@ -313,7 +316,7 @@ class TreeMap {
             .attr("y", 18)
             .text(function(d){
                 if(d.x1 - d.x0 > 50 && d.y1 -d.y0 >25){
-                    return that.causesOfDeathName[d.id];
+                    return that.causesOfDeathName[that.causesOfDeathId[d.id]];
                 }else{
                     return ""
                 }
@@ -340,6 +343,7 @@ class TreeMap {
         this.selectedFeaturesData =[]
         this.selectedCause = ""
         this.selectedCauses =[]
+        this.selectedCausesId = []
         this.selectedYear = 0
         this.selectedYears = [];
         this.causesOfDeathSumValues= {"Dementia": 0 ,"Cardiovascular diseases": 0 ,"Kidney disease": 0 ,"Respiratory disease": 0 ,"Liver disease": 0 ,"Diabetes": 0 ,"Digestive disease": 0 ,"Hepatitis": 0 ,"Cancers": 0 ,"Parkinson's": 0 ,"Fire": 0 ,"Malaria": 0 ,"Drowning": 0 ,"Homicide": 0 ,"HIV/AIDS": 0 ,"Drug disorder": 0 ,"Tuberculosis": 0 ,"Road incidents": 0 ,"Maternal deaths": 0 ,"Neonatal deaths": 0 ,"Alcohol disorder": 0 ,"Natural disasters": 0 ,"Diarrheal diseases": 0 ,"Heat or cold exposure": 0 ,"Nutritional deficiencies": 0 ,"Suicide": 0 ,"Execution": 0 ,"Meningitis": 0 ,"Respiratory infections": 0 ,"Intestinal infectious": 0 ,"Protein-energy malnutrition": 0 ,"Conflict": 0 ,"Terrorism":0}
@@ -387,22 +391,22 @@ class TreeMap {
                             dataDict["Dementia"] = parseInt(ele["Dementia"]);
                         }if(ele["Cardiovascular diseases"] != ""){
                             if(that.selectedYear == parseInt(ele["Year"])){
-                                that.causesOfDeathSumValues[this.causesOfDeathIdName["Cardiovascular diseases"]] += parseInt(ele["Cardiovascular diseases"]);
+                                that.causesOfDeathSumValues["Cardiovascular diseases"] += parseInt(ele["Cardiovascular diseases"]);
                             }
                             dataDict["Cardiovascular diseases"] = parseInt(ele["Cardiovascular diseases"]);
                         }if(ele["Kidney disease"] != ""){
                             if(that.selectedYear == parseInt(ele["Year"])){
-                                that.causesOfDeathSumValues[ this.causesOfDeathIdName["Kidney disease"]] += parseInt(ele["Kidney disease"]);
+                                that.causesOfDeathSumValues[ "Kidney disease"] += parseInt(ele["Kidney disease"]);
                             }
                             dataDict["Kidney disease"] = parseInt(ele["Kidney disease"]);
                         }if(ele["Respiratory disease"] != ""){
                             if(that.selectedYear == parseInt(ele["Year"])){
-                                that.causesOfDeathSumValues[ this.causesOfDeathIdName["Respiratory disease"]] += parseInt(ele["Respiratory disease"]);
+                                that.causesOfDeathSumValues["Respiratory disease"] += parseInt(ele["Respiratory disease"]);
                             }
                             dataDict["Respiratory disease"] = parseInt(ele["Respiratory disease"]);
                         }if(ele["Liver disease"] != ""){
                             if(that.selectedYear == parseInt(ele["Year"])){
-                                that.causesOfDeathSumValues[ this.causesOfDeathIdName["Liver disease"]] += parseInt(ele["Liver disease"]);
+                                that.causesOfDeathSumValues[ "Liver disease"] += parseInt(ele["Liver disease"]);
                             }
                             dataDict["Liver disease"] = parseInt(ele["Liver disease"]);
                         }if(ele["Diabetes, blood and endocrine disease"] != ""){
@@ -412,7 +416,7 @@ class TreeMap {
                             dataDict["Diabetes"] = parseInt(ele["Diabetes, blood and endocrine disease"]);
                         }if(ele["Digestive disease"] != ""){
                             if(that.selectedYear == parseInt(ele["Year"])){
-                                that.causesOfDeathSumValues[ this.causesOfDeathIdName["Digestive disease"]] += parseInt(ele["Digestive disease"]);
+                                that.causesOfDeathSumValues[ "Digestive disease"] += parseInt(ele["Digestive disease"]);
                             }
                             dataDict["Digestive disease"] = parseInt(ele["Digestive disease"]);
                         }if(ele["Hepatitis"] != ""){
@@ -427,7 +431,7 @@ class TreeMap {
                             dataDict["Cancers"] = parseInt(ele["Cancers"]);
                         }if(ele["Parkinson's disease"] != ""){
                             if(that.selectedYear == parseInt(ele["Year"])){
-                                that.causesOfDeathSumValues[ this.causesOfDeathIdName["Parkinson's"]] += parseInt(ele["Parkinson's disease"]);
+                                that.causesOfDeathSumValues["Parkinson's"] += parseInt(ele["Parkinson's disease"]);
                             }
                             dataDict["Parkinson's"] = parseInt(ele["Parkinson's disease"]);
                         }if(ele["Fire"] != ""){
