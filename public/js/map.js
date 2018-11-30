@@ -449,8 +449,8 @@ class Map {
             case "life-expectancy":
                 if(get_divisions)
                     return 11
-                domain = [20, 30, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85];
-                range = ["#9e0142", "#d53e4f", "#f46d43", "#fdae61", "#fee08b", "#ffffbf", "#e6f598", "#abdda4", "#66c2a5", "#3288bd", "#674c98"];
+                domain = [20, 30, 40,  50, 60, 70,80, 85];
+                range = ["#9e0142", "#d53e4f", "#fdae61", "#fee08b", "#66c2a5", "#3288bd", "#674c98"];
                 colorScale = d3.scaleQuantile()
                             .domain(domain)
                             .range(range);
@@ -515,8 +515,8 @@ class Map {
             case "share-with-mental-and-substance-disorders":
                 if(get_divisions)
                     return 7
-                domain = [7.5, 10, 12.5, 15, 17.5, 20, 22.5, 25];
-                range = ["#ffeda0", "#fed976", "#feb24c", "#fd8d3c", "#fc4e2a", "#e31a1c", "#b10026"];
+                domain = [0, 10,  20, 30];
+                range = ["#fed976", "#fd8d3c", "#e31a1c"];
                 colorScale = d3.scaleQuantile()
                             .domain(domain)
                             .range(range);

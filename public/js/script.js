@@ -115,6 +115,7 @@ loadData().then(data => {
         if (e.path[0].type == "checkbox") {
             var is_checked = e.path[0].checked
             get_checked_box_list(e.path[0].value, is_checked)
+            worldMap.clearHighlight()
         }
         if ((e.path[1].id) == "map_chart_svg") {
              updateCountry(e.path[0].id);
