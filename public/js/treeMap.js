@@ -82,7 +82,6 @@ class TreeMap {
         this.lineSelectedYear = year;
         let that = this;
         let barChartData = [];
-        let barData= [];
         let dataBuffer = 2000;
         that.selectedFeaturesData.forEach(function(element){
             if (element["Year"] == that.lineSelectedYear && that.selectedCountries.includes(element["Code"]) ){
