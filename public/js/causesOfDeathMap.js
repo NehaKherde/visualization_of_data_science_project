@@ -232,6 +232,7 @@ class CodMap {
             .call(brush.move, [2000, 2001].map(x))
             .selectAll("rect")
             .attr('cursor', "")
+            .attr('fill-opacity',"0.6")
             .attr('pointer-events', "");
 
         function brushended() {
