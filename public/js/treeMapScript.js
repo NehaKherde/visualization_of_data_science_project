@@ -34,6 +34,7 @@ loadData().then(data => {
     function updateYearRange(year) {
         this.activeYear = year
         treeMap.update(this.activeYear[0], selected_countries);
+        worldMap.updateMap(this.activeYear[0], "causesOfDeath");
     }
 
 
