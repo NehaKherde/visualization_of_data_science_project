@@ -33,7 +33,7 @@
       }
 
       .bar {
-        fill: #303336;
+        fill: #D27E6D;
         fill-opacity: .7;
       }
 
@@ -240,7 +240,7 @@
       let textPadding = 70;
       let lineChartData = [];
       let yearBuffer = 1;
-      let dataBuffer =
+      let dataBuffer = 0.5;
       that.politicalStability.forEach(function(ele){
         ele.forEach(function(element){
           if(that.selectedCon == element["ID"]){
@@ -250,7 +250,7 @@
           }   
         });
       }); 
-
+      console.log(lineChartData)
       let rangeWidth = width - margin.left - margin.right;
       let rangeHeight = height + margin.top + margin.bottom;
       let x = d3.scaleLinear().domain([Math.min.apply(null, that.selectedYears) - yearBuffer, Math.max.apply(null, that.selectedYears)+ yearBuffer]).range([0, rangeWidth]); 
@@ -266,26 +266,24 @@
           .text("Year");
       svgContainer.append("text")
           .attr("transform", "rotate(-90)")
-          .attr("y", -20)
-          .attr("x",0 - (rangeHeight / 2))
+          .attr("y", 0)
+          .attr("x",0 - (rangeHeight / 4))
           .attr("dy", "1em")
           .style("text-anchor", "middle")
           .text("Political Stability");
-          
+
       let valueline = d3.line()
-            .x(function(d) { return x(d.year); })
-            .y(function(d) { return y(d.value); });
+        .x(function(d) { return x(d.year); })
+        .y(function(d) { return y(d.value); });
       let pathValue = svgContainer.append("path")
         .attr("d", valueline(lineChartData))
         .attr("stroke", "#2E1114")
         .attr("stroke-width", 2)
         .attr("fill", " none")
-        .attr("transform", "translate(" +textPadding+ ",0)");
-
+        .attr("transform", "translate(" +textPadding+ ",-60)");
       let totalLength = pathValue.node().getTotalLength();
       pathValue.attr("stroke-dasharray", totalLength + " " + totalLength)
         .attr("stroke-dashoffset", totalLength)
-        .transition().duration(750)
         .attr("stroke-dashoffset", 0);
     }
     fetch('../data/dataold.csv')
@@ -306,7 +304,7 @@
         drawBars(svg, selectedData);
   
         const interval = d3.interval(() => {
-          const t = d3.transition().duration(2000);
+          const t = d3.transition().duration(2500);
   
           startYear += 1;
           selectedData = removeGeoAreasWithNoData(sortData(data[startYear]));

@@ -223,6 +223,7 @@ class TreeMap {
             let valueline = d3.line()
                 .x(function(d) { return x(d.Year); })
                 .y(function(d) { return y(d.causeSum); });
+            console.log(causeData[cause]);
             let pathValue = svgContainer.append("path")
             .attr("d", valueline(causeData[cause]))
             .attr("stroke", "#2E1114")
