@@ -109,10 +109,10 @@
     this.politicalStability = [];
     this.padding = 50;
     this.selectedCon = "SYR";
-    this.selectedYears = [2004,2005,2006];
+    this.selectedYears = [];
 
     const delay = function(d, i) {
-      return i * 40;
+      return i * 50;
     };
   
     function sortData(data) {
@@ -231,7 +231,9 @@
       });
     }
     
-    function drawLineChart(){
+    function drawLineChart(currentYear){
+      that.selectedYears.push(currentYear);
+      console.log(that.selectedYears);
       let svgContainer = d3.select(".lineChart").select("svg");
       svgContainer.selectAll("g").remove();
       svgContainer = svgContainer.append("g").attr("transform", "translate(" + that.padding + "," + that.padding + ")");
@@ -314,7 +316,7 @@
           yScale.domain(selectedData.map(yAccessor));
           drawYAxis(svg, selectedData, t);
           drawBars(svg, selectedData, t);
-          drawLineChart();
+          drawLineChart(startYear);
           
           if (startYear === lastYear) {
             interval.stop();
