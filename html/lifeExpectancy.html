@@ -98,11 +98,11 @@
       </div>
     <div id="causesOfDeathBottomDiv">
       <div>
-        <h4 class="sub-title">Life Expectancy (%) <span class="year"></span></h4>
+        <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLife Expectancy (%) <span class="year"></span></h4>
         <div class="chart"></div>
       </div>
       <div>
-        <h4 class="sub-title">Political Stability <span class="year"></span></h4>
+        <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPolitical Stability <span class="year"></span></h4>
         <div class="lineChart"></div>
       </div>
     </div>
@@ -121,6 +121,9 @@
     this.padding = 50;
     this.selectedCon = "SYR";
     this.selectedYears = [];
+    this.div = d3.select("body").append("div")
+        .attr("class", "tooltip2")				
+        .style("opacity", 0); 
 
     const delay = function(d, i) {
       return i * 50;
@@ -296,6 +299,32 @@
       pathValue.attr("stroke-dasharray", totalLength + " " + totalLength)
         .attr("stroke-dashoffset", totalLength)
         .attr("stroke-dashoffset", 0);
+
+      svgContainer.selectAll("circle")
+        .data(lineChartData)
+        .enter().append("circle")
+        .attr("r", 5)
+        .attr("cx", function(d) { return x(d.year); })
+        .attr("cy", function(d) { return y(d.value); })
+        .attr("transform", "translate(" +textPadding+ ",-60)")
+        .attr("fill", "#453344")
+        .on("mouseover", function(d) {		
+            that.div.transition().duration(200).style("opacity", .9);		
+            that.div.html("YEAR: "+d.year + "<br/> Value: "  + d.value )	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })					
+        .on("mouseout", function(d) {		
+            that.div.transition().duration(500).style("opacity", 0);	
+        }); 
+      
+      // svgContainer.append("text")
+      //     .data(lineChartData)
+      //     .enter().append("text")
+      //     .attr("transform", "translate(" +textPadding+ ",-60)")
+      //     .attr("y", function(d) { return x(d.year); })
+      //     .attr("x", function(d) { return x(d.year); })
+      //     .text(function(d) { return d.value;});
     }
     fetch('../data/dataold.csv')
       .then((res) => res.text())
