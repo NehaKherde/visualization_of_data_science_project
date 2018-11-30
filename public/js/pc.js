@@ -29,29 +29,43 @@ class ParallelChart{
     //this.factor = ["child-mortality","child-mortality-by-income-level-of-country", "polio-vaccine-coverage-of-one-year-olds","maternal-mortality" ]
     this.factormap = {
       'child-mortality' : 'Child Mortality',
-      'beer-consumption-per-person': "Beer consumption per person",
-      'child-mortality-by-income-level-of-country': "Child Mortality by Income Level",
-      'expected-years-of-living-with-disability-or-disease-burden': "Life Expectancy with Disability",
+      'beer-consumption-per-person': "Beer consumption",
+      'child-mortality-by-income-level-of-country': "Child Mortality(Income Level)",
+      'expected-years-of-living-with-disability-or-disease-burden': "Life Expectancy (Disability)",
       'life-expectancy': "Life Expectancy",
       'maternal-mortality': "Maternal Mortality",
       'median-age': "Median Age",
-      'polio-vaccine-coverage-of-one-year-olds': "Polio vaccine coverage of one year olds",
-      'share-of-population-with-cancer': "Share of population with cancer",
-      'share-with-alcohol-use-disorders': "Share with alchohol use disorders",
+      'polio-vaccine-coverage-of-one-year-olds': "Polio vaccine coverage",
+      'share-of-population-with-cancer': "Cancer",
+      'share-with-alcohol-use-disorders': "Alchohol use disorders",
       'share-with-mental-and-substance-disorders': "Mental and substance disorders",
       'total-healthcare-expenditure-as-share-of-national-gdp-by-country': "HealthCare Expenditure"
     }
+    this.completeFactor = {
+      'Child Mortality' : 'Child Mortality',
+      'Beer consumption': "Beer Consumption Per Person (liters pure alcohol)",
+      'Child Mortality(Income Level)': "Child Mortality By Income Level Of Country",
+      'Life Expectancy (Disability)': "Expected Years of Living With Disability Or Disease Burden",
+      'Life Expectancy': "Life Expectancy",
+      'Maternal Mortality': "Maternal Mortality",
+      'Median Age': "Median Age",
+      'Polio vaccine coverage': "Polio vaccine coverage of one year olds",
+      'Cancer': "Share of population with cancer",
+      'Alchohol use disorders': "Share with alchohol use disorders",
+      'Mental and substance disorders': "Share of Population with Mental Health and Substance use Disorders",
+      'HealthCare Expenditure': "Total Healthcare Expenditure as Share of National GDP by Country"
+    }
     this.reversefactormap = {
       'Child Mortality':'child-mortality',
-      "Beer consumption per person":'beer-consumption-per-person',
-      "Child Mortality by Income Level": 'child-mortality-by-income-level-of-country',
-      "Life Expectancy with Disability": 'expected-years-of-living-with-disability-or-disease-burden',
+      "Beer consumption":'beer-consumption-per-person',
+      "Child Mortality(Income Level)": 'child-mortality-by-income-level-of-country',
+      "Life Expectancy (Disability)": 'expected-years-of-living-with-disability-or-disease-burden',
       "Life Expectancy": 'life-expectancy',
       "Maternal Mortality": 'maternal-mortality',
       "Median Age": 'median-age',
-      "Polio vaccine coverage of one year olds": 'polio-vaccine-coverage-of-one-year-olds',
-      "Share of population with cancer": 'share-of-population-with-cancer',
-      "Share with alchohol use disorders":'share-with-alcohol-use-disorders',
+      "Polio vaccine coverage": 'polio-vaccine-coverage-of-one-year-olds',
+      "Cancer": 'share-of-population-with-cancer',
+      "Alchohol use disorders":'share-with-alcohol-use-disorders',
       "Mental and substance disorders":'share-with-mental-and-substance-disorders',
       "HealthCare Expenditure":'total-healthcare-expenditure-as-share-of-national-gdp-by-country'
     }
@@ -96,11 +110,11 @@ class ParallelChart{
       for(let key in data) {
         if (data[key][0] in combined_data){
           let row = combined_data[data[key][0]];
-          row[self.factormap[f]] = String(data[key][1]);
+          row[self.factormap[f]] = parseFloat(data[key][1]);
         }
         else{
           let row ={}
-          row[self.factormap[f]] = String(data[key][1]);
+          row[self.factormap[f]] = parseFloat(data[key][1]);
           combined_data[data[key][0]] = row
         }
       }
@@ -149,7 +163,6 @@ class ParallelChart{
     let factors = this.factor
     for(let i = 0; i<factors.length; i++){
       document.getElementById([factors[i]]).style.fill = "black";
-      document.getElementById([factors[i]]).style.stroke = "black";
     }
   }
 
@@ -178,6 +191,7 @@ class ParallelChart{
     })
     //let xScale = d3.scaleBand().domain(column_names).range([this.margin.left, this.svgWidth-this.margin.right]);
     let xScale = d3.scalePoint().domain(column_names).range([this.margin.left, this.svgWidth-this.margin.right]).padding(1);
+    // let dragging = {};
     for (let i=0; i<column_names.length; i++) {
         let temp =[]
         for (let key in combined_data){
@@ -194,13 +208,6 @@ class ParallelChart{
         
 
         let line = d3.line();
-        let background = this.svg.append("g")
-                        .attr("class", "background")
-                        .selectAll("path")
-                        .data(combined_data)
-                        .enter().append("path").attr("id", function(d,i) { return combined_data[i]["name"]})
-                        .attr("d", path);
-
 
         let foreground = this.svg.append("g")
                         .attr("class", "foreground")
@@ -269,59 +276,40 @@ class ParallelChart{
                 self.updateCountryMap(name);
               }
           }
-
-                         // .on("mouseover", function(){
-                        //    let a = d3.event;
-                        //    console.log(a.path[0].id);  
-                        //    svg.append("text").attr({
-                        //      id: "t" + d.x + "-" + d.y + "-" + i,  // Create an id for text so we can select it later for removing on mouseout
-                        //       x: function() { return xScale(d.x) - 30; },
-                        //       y: function() { return yScale(d.y) - 15; }
-                        //   })
-                        //   .text(function() {
-                        //     return [d.x, d.y];  // Value of the text
-                        //   });
-                        //    return tooltip.text(a.path[0].id).style("visibility", "visible");
-                        // });       
-         // let tooltip = foreground.append("svg:title").html(function(d,i){ return combined_data[i]["id"]});
-        
-        
-        // let tooltip "visibility", "hidden")                 
-        // foreground.on("mouseover", function(){
-        //      let a = d3.event;
-        //      console.log(a.path[0].id);  
-        //      return tooltip.text(a.path[0].id).style("visibility", "visible");
-        //   });                                    
+                                   
     //                   // Add a group element for each dimension.
         let g = this.svg.selectAll(".column")
                         .data(column_names)
                         .enter().append("g")
                         .attr("class", "column")
-                        .attr("transform", function(d) { return "translate(" + xScale(d) + ")"; });
+                        .attr("transform", function(d) { 
+                          console.log(d);
+                          return "translate(" + xScale(d) + ")"; 
+                        })
+                     
+         
+          let tool_tip = d3.tip()
+              .attr("class", "d3-tip")
+              .offset([-8, 0])
+              .html(function(d) { return self.completeFactor[d]; });
+          this.svg.call(tool_tip);
 
-         //Add an axis and title.
-         // let axes = g.append("g").attr("class", "axis")
-         //                  .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll("text").style("font-size",12)})
-         //                  .attr("class","headerdiv")
-         //                    .append("text")
-         //                      .attr("y", 12)
-         //                      .text(function(d,i) { console.log(d); return d; })
-         //                      .attr("class", "text")
           let axes = g.append("g").attr("class", "axis")
                           .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll('text')})
                             .append("text")
                               .attr("y", 20)
                               .text(function(d,i) { console.log(d); return d; })
+                              .on("mouseover",tool_tip.show)
+                              .on("mouseout",tool_tip.hide)
                               .attr("id", idfunc)
                               .attr("class", "header-pc");
+
 
           function idfunc(d){
             return self.reversefactormap[d]
           }                                 
           axes.on("click", function(){
              let a = d3.event;
-              // let x = d3.select(this).style("fill","red")
-              // x.style("fill", "red")
               let val = a.srcElement.__data__;
               let key = self.reversefactormap[val]
               let value = self.originalArr;
@@ -329,33 +317,7 @@ class ParallelChart{
               d3.event.stopPropagation();
               self.clearTitleHighlight();
               document.getElementById(key).style.fill = "#b2182b";
-              document.getElementById(key).style.stroke = "#b2182b";
-          });      
-
-           // g.append("g").attr("class", "brush")
-           //    .each(funtion(d) {
-           //      d3.select(this).call(y[d].brush = d3.svg.brush().y(y[d]).on("brushstart", brushstart).on("brush", brush));
-           //    })
-           //  .selectAll("rect")
-           //    .attr("x", -8)
-           //    .attr("width", 16);
-           // let axes = g.append("g").attr("class", "axis")
-           //                .each(function(d) { d3.select(this).call(yAxis.scale(yScales[d])).selectAll('text')
-           //                .style("font-size",12)})
-           //                  .append("text")
-           //                    .style("text-anchor", "middle")
-           //                    .attr("y", 12)
-           //                    .text(function(d,i) { console.log(d); return d; })
-           //                    .style("stroke","black")
-           //                    .style("font-size",10)     
-
-            // g.append("g").attr("class", "brush")
-            //                .each(function(d) {
-            //                  d3.select(this).call(yScales[d].brush = d3.brushY().extent([[-10,self.margin.top],[10,(self.svgHeight - self.margin.bottom)]]).on("brush", brush));
-            //                })
-            //              .selectAll("rect")
-            //                .attr("x", -8)
-            //                .attr("width", 16);         
+          });          
 
 
         // Returns the path for a given data point.
