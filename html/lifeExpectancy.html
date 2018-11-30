@@ -254,12 +254,12 @@
       let rangeWidth = width - margin.left - margin.right;
       let rangeHeight = height + margin.top + margin.bottom;
       let x = d3.scaleLinear().domain([Math.min.apply(null, that.selectedYears) - yearBuffer, Math.max.apply(null, that.selectedYears)+ yearBuffer]).range([0, rangeWidth]); 
-      let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.value; })-dataBuffer, d3.max(lineChartData, function(d) { return d.value; })+dataBuffer]).range([rangeHeight, 50  ]);
+      let y = d3.scaleLinear().domain([d3.min(lineChartData, function(d) { return d.value; })-dataBuffer, d3.max(lineChartData, function(d) { return d.value; })+dataBuffer]).range([rangeHeight-100, 50]);
       let xAxis = d3.axisBottom(x).ticks(5);
       let yAxis = d3.axisLeft(y).ticks(5);
 
       svgContainer.append("g").attr("transform", "translate("+textPadding+"," + (rangeWidth) + ")").call(xAxis);
-      svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",0)").call(yAxis);
+      svgContainer.append("g").attr("transform", "translate(" +textPadding+ ",-60)").call(yAxis);
       svgContainer.append("text")             
           .attr("transform","translate(" + ((rangeWidth/2)+textPadding) + " ," + (rangeHeight -100) + ")")
           .style("text-anchor", "middle")
