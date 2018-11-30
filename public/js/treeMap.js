@@ -59,6 +59,7 @@ class TreeMap {
         this.lineSelectedYear = 0;
         this.selectedYears = [];
         this.selectedCountries = ["USA", "CAN", "IND", "AUS", "CHN", "GBR", "MEX", "ARE", "RUS", "DEU"];
+        this.selectedBarCountries = ["USA", "CAN", "IND", "AUS", "CHN", "GBR", "MEX", "ARE", "RUS", "DEU"];
         this.allContries = true;
         this.allYears = false;
         this.padding = 50;
@@ -80,11 +81,17 @@ class TreeMap {
     displayBarChart(year, cause){  
         this.selectedCause = cause;
         this.lineSelectedYear = year;
+        if (this.selectedCountries.length > 10){
+            this.selectedBarCountries = this.selectedCountries.slice(0,10);
+            console.log(this.selectedBarCountries);
+        }else{
+            this.selectedBarCountries = this.selectedCountries;
+        }
         let that = this;
         let barChartData = [];
         let dataBuffer = 2000;
         that.selectedFeaturesData.forEach(function(element){
-            if (element["Year"] == that.lineSelectedYear && that.selectedCountries.includes(element["Code"]) ){
+            if (element["Year"] == that.lineSelectedYear && that.selectedBarCountries.includes(element["Code"]) ){
                 if (element[that.selectedCause]!= undefined){
                     barChartData.push({"country":element["Entity"], "conCode": element["Code"], "CauseValue": element[that.selectedCause]});
                 }else{
@@ -109,7 +116,7 @@ class TreeMap {
             .enter().append("rect")
             .attr("x", textPadding)
             .attr("height", 25)
-            .attr("y", function(d) {return y(d.country)+5; })
+            .attr("y", function(d) {return (y(d.country)-(0.5*that.selectedBarCountries.length)+((166-(6*that.selectedBarCountries.length))/that.selectedBarCountries.length)); })
             .transition().duration(3000)
             .attr("width", function(d) { return x(d.CauseValue); })
             .attr("fill", function(d){return colorScale(d.CauseValue);});
@@ -117,7 +124,7 @@ class TreeMap {
             .data(barChartData)
             .enter()
             .append("text")
-            .attr("y", function(d) {return y(d.country)+20; })
+            .attr("y", function(d) {return (y(d.country)+20-(0.5*that.selectedBarCountries.length)+((166-(6*that.selectedBarCountries.length))/that.selectedBarCountries.length)); })
             .transition().duration(3000)    
             .attr("x", function(d) { return x(d.CauseValue)+textPadding+20; })
             .text(function(d){return d.CauseValue });
@@ -367,10 +374,11 @@ class TreeMap {
         if (contiresList.length == 0){
             this.allContries = true;
             this.selectedCountries = ["USA", "CAN", "IND", "AUS", "CHN", "GBR", "MEX", "ARE", "RUS", "DEU"];
+            this.selectedBarCountries = ["USA", "CAN", "IND", "AUS", "CHN", "GBR", "MEX", "ARE", "RUS", "DEU"];
         }else{
             this.allContries = false;
             this.selectedCountries = contiresList;
-            console.log(this.selectedCountries);
+            this.selectedBarCountries = contiresList;
         }
         this.selectedYear =  parseInt(year);
         let tempYear =  parseInt(year) - 3;
