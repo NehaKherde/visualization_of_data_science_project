@@ -196,6 +196,7 @@ div.tooltip {
   cursor: move;
 }
 .global_title {
+  font-family: serif;
   font-size: 40px !important;
 }
 .nav_bar {

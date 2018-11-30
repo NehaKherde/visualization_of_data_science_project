@@ -268,6 +268,16 @@ class TreeMap {
         .on("mouseout", function(d) {		
             that.div.transition().duration(500).style("opacity", 0);	
         });
+        
+        svgContainer.append("text")
+            .attr("y", -50)
+            .attr("x",300)
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Cause of Death - effect over the years")
+            .style("fill", "#2E1114")
+            .style("font-weight", "bold")
+            .style("font-size", "20px");
     }
     createTreeMap(causesOfDeathData){
         let that = this;           
