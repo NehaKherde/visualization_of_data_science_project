@@ -42,7 +42,9 @@
       }
       
       .chart-title {
-        margin-bottom: 0;
+        font-size: 25px;
+        font-family: serif;
+        margin-top: 30px;
       }
       
       .source {
@@ -54,7 +56,13 @@
         text-align: center;
         font-weight: bold;
         font-size: 100px Serif;
-        font-style: oblique;
+        /*font-style: oblique;*/
+      }
+      .sub-title{
+        color: black;
+        font-weight: bold;
+        font-size: 100px Serif;
+        margin-left: 5px;
       }
     </style>
 </head>
@@ -86,16 +94,19 @@
 </nav>
  <div class="wrapper">
       <div class="title">
-        <h class="chart-title">Does Political stability affect Life Expectancy?</h>
+        <h class="chart-title">Does Political Stability Affect Life Expectancy?</h>
       </div>
-      
     <div id="causesOfDeathBottomDiv">
-      <h4 class="chart-title">Life Expectancy (%) <span class="year"></span></h4>
-      <div class="chart"></div>
-      <h4 class="chart-title">Political stability <span class="year"></span></h4>
-      <div class="lineChart"></div>
+      <div>
+        <h4 class="sub-title">Life Expectancy (%) <span class="year"></span></h4>
+        <div class="chart"></div>
+      </div>
+      <div>
+        <h4 class="sub-title">Political Stability <span class="year"></span></h4>
+        <div class="lineChart"></div>
+      </div>
     </div>
-  </div>
+</div>
   <script>
     'use strict';
   

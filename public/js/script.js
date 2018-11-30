@@ -107,10 +107,6 @@ loadData().then(data => {
 
     document.addEventListener("click", function(e) {
         e.stopPropagation();
-        // Update country if you click on any of the countries in the world map
-       // worldMap.clearHighlight()
-        // updateHighlight();    
-        
 
         if (e.path[0].type == "checkbox") {
             var is_checked = e.path[0].checked
