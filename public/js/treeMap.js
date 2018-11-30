@@ -275,7 +275,7 @@ class TreeMap {
         let colorScale = d3.scaleOrdinal(d3.schemePaired);
         let svgContainer = d3.select("#treeMap").select("svg");
         let treemap = d3.treemap()
-            .size([this.treeMapWidth, this.treeMapHeight])
+            .size([this.treeMapWidth/1.2, this.treeMapHeight/1])
             .round(true)
             .padding(1);
         let root = d3.stratify()
@@ -353,8 +353,8 @@ class TreeMap {
         svgContainer = d3.select("#lineChart").select("svg");
         svgContainer.selectAll("g").remove();
         d3.select("#treeMap").append("svg")
-            .attr("width", this.treeMapWidth)
-            .attr("height", this.treeMapHeight);
+            .attr("width", this.treeMapWidth/1.2)
+            .attr("height", this.treeMapHeight/1);
         if (contiresList.length == 0){
             this.allContries = true;
             this.selectedCountries = ["USA", "CAN", "IND", "AUS", "CHN", "GBR", "MEX", "ARE", "RUS", "DEU"];
