@@ -257,3 +257,20 @@ div.treeMapToolTip {
   margin-right: 20px;
   margin-left: 20px;
 }
+.project_class_demo {
+	font-size: 35px;
+	font-weight: bold;
+	/*font-style: italic;*/
+	font-family: serif;
+	margin-top: 10px;
+	/*color : #878f99;*/
+}
+.row.content {height: 100%;} 
+.sidenav {
+      background-color: #f1f1f1;
+      min-height: 500px !important;
+}
+.blog_background {
+	height: 30px;
+	fill: #878f99;
+}
