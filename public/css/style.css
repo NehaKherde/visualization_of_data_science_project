@@ -220,7 +220,7 @@ div.tooltip {
     position: absolute;     
     text-align: center;     
     width: 100px;          
-    height: 100x;         
+    height: 70px;         
     padding: 2px;       
     font: 12px sans-serif;    
     background: lightsteelblue; 
@@ -228,21 +228,20 @@ div.tooltip {
     border-radius: 8px;     
     pointer-events: none;     
 }
-
-.treeMapToolTip {
+div.treeMapToolTip {
     position: absolute;
-    display: none;
-    width: auto;
+    width: 220px;
     height: auto;
-    background: none repeat scroll 0 0 white;
-    border: 0 none;
-    border-radius: 8px 8px 8px 8px;
-    box-shadow: -3px 3px 15px #888888;
-    color: black;
-    font: 12px sans-serif;
-    padding: 5px;
-    text-align: center;
-}
+    padding: 10px;
+    background-color: white;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none;
+  }
 #parallel_chart_title text {
   font-size: 20px;
   font-family:sans-serif;
