@@ -96,7 +96,7 @@ display: inline-block;
 }
 .selected-country {
     stroke: #000000 !important;
-    stroke-width: 1.5px !important;
+    stroke-width: 1px !important;
 }
 
 .d3-tip {
@@ -252,4 +252,8 @@ div.tooltip {
 .world_population_title {
   font-weight: bold;
   font-size: 20px;
+}
+.text_body {
+  margin-right: 20px;
+  margin-left: 20px;
 }

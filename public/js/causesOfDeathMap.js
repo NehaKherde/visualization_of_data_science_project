@@ -35,7 +35,7 @@ class CodMap {
 
     drawMap(world) {
         let domain = [0, 100, 200, 400, 500, 7000, 8000];
-        let range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
+        let range = [" #FFA07A", "#FA8072", "#F08080", "#DC143C", "#FF0000", "#B22222"];
         let colorScale = d3.scaleQuantile()
             .domain(domain)
             .range(range);
@@ -112,61 +112,61 @@ class CodMap {
         return data;
     }
 
-    updateMap(active_year, health_factor) {
+//     updateMap(active_year, health_factor) {
         
-        // check if the active year is only one year
-        //if(active_year[0] == active_year[1]) {
-          //  document.getElementById("play_button").disabled = true;
-            let _that = this
-            this.tooltip_message(health_factor)
-            this.selected_health_factor = health_factor
-            let data = this.fetchYearAndFactorRelatedData(active_year, health_factor)
-            let new_path_element = d3.select("#map_chart_svg").selectAll("path")
-            let add_region_clas = new_path_element.attr("fill", function(d, i) {
-                                                            let id = data[d["id"]]
-                                                            if(id == undefined)
-                                                                return "#eee"                                                            
-                                                            return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1], false)
-                                                        })
-            // Update the tooltip
-            new_path_element.select("title").html(d=>this.tooltipRender(data, d, health_factor));
-        //}
-//        else {
-    //        document.getElementById("play_button").disabled = false;
-  //      }
+//         // check if the active year is only one year
+//         //if(active_year[0] == active_year[1]) {
+//           //  document.getElementById("play_button").disabled = true;
+//             let _that = this
+//             this.tooltip_message(health_factor)
+//             this.selected_health_factor = health_factor
+//             let data = this.fetchYearAndFactorRelatedData(active_year, health_factor)
+//             let new_path_element = d3.select("#map_chart_svg").selectAll("path")
+//             let add_region_clas = new_path_element.attr("fill", function(d, i) {
+//                                                             let id = data[d["id"]]
+//                                                             if(id == undefined)
+//                                                                 return "#eee"                                                            
+//                                                             return _that.getDomainAndRangeForColorScale(health_factor, data[d["id"]][1], false)
+//                                                         })
+//             // Update the tooltip
+//             new_path_element.select("title").html(d=>this.tooltipRender(data, d, health_factor));
+//         //}
+// //        else {
+//     //        document.getElementById("play_button").disabled = false;
+//   //      }
         
-        let text_select = d3.select(".activeYear-background").text(active_year);
-        d3.selectAll("#legend").select('g').remove()
+//         let text_select = d3.select(".activeYear-background").text(active_year);
+//         d3.selectAll("#legend").select('g').remove()
 
-        this.legendSvg.append("g")
-                .attr("class", "legendQuantile")
-                .attr("transform", "translate(0,41)");        
-        let divisions = this.getDomainAndRangeForColorScale(health_factor, '', true)
-        let legendQuantile = d3.legendColor()
-                .shapeWidth((600)/12)
-                .cells(divisions)
-                .orient('vertical')
-                .labelFormat(d3.format('.1r'))
-                .scale(this.getDomainAndRangeForColorScale(health_factor, '', false));
+//         this.legendSvg.append("g")
+//                 .attr("class", "legendQuantile")
+//                 .attr("transform", "translate(0,41)");        
+//         let divisions = this.getDomainAndRangeForColorScale(health_factor, '', true)
+//         let legendQuantile = d3.legendColor()
+//                 .shapeWidth((600)/12)
+//                 .cells(divisions)
+//                 .orient('vertical')
+//                 .labelFormat(d3.format('.1r'))
+//                 .scale(this.getDomainAndRangeForColorScale(health_factor, '', false));
 
-        this.legendSvg.select(".legendQuantile")
-                .call(legendQuantile);
+//         this.legendSvg.select(".legendQuantile")
+//                 .call(legendQuantile);
 
-   //     let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
-        let legendGWidth = svgBounds.width;
+//    //     let svgBounds = this.legendSvg.select(".legendQuantile").node().getBoundingClientRect();
+//         let legendGWidth = svgBounds.width;
         
-        let diff = (600 - legendGWidth)/2;
-        this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,41)");
-//        this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
+//         let diff = (600 - legendGWidth)/2;
+//         this.legendSvg.select(".legendQuantile").attr("transform", "translate(0,41)");
+// //        this.legendSvg.select(".legendQuantile").attr("transform", "translate(" + diff + ",50)");
 
-        // let a_rect_bar_mouse_event = document.getElementById("map-chart")
-        // a_rect_bar_mouse_event.onmouseover = function(event) {
-        //     if("path" in event) {
-        //         //event.target.style.stroke-width = "0.3px"
-        //     }
-        // };
+//         // let a_rect_bar_mouse_event = document.getElementById("map-chart")
+//         // a_rect_bar_mouse_event.onmouseover = function(event) {
+//         //     if("path" in event) {
+//         //         //event.target.style.stroke-width = "0.3px"
+//         //     }
+//         // };
 
-    }
+//     }
 
     addHighlight(selected_countries) {
         for (let activeCountry in selected_countries) {
@@ -300,75 +300,71 @@ class CodMap {
     // };
 
 
-    playMap() {
-        this.updateMapForRange(this.activeYear, this.selected_health_factor)
-    }
+    // tooltip_message(health_factor){
+    //     switch(health_factor) {
+    //         case 'child-mortality':
+    //             d3.select("#tooltip_title").text("Child Mortality");
+    //             d3.select(".sub-title").text("Shown is the share of children (born alive) who die before they are 5 years old");
+    //             d3.select(".message").text("The world map shows the estimated level of child mortality for all world regions from 1990 to 2014 in the country borders of today. In all parts of the world child mortality is estimated to be higher than one third.")
+    //             break;
+    //         case 'beer-consumption-per-person':
+    //             d3.select("#tooltip_title").text("Beer Consumption Per Person (liters pure alcohol)");
+    //             d3.select(".sub-title").text("Average per capita beer consumption, measured as in liters of pure alcohol per year");
+    //             d3.select(".message").text("The world map shows the measure in terms of pure alcohol/ethanol intake, rather than the total quantity of the beverage.")
+    //             break;
+    //         case 'child-mortality-by-income-level-of-country':
+    //             d3.select("#tooltip_title").text("Child Mortality By Income Level Of Country");
+    //             d3.select(".sub-title").text("The child mortality rate measures the share of children that die before reaching the age of 5.");
+    //             d3.select(".message").text("As one would expect, income level of the country is extremely correlated with child mortality rate. The poorest countries have the highest levels of child mortality, and the countries with the highest income have the lowest rates. This relationship has remained the same even as child mortality has decreased around the world, as demonstrated below.") 
+    //             break;
+    //         case 'expected-years-of-living-with-disability-or-disease-burden':
+    //             d3.select("#tooltip_title").text("Expected Years of Living With Disability Or Disease Burden");
+    //             d3.select(".sub-title").text("");
+    //             d3.select(".message").text("Average number of years with disability an individual born in the respective year can expect to experience. This is calculated as the difference between total and healthy life expectancy.")
+    //             break;
+    //         case 'life-expectancy':
+    //             d3.select("#tooltip_title").text("Life Expectancy");
+    //             d3.select(".sub-title").text("");
+    //             d3.select(".message").text("Shown is period life expectancy at birth. This corresponds to an estimate of the average number of years a newborn infant would live if prevailing patterns of mortality at the time of its birth were to stay the same throughout its life")
+    //             break;
+    //         case 'maternal-mortality':
+    //             d3.select("#tooltip_title").text("Maternal Mortality");
+    //             d3.select(".sub-title").text("Maternal mortality ratio is the number of women who die from pregnancy-related causes while pregnant or within 42 days of pregnancy termination per 100,000 live births.");
+    //             d3.select(".message").text("The countries that achieved the lowest maternal mortality rate are Finland, Greece, Iceland, and Poland. For each 100,000 deaths 3 mothers die.")
+    //             break;
+    //         case 'median-age':
+    //             d3.select("#tooltip_title").text("Median Age");
+    //             d3.select(".sub-title").text("");
+    //             d3.select(".message").text("The median age divides the population in two parts of equal size: that is, there are as many persons with ages above the median as there are with ages below the median.")
+    //             break;
+    //         case 'polio-vaccine-coverage-of-one-year-olds':
+    //             d3.select("#tooltip_title").text("Polio Vaccine Coverage Of One Year Olds");
+    //             d3.select(".sub-title").text("Percentage of one-year-olds who have received three doses of polio vaccine in a given year.");
+    //             d3.select(".message").text("Globally you can see that in 1990 only 22% of one-year-olds were vaccinated against polio, and this increased to a coverage of 86% of the world's one year-olds in 2014")
+    //             break;
+    //         case 'share-of-population-with-cancer':
+    //             d3.select("#tooltip_title").text("Share Of Population With Cancer");
+    //             d3.select(".sub-title").text("");
+    //             d3.select(".message").text("Share of total population with any form of cancer, measured as the age-standardized percentage. This share has been age-standardized assuming a constant age structure to compare prevalence between countries and through time.")
+    //             break;
+    //         case 'share-with-alcohol-use-disorders':
+    //             d3.select("#tooltip_title").text("Share With Alcohol Use Disorders");
+    //             d3.select(".sub-title").text("");
+    //             d3.select(".message").text("Alcohol dependence is defined by the International Classification of Diseases as the presence of three or more indicators of dependence for at least a month within the previous year. This is given as the age-standardized prevalence which assumes a constant age structure allowing for comparison by sex, country and through time.")
+    //             break;
+    //         case 'share-with-mental-and-substance-disorders':
+    //             d3.select("#tooltip_title").text("Share of Population with Mental Health and Substance use Disorders");
+    //             d3.select(".sub-title").text("");
+    //             d3.select(".message").text("In the chart below we see that globally, mental and substance use disorders are very common: around 1-in-6 people (15-20 percent) have one or more mental or substance use disorders.")
+    //             break;
+    //         case 'total-healthcare-expenditure-as-share-of-national-gdp-by-country':
+    //             d3.select("#tooltip_title").text("Total Healthcare Expenditure as Share of National GDP by Country");
+    //             d3.select(".sub-title").text("Total Healthcare expenditure by country (% of corresponding national GDP) ");
+    //             d3.select(".message").text("Global trends in healthcare expenditure mask a great deal of heterogeneity. The following map shows how total expenditure on healthcare has changed across the world.")
+    //             break;
 
-    tooltip_message(health_factor){
-        switch(health_factor) {
-            case 'child-mortality':
-                d3.select("#tooltip_title").text("Child Mortality");
-                d3.select(".sub-title").text("Shown is the share of children (born alive) who die before they are 5 years old");
-                d3.select(".message").text("The world map shows the estimated level of child mortality for all world regions from 1990 to 2014 in the country borders of today. In all parts of the world child mortality is estimated to be higher than one third.")
-                break;
-            case 'beer-consumption-per-person':
-                d3.select("#tooltip_title").text("Beer Consumption Per Person (liters pure alcohol)");
-                d3.select(".sub-title").text("Average per capita beer consumption, measured as in liters of pure alcohol per year");
-                d3.select(".message").text("The world map shows the measure in terms of pure alcohol/ethanol intake, rather than the total quantity of the beverage.")
-                break;
-            case 'child-mortality-by-income-level-of-country':
-                d3.select("#tooltip_title").text("Child Mortality By Income Level Of Country");
-                d3.select(".sub-title").text("The child mortality rate measures the share of children that die before reaching the age of 5.");
-                d3.select(".message").text("As one would expect, income level of the country is extremely correlated with child mortality rate. The poorest countries have the highest levels of child mortality, and the countries with the highest income have the lowest rates. This relationship has remained the same even as child mortality has decreased around the world, as demonstrated below.") 
-                break;
-            case 'expected-years-of-living-with-disability-or-disease-burden':
-                d3.select("#tooltip_title").text("Expected Years of Living With Disability Or Disease Burden");
-                d3.select(".sub-title").text("");
-                d3.select(".message").text("Average number of years with disability an individual born in the respective year can expect to experience. This is calculated as the difference between total and healthy life expectancy.")
-                break;
-            case 'life-expectancy':
-                d3.select("#tooltip_title").text("Life Expectancy");
-                d3.select(".sub-title").text("");
-                d3.select(".message").text("Shown is period life expectancy at birth. This corresponds to an estimate of the average number of years a newborn infant would live if prevailing patterns of mortality at the time of its birth were to stay the same throughout its life")
-                break;
-            case 'maternal-mortality':
-                d3.select("#tooltip_title").text("Maternal Mortality");
-                d3.select(".sub-title").text("Maternal mortality ratio is the number of women who die from pregnancy-related causes while pregnant or within 42 days of pregnancy termination per 100,000 live births.");
-                d3.select(".message").text("The countries that achieved the lowest maternal mortality rate are Finland, Greece, Iceland, and Poland. For each 100,000 deaths 3 mothers die.")
-                break;
-            case 'median-age':
-                d3.select("#tooltip_title").text("Median Age");
-                d3.select(".sub-title").text("");
-                d3.select(".message").text("The median age divides the population in two parts of equal size: that is, there are as many persons with ages above the median as there are with ages below the median.")
-                break;
-            case 'polio-vaccine-coverage-of-one-year-olds':
-                d3.select("#tooltip_title").text("Polio Vaccine Coverage Of One Year Olds");
-                d3.select(".sub-title").text("Percentage of one-year-olds who have received three doses of polio vaccine in a given year.");
-                d3.select(".message").text("Globally you can see that in 1990 only 22% of one-year-olds were vaccinated against polio, and this increased to a coverage of 86% of the world's one year-olds in 2014")
-                break;
-            case 'share-of-population-with-cancer':
-                d3.select("#tooltip_title").text("Share Of Population With Cancer");
-                d3.select(".sub-title").text("");
-                d3.select(".message").text("Share of total population with any form of cancer, measured as the age-standardized percentage. This share has been age-standardized assuming a constant age structure to compare prevalence between countries and through time.")
-                break;
-            case 'share-with-alcohol-use-disorders':
-                d3.select("#tooltip_title").text("Share With Alcohol Use Disorders");
-                d3.select(".sub-title").text("");
-                d3.select(".message").text("Alcohol dependence is defined by the International Classification of Diseases as the presence of three or more indicators of dependence for at least a month within the previous year. This is given as the age-standardized prevalence which assumes a constant age structure allowing for comparison by sex, country and through time.")
-                break;
-            case 'share-with-mental-and-substance-disorders':
-                d3.select("#tooltip_title").text("Share of Population with Mental Health and Substance use Disorders");
-                d3.select(".sub-title").text("");
-                d3.select(".message").text("In the chart below we see that globally, mental and substance use disorders are very common: around 1-in-6 people (15-20 percent) have one or more mental or substance use disorders.")
-                break;
-            case 'total-healthcare-expenditure-as-share-of-national-gdp-by-country':
-                d3.select("#tooltip_title").text("Total Healthcare Expenditure as Share of National GDP by Country");
-                d3.select(".sub-title").text("Total Healthcare expenditure by country (% of corresponding national GDP) ");
-                d3.select(".message").text("Global trends in healthcare expenditure mask a great deal of heterogeneity. The following map shows how total expenditure on healthcare has changed across the world.")
-                break;
-
-        }
-    }
+    //     }
+    // }
 
     tooltipRender(data, d, health_factor) {
         let country_data = data[d["id"]]
@@ -383,28 +379,28 @@ class CodMap {
         html_text += "<br>"
         switch(health_factor) {
             case 'causesOfDeath':
-                    html_text += "<h5>" + val + "% of children that die before they are 5 years old" + "</h5>"
+                    html_text += "<h5>"+ "Death toll is " + Math.floor(val/1000) +"</h5>"
                     break;
         }
         return html_text;
     }
 
-    getDomainAndRangeForColorScale(health_factor, value, get_divisions) {
-        let domain = []
-        let range = [];
-        let colorScale
-        switch(health_factor) {
-            case "causesOfDeath":
-                if(get_divisions)
-                    return 6
-                domain = [0, 1, 5, 10, 20, 30, 50];
-                range = ["#2166ac", "#67a9cf", "#d1e5f0", "#fddbc7", "#ef8a62", "#b2182b"];
-                colorScale = d3.scaleQuantile()
-                            .domain(domain)
-                            .range(range);
-                if (value == '')
-                    return colorScale
-                return colorScale(value)
-        }
-    }
+    // getDomainAndRangeForColorScale(health_factor, value, get_divisions) {
+    //     let domain = []
+    //     let range = [];
+    //     let colorScale
+    //     switch(health_factor) {
+    //         case "causesOfDeath":
+    //             if(get_divisions)
+    //                 return 6
+    //             domain = [0, 1, 5, 10, 20, 30, 50];
+    //             range = ["#fd9090", "#fc5959", "#fb0909", "#ba0303", "#fb0404", "#8d0202"];
+    //             colorScale = d3.scaleQuantile()
+    //                         .domain(domain)
+    //                         .range(range);
+    //             if (value == '')
+    //                 return colorScale
+    //             return colorScale(value)
+    //     }
+    // }
 }
