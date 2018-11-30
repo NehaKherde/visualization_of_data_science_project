@@ -26,7 +26,6 @@ class Map {
                             .attr("height",legendHeight)
                             .attr("transform", "translate(0,0)");
         this.width_rectangle = 600
-        //this.legend_col_width = document.getElementById("legend_svg").width.baseVal.value
     }
 
 
@@ -227,6 +226,7 @@ class Map {
             .call(brush.move, [2000, 2001].map(x))
             .selectAll("rect")
             .attr('cursor', "")
+            .attr('fill-opacity',"0.6")
             .attr('pointer-events', "");
 
         function brushended() {
@@ -493,8 +493,8 @@ class Map {
             case "share-of-population-with-cancer":
                 if(get_divisions)
                     return 8
-                domain = [0, 0.2, 0.5, 0.7, 0.9, 1.59, 2];
-                range = ["#ffffcc", "#fed976", "#feb24c","#fc4e2a", "#e31a1c", "#b10026"];
+                domain = [0, 0.2, 0.5, 0.7, 0.9, 2];
+                range = ["#ffffcc", "#fed976", "#feb24c","#fc4e2a", "#e31a1c"];
                 colorScale = d3.scaleQuantile()
                             .domain(domain)
                             .range(range);
