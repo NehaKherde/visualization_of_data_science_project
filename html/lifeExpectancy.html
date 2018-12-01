@@ -101,6 +101,27 @@
         <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLife Expectancy (%) <span class="year"></span></h4>
         <div class="chart"></div>
       </div>
+      <select id="dropdown">
+        <option value="JPN">Japan</option>
+        <option value="SGP">Singapore</option>
+        <option value="KOR">South Korea</option>
+        <option value="NZL">New Zealand</option>
+        <option value="NLD">Netherlands</option>
+        <option value="GRB">United Kingdom</option>
+        <option value="Germany">Germany</option>
+        <option value="USA">United States</option>
+        <option value="CHN">China</option>
+        <option value="LBY">Libya</option>
+        <option value="PRK">North Korea</option>
+        <option value="SYR">Syria</option>
+        <option value="IRQ">Iraq</option>
+        <option value="IND">India</option>
+        <option value="PAK">Pakistan</option>
+        <option value="YEM">Yemen</option>
+        <option value="AFG">Afghanisthan</option>
+        <option value="SOM">Somalia</option>
+      </select>
+      <button type="button" id = "button" onclick="updateCountry()">View Political Stability</button>
       <div>
         <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPolitical Stability <span class="year"></span></h4>
         <div class="lineChart"></div>
@@ -131,6 +152,19 @@
   
     function sortData(data) {
       return data.sort((a, b) => b.value - a.value);
+    }
+    function updateCountry() {
+      var x = document.getElementById("dropdown").selectedIndex;
+      that.selectedCon = document.getElementsByTagName("option")[x].value;
+      that.selectedYears = [];
+      clearBars();
+      // play(2004);
+      const promise = play("2004"); 
+      promise.then(successCallback);
+
+      function successCallback(){
+         document.getElementById("button").disabled = false;
+      }
     }
   
     function removeGeoAreasWithNoData(data) {
@@ -264,6 +298,7 @@
           }   
         });
       }); 
+     
       console.log(lineChartData)
       let rangeWidth = width - margin.left - margin.right;
       let rangeHeight = height + margin.top + margin.bottom;
@@ -326,15 +361,24 @@
       //     .attr("x", function(d) { return x(d.year); })
       //     .text(function(d) { return d.value;});
     }
+    let data ;
+    let years;
+    let lastYear;
+    let startYear;
+    let selectedData;
+    let geoAreas;
     fetch('../data/dataold.csv')
       .then((res) => res.text())
       .then((res) => {
-        const data = prepareData(d3.csvParse(res));
-        const years = Object.keys(data).map(d => +d);
-        const lastYear = years[years.length - 1];
-        let startYear = years[0];
-        let selectedData = removeGeoAreasWithNoData(sortData(data[startYear]));
-        let geoAreas = selectedData.map(yAccessor);
+        const d = prepareData(d3.csvParse(res));
+        const y = Object.keys(d).map(d => +d);
+        const ly = y[y.length - 1];
+        data = d;
+        years = y;
+        lastYear = ly;
+       startYear = years[0];
+       selectedData = removeGeoAreasWithNoData(sortData(data[startYear]));
+       geoAreas = selectedData.map(yAccessor);
   
         d3.select('.year').text(startYear);
   
@@ -342,8 +386,25 @@
         drawXAxis(svg, selectedData);
         drawYAxis(svg, selectedData);
         drawBars(svg, selectedData);
-  
-        const interval = d3.interval(() => {
+        // play(startYear)
+        const promise = play(startYear); 
+        promise.then(successCallback);
+
+        function successCallback(){
+         document.getElementById("button").disabled = false;
+        }
+    });
+
+    function clearBars(){
+      svg.selectAll('rect').remove();
+      // liveSvg.remove();
+      lineSvg.selectAll('path').remove();
+      lineSvg.selectAll('circle').remove();
+    }
+    
+    function play(startYear){
+        document.getElementById("button").disabled = true;
+          const interval = d3.interval(() => {
           const t = d3.transition().duration(2500);
   
           startYear += 1;
@@ -359,8 +420,8 @@
           if (startYear === lastYear) {
             interval.stop();
           }
-        }, 2000);
-      });
+        }, 2000);}
+
   </script>
   </body>
   </html>
