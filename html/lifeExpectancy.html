@@ -98,7 +98,7 @@
       </div>
     <div id="causesOfDeathBottomDiv">
       <div>
-        <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLife Expectancy (%) <span class="year"></span></h4>
+        <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLife Expectancy (years) <span class="year"></span></h4>
         <div class="chart"></div>
       </div>
       <select id="dropdown">
@@ -134,7 +134,7 @@
     const margin = {top: 20, right: 30, bottom: 40, left: 100};
     const width = 600 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
-    const percentFormat = d3.format('.0%');
+    const percentFormat = d3.format('');
     const leftPadding = 5;
 
     //line chart
@@ -210,7 +210,10 @@
       el.append('g')
           .attr('class', 'axis axis--x')
           .attr('transform', `translate(${leftPadding},${height})`)
-          .call(d3.axisBottom(xScale).tickFormat(percentFormat));
+          // .call(d3.axisBottom(xScale));
+          .call(d3.axisBottom(xScale).tickFormat(function(d){
+            return parseInt(d*100);
+          }));
     }
   
     function drawYAxis(el, data, t) {
