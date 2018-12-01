@@ -521,7 +521,7 @@ class Map {
                             .domain(domain)
                             .range(range);
                 if (value == '')
-                    return colorScale
+                    return colorScale 
                 return colorScale(value)
             case "total-healthcare-expenditure-as-share-of-national-gdp-by-country":
                 if(get_divisions)
