@@ -156,18 +156,18 @@ async function loadFile(file) {
 }
 
 async function loadData() {
-    let cmu = await loadFile('../../data/child-mortality.csv');
-    let bcpp = await loadFile('../../data/beer-consumption-per-person.csv');
-    let cmilc = await loadFile('../../data/child-mortality-by-income-level-of-country.csv');
-    let eyl = await loadFile('../../data/expected-years-of-living-with-disability-or-disease-burden.csv');
-    let le = await loadFile('../../data/life-expectancy.csv');
-    let mm = await loadFile('../../data/maternal-mortality.csv');
-    let ma = await loadFile('../../data/median-age.csv');
-    let pvc = await loadFile('../../data/polio-vaccine-coverage-of-one-year-olds.csv');
-    let spc = await loadFile('../../data/share-of-population-with-cancer.csv');
-    let sad = await loadFile('../../data/share-with-alcohol-use-disorders.csv');
-    let smsd = await loadFile('../../data/share-with-mental-and-substance-disorders.csv');
-    let the = await loadFile('../../data/total-healthcare-expenditure-as-share-of-national-gdp-by-country.csv');
+    let cmu = await loadFile('../data/child-mortality.csv');
+    let bcpp = await loadFile('../data/beer-consumption-per-person.csv');
+    let cmilc = await loadFile('../data/child-mortality-by-income-level-of-country.csv');
+    let eyl = await loadFile('../data/expected-years-of-living-with-disability-or-disease-burden.csv');
+    let le = await loadFile('../data/life-expectancy.csv');
+    let mm = await loadFile('../data/maternal-mortality.csv');
+    let ma = await loadFile('../data/median-age.csv');
+    let pvc = await loadFile('../data/polio-vaccine-coverage-of-one-year-olds.csv');
+    let spc = await loadFile('../data/share-of-population-with-cancer.csv');
+    let sad = await loadFile('../data/share-with-alcohol-use-disorders.csv');
+    let smsd = await loadFile('../data/share-with-mental-and-substance-disorders.csv');
+    let the = await loadFile('../data/total-healthcare-expenditure-as-share-of-national-gdp-by-country.csv');
 
     return {
         'child-mortality': cmu,

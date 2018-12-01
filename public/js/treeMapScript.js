@@ -76,6 +76,6 @@ async function loadFile(file) {
 }
 
 async function loadData() {
-    let causedOfDeathData = await loadFile('../../data/annual-number-of-deaths-by-cause-aggrigated.csv');
+    let causedOfDeathData = await loadFile('../data/annual-number-of-deaths-by-cause-aggrigated.csv');
     return {'causesOfDeath': causedOfDeathData}
 };
