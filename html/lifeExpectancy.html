@@ -92,16 +92,22 @@
     </div>
   </div>
 </nav>
- <div class="wrapper">
-      <div class="title">
+ <div class="container-fluid text-center">
+      <div class="row title">
         <h class="chart-title">Does Political Stability Affect Life Expectancy?</h>
       </div>
-    <div id="causesOfDeathBottomDiv">
-      <div>
-        <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLife Expectancy (years) <span class="year"></span></h4>
-        <div class="chart"></div>
-      </div>
-      <select id="dropdown">
+      <div class="row">
+        <div class="col-sm-5">
+          <div id="causesOfDeathBottomDiv">
+            <h4 class="sub-title">Life Expectancy (%) <span class="year"></span></h4>
+            <div class="chart"></div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <br><br>
+          <button type="button" id = "button" onclick="updateCountry()" class="btn btn-primary btn-md">View Political Stability</button>
+          <br><br>
+          <select id="dropdown">
         <option value="SYR">Syria</option>
         <option value="JPN">Japan</option>
         <option value="SGP">Singapore</option>
@@ -121,12 +127,49 @@
         <option value="AFG">Afghanisthan</option>
         <option value="SOM">Somalia</option>
       </select>
-      <button type="button" id = "button" onclick="updateCountry()">View Political Stability</button>
+      <br><br>
+      
+        </div>
+        <div class="col-sm-4">
+          <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPolitical Stability <span class="year"></span></h4>
+        <div class="lineChart"></div>          
+        </div>
+
+      </div>
+      <!-- <div class="title">
+        <h class="chart-title">Does Political Stability Affect Life Expectancy?</h>
+      </div>
+    <div id="causesOfDeathBottomDiv">
       <div>
+        <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspLife Expectancy (years) <span class="year"></span></h4>
+        <div class="chart"></div>
+      </div> -->
+      <!-- <select id="dropdown">
+        <option value="SYR">Syria</option>
+        <option value="JPN">Japan</option>
+        <option value="SGP">Singapore</option>
+        <option value="KOR">South Korea</option>
+        <option value="NZL">New Zealand</option>
+        <option value="NLD">Netherlands</option>
+        <option value="GRB">United Kingdom</option>
+        <option value="DEU">Germany</option>
+        <option value="USA">United States</option>
+        <option value="CHN">China</option>
+        <option value="LBY">Libya</option>
+        <option value="PRK">North Korea</option>
+        <option value="IRQ">Iraq</option>
+        <option value="IND">India</option>
+        <option value="PAK">Pakistan</option>
+        <option value="YEM">Yemen</option>
+        <option value="AFG">Afghanisthan</option>
+        <option value="SOM">Somalia</option>
+      </select>
+      <button type="button" id = "button" onclick="updateCountry()">View Political Stability</button> -->
+      <!-- <div>
         <h4 class="sub-title">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspPolitical Stability <span class="year"></span></h4>
         <div class="lineChart"></div>
       </div>
-    </div>
+    </div> -->
 </div>
   <script>
     'use strict';
