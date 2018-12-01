@@ -158,13 +158,7 @@
       that.selectedCon = document.getElementsByTagName("option")[x].value;
       that.selectedYears = [];
       clearBars();
-      // play(2004);
-      const promise = play("2004"); 
-      promise.then(successCallback);
-
-      function successCallback(){
-         document.getElementById("button").disabled = false;
-      }
+      play(2004);
     }
   
     function removeGeoAreasWithNoData(data) {
@@ -386,13 +380,13 @@
         drawXAxis(svg, selectedData);
         drawYAxis(svg, selectedData);
         drawBars(svg, selectedData);
-        // play(startYear)
-        const promise = play(startYear); 
-        promise.then(successCallback);
-
-        function successCallback(){
-         document.getElementById("button").disabled = false;
-        }
+        play(startYear);
+        // new Promise(function(resolve, reject) {
+        //   play(startYear)
+        //   setTimeout(10000);
+        // }).then(function() { // (**)
+        //   document.getElementById("button").disabled = false;
+        // });
     });
 
     function clearBars(){
@@ -419,9 +413,15 @@
           
           if (startYear === lastYear) {
             interval.stop();
+            updateButton();
           }
-        }, 2000);}
+        }, 2000);
+        
+    }
 
+   function updateButton(){
+     document.getElementById("button").disabled = false;
+   }       
   </script>
   </body>
   </html>
