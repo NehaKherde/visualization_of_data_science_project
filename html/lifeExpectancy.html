@@ -100,7 +100,8 @@
         <div class="col-sm-5">
           <div id="causesOfDeathBottomDiv">
             <h4 class="sub-title">Life Expectancy (%) <span class="year"></span></h4>
-            <div class="chart"></div>
+            <div class="chart" id= "chartle">
+            </div>
           </div>
         </div>
         <div class="col-sm-2">
@@ -175,8 +176,9 @@
     'use strict';
   
     const margin = {top: 20, right: 30, bottom: 40, left: 100};
-    const width = 600 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    let parallelDiv = d3.select('.chart');
+    const width = 550 - margin.left - margin.right;
+    const height = 450 - margin.top - margin.bottom;
     const percentFormat = d3.format('');
     const leftPadding = 5;
 
