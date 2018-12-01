@@ -286,7 +286,7 @@
         .remove();
       bars.enter()
         .append('rect')
-          .attr('class', d => d.geoCode === 'WLD' ? 'bar wld' : 'bar')
+          .attr('class', d => d.geoCode === selectedCon ? 'bar wld' : 'bar')
           .attr('x', leftPadding)
         .merge(bars).transition(t)
           .attr('y', d => yScale(yAccessor(d)))
