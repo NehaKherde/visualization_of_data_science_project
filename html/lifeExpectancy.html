@@ -83,7 +83,7 @@
         	<a href="../index.html">Home</a>
         </li>
         <li>
-        	<a href="">Health factors</a>
+        	<a href="world_map_index.html">Health factors</a>
         </li>
         <li>
         	<a href="treeMap.html">Causes of death</a>
@@ -319,7 +319,7 @@
 
     //line chart
     let that = this;
-    d3.csv("../data/changed_csv/political_stability.csv").then( polStability => {
+    d3.csv("../data/political_stability.csv").then( polStability => {
         that.politicalStability.push(polStability);
         setTimeout(lineChartData(), 3000);
     });
