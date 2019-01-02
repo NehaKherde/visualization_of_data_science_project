@@ -25,6 +25,6 @@ Screen Case URL: https://www.youtube.com/watch?v=l5bnm9kpkVU
 
 -------- Project Contributors --------
 
-Neha Kherde
 Harshitha Manduva
 Antara Bahursettiwar
+Neha Kherde
