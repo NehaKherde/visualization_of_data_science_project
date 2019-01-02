@@ -20,11 +20,11 @@ All the code that is present in the project directory is the code written by us 
 
 Project website URL: https://harshi-m.github.io/GlobalHealthAnalysis/
 
-Screen Case URL: 
+Screen Case URL: https://www.youtube.com/watch?v=l5bnm9kpkVU
 
 
 -------- Project Contributors --------
 
-Harshitha Manduva - U1080236
-Antara Bahursettiwar - U1082036
-Neha Kherde - U1205893
+Neha Kherde
+Harshitha Manduva
+Antara Bahursettiwar
